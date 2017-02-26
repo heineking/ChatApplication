@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ChatApplication.Data.Contracts
 {
-    public class Class1
+    public interface IApplicationSettings
     {
+        string GetValue(string key);
     }
 }

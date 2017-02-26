@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{05BB2407-D95
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.API", "ChatApplication.API\ChatApplication.API.csproj", "{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.EntityFramework", "ChatApplication.Data.EntityFramework\ChatApplication.Data.EntityFramework.csproj", "{71459F49-3F6F-44F0-8C3D-F850A734588B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71459F49-3F6F-44F0-8C3D-F850A734588B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71459F49-3F6F-44F0-8C3D-F850A734588B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71459F49-3F6F-44F0-8C3D-F850A734588B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71459F49-3F6F-44F0-8C3D-F850A734588B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +62,6 @@ Global
 		{A5DCDC48-F31C-4BEC-B07D-FC24511D0EF9} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 		{15B635ED-E0F7-467A-809F-5BEBC78F8765} = {F80D7114-0052-46EB-845B-52F8420F15FC}
 		{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6} = {05BB2407-D952-41E8-B188-E4D5162D0801}
+		{71459F49-3F6F-44F0-8C3D-F850A734588B} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 	EndGlobalSection
 EndGlobal
