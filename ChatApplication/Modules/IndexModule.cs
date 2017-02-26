@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Nancy;
+﻿using Nancy;
 
 namespace ChatApplication.Modules
 {
@@ -10,7 +6,7 @@ namespace ChatApplication.Modules
     {
         public IndexModule()
         {
-            Get["/"] = parameters => "Hello World";
+            Get["/"] = parameters => View["index.cshtml"];
         }
     }
 }
