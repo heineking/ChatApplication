@@ -48,6 +48,8 @@
     <Compile Include="Models\MessageRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\RoomRecord.cs" />
+    <Compile Include="Repositories\IRepositoryReader.cs" />
+    <Compile Include="Repositories\IRepositoryWriter.cs" />
     <Compile Include="Repositories\IRoomRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>

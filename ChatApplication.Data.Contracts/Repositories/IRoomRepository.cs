@@ -7,7 +7,7 @@ using ChatApplication.Data.Contracts.Models;
 
 namespace ChatApplication.Data.Contracts.Repositories
 {
-    public interface IRoomRepository : IRepository<RoomRecord>
+    public interface IRoomRepository : IRepositoryReader<RoomRecord>, IRepositoryWriter<RoomRecord>
     {
     }
 }

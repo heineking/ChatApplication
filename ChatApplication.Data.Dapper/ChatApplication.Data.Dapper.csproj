@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C2A9D9B-AE47-4B82-9671-740BE7F54F39}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{B03B043D-27F3-46B1-B57E-4AED625E5A81}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatApplication.Console</RootNamespace>
-    <AssemblyName>ChatApplication.Console</AssemblyName>
+    <RootNamespace>ChatApplication.Data.Dapper</RootNamespace>
+    <AssemblyName>ChatApplication.Data.Dapper</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,20 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,34 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="Repositories\RoomRepositoryReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
       <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
       <Name>ChatApplication.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Data.DapperEF\ChatApplication.Data.DapperEF.csproj">
-      <Project>{f762ad14-9432-4b6a-bac7-785d874ac3a3}</Project>
-      <Name>ChatApplication.Data.DapperEF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj">
-      <Project>{b03b043d-27f3-46b1-b57e-4aed625e5a81}</Project>
-      <Name>ChatApplication.Data.Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Data.EntityFramework\ChatApplication.Data.EntityFramework.csproj">
-      <Project>{71459f49-3f6f-44f0-8c3d-f850a734588b}</Project>
-      <Name>ChatApplication.Data.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
-      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
-      <Name>ChatApplication.Infrastructure.Contracts</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

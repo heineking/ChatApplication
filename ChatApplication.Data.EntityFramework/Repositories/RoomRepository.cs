@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
