@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Infrastructure.Contracts", "ChatApplication.Infrastructer.Contracts\ChatApplication.Infrastructure.Contracts.csproj", "{F75195D8-D362-4B72-B3E6-B8A56BDCC855}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{F80D7114-0052-46EB-845B-52F8420F15FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.Contracts", "ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj", "{A5DCDC48-F31C-4BEC-B07D-FC24511D0EF9}"
@@ -27,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.Entity
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Console", "ChatApplication.Console\ChatApplication.Console.csproj", "{7C2A9D9B-AE47-4B82-9671-740BE7F54F39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Infrastructure.Contracts", "ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj", "{F75195D8-D362-4B72-B3E6-B8A56BDCC855}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +37,6 @@ Global
 		{EC94F7DD-1F62-4EAE-B230-0C40162DAC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC94F7DD-1F62-4EAE-B230-0C40162DAC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC94F7DD-1F62-4EAE-B230-0C40162DAC07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5DCDC48-F31C-4BEC-B07D-FC24511D0EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A5DCDC48-F31C-4BEC-B07D-FC24511D0EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5DCDC48-F31C-4BEC-B07D-FC24511D0EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +57,10 @@ Global
 		{7C2A9D9B-AE47-4B82-9671-740BE7F54F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C2A9D9B-AE47-4B82-9671-740BE7F54F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2A9D9B-AE47-4B82-9671-740BE7F54F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75195D8-D362-4B72-B3E6-B8A56BDCC855}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

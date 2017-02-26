@@ -7,8 +7,8 @@
     <ProjectGuid>{F75195D8-D362-4B72-B3E6-B8A56BDCC855}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatApplication.Infrastructer.Contracts</RootNamespace>
-    <AssemblyName>ChatApplication.Infrastructer.Contracts</AssemblyName>
+    <RootNamespace>ChatApplication.Infrastructure.Contracts</RootNamespace>
+    <AssemblyName>ChatApplication.Infrastructure.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
