@@ -41,10 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IApplicationSettings.cs" />
+    <Compile Include="Models\UserRecord.cs" />
+    <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Persistence\IUnitOfWork.cs" />
+    <Compile Include="Models\MessageRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
+    <Compile Include="Models\RoomRecord.cs" />
+    <Compile Include="Repositories\IRoomRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

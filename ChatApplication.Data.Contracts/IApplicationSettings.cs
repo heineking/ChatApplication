@@ -9,5 +9,6 @@ namespace ChatApplication.Data.Contracts
     public interface IApplicationSettings
     {
         string GetValue(string key);
+        string GetConnection(string key);
     }
 }
