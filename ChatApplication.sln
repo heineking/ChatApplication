@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}"
 	ProjectSection(SolutionItems) = preProject
 		ChatApplication.Database.sql = ChatApplication.Database.sql
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{F80D7114-0052-46EB-845B-52F8420F15FC}"
@@ -30,6 +29,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.Dapper", "ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj", "{B03B043D-27F3-46B1-B57E-4AED625E5A81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.DapperEF", "ChatApplication.Data.DapperEF\ChatApplication.Data.DapperEF.csproj", "{F762AD14-9432-4B6A-BAC7-785D874AC3A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{0F9603AC-542B-4412-AB45-1BD448AA911B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
