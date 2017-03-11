@@ -9,11 +9,11 @@ using ChatApplication.Data.Contracts.Repositories;
 
 namespace ChatApplication.Data.EntityFramework.Repositories
 {
-    public class Repository<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
+    public class RepositoryEF<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
     {
         protected readonly DbContext Context;
 
-        public Repository(DbContext context)
+        public RepositoryEF(DbContext context)
         {
             Context = context;
         }

@@ -28,8 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.Dapper", "ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj", "{B03B043D-27F3-46B1-B57E-4AED625E5A81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.DapperEF", "ChatApplication.Data.DapperEF\ChatApplication.Data.DapperEF.csproj", "{F762AD14-9432-4B6A-BAC7-785D874AC3A3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{0F9603AC-542B-4412-AB45-1BD448AA911B}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -73,10 +71,6 @@ Global
 		{B03B043D-27F3-46B1-B57E-4AED625E5A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B03B043D-27F3-46B1-B57E-4AED625E5A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B03B043D-27F3-46B1-B57E-4AED625E5A81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F762AD14-9432-4B6A-BAC7-785D874AC3A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F762AD14-9432-4B6A-BAC7-785D874AC3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F762AD14-9432-4B6A-BAC7-785D874AC3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F762AD14-9432-4B6A-BAC7-785D874AC3A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +81,5 @@ Global
 		{44A09DE0-45A5-47B0-97DB-9B4A760DF0C6} = {05BB2407-D952-41E8-B188-E4D5162D0801}
 		{71459F49-3F6F-44F0-8C3D-F850A734588B} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 		{B03B043D-27F3-46B1-B57E-4AED625E5A81} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
-		{F762AD14-9432-4B6A-BAC7-785D874AC3A3} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 	EndGlobalSection
 EndGlobal

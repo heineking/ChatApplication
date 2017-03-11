@@ -68,10 +68,6 @@
       <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
       <Name>ChatApplication.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Data.DapperEF\ChatApplication.Data.DapperEF.csproj">
-      <Project>{f762ad14-9432-4b6a-bac7-785d874ac3a3}</Project>
-      <Name>ChatApplication.Data.DapperEF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj">
       <Project>{b03b043d-27f3-46b1-b57e-4aed625e5a81}</Project>
       <Name>ChatApplication.Data.Dapper</Name>

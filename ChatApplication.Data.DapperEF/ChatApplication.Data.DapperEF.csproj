@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Persistence\EntityFrameworkDapperUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWorkDecorated.cs" />
     <Compile Include="RoomRepositoryDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,6 +59,18 @@
       <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
       <Name>ChatApplication.Data.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj">
+      <Project>{b03b043d-27f3-46b1-b57e-4aed625e5a81}</Project>
+      <Name>ChatApplication.Data.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Data.EntityFramework\ChatApplication.Data.EntityFramework.csproj">
+      <Project>{71459f49-3f6f-44f0-8c3d-f850a734588b}</Project>
+      <Name>ChatApplication.Data.EntityFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

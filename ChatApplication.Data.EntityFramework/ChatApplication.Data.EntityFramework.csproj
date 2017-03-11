@@ -54,12 +54,9 @@
     <Compile Include="MappingConfig\MessageRecordMapping.cs" />
     <Compile Include="MappingConfig\RoomRecordMapping.cs" />
     <Compile Include="MappingConfig\UserRecordMapping.cs" />
-    <Compile Include="Persistence\UnitOfWork.cs" />
+    <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\MessageRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="Repositories\RoomRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\RepositoryEF.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
