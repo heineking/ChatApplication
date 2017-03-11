@@ -8,14 +8,14 @@ namespace ChatApplication.Data.Contracts.Models
 {
     public class RoomRecord
     {
-        public RoomRecord() { }
+        public RoomRecord() {}
 
         public RoomRecord(string name)
         {
             Name = name;
         }
         public long RoomId { get; set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public virtual ICollection<MessageRecord> Messages { get; set; }
     }

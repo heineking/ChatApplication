@@ -8,7 +8,7 @@ namespace ChatApplication.Data.Contracts.Models
 {
     public class MessageRecord
     {
-        public MessageRecord() { }
+        public MessageRecord() {}
 
         public MessageRecord(string text, Guid userId, long roomId)
         {

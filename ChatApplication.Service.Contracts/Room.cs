@@ -12,6 +12,6 @@ namespace ChatApplication.Service.Contracts
         public long RoomId { get; set; }
         public string Name { get; set; }
 
-        public List<MessageRecord> Messages { get; set; }
+        public List<Message> Messages { get; set; }
     }
 }

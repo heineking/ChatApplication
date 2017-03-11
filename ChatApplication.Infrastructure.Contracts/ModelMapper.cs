@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Service.Contracts;
 
@@ -8,32 +10,68 @@ namespace ChatApplication.Infrastructure.Contracts
     {
         public MessageRecord MessageToMessageRecord(Message message)
         {
-            throw new NotImplementedException();
+            return new MessageRecord
+            {
+                Room = message.Room,
+                User = message.User,
+                Text = message.Text,
+                UserId = message.UserId,
+                RoomId = message.RoomId,
+                MessageId = message.MessageId
+            };
         }
 
         public Message MessageRecordToMessage(MessageRecord messageRecord)
         {
-            throw new NotImplementedException();
+            return new Message
+            {
+                Room = messageRecord.Room,
+                User = messageRecord.User,
+                Text = messageRecord.Text,
+                UserId = messageRecord.UserId,
+                RoomId = messageRecord.RoomId,
+                MessageId = messageRecord.MessageId
+            };
         }
 
         public RoomRecord RoomToRoomRecord(Room room)
         {
-            throw new NotImplementedException();
+            return new RoomRecord
+            {
+                Name = room.Name,
+                Messages = room.Messages.Select(MessageToMessageRecord).ToList(),
+                RoomId = room.RoomId
+            };
         }
 
         public Room RoomRecordToRoom(RoomRecord roomRecord)
         {
-            throw new NotImplementedException();
+            return new Room
+            {
+                Name = roomRecord.Name,
+                Messages = roomRecord.Messages?.Select(MessageRecordToMessage).ToList() ?? new List<Message>(),
+                RoomId = roomRecord.RoomId
+            };
         }
 
         public UserRecord UserToUserRecord(User user)
         {
-            throw new NotImplementedException();
+            return new UserRecord
+            {
+                Name = user.Name,
+                Messages = user.Messages?.Select(MessageToMessageRecord).ToList(),
+                UserId = user.UserId
+            };
         }
 
         public User UserRecordToUser(UserRecord userRecord)
         {
-            throw new NotImplementedException();
+            return new User
+            {
+                Name = userRecord.Name,
+                Messages = userRecord.Messages?.Select(MessageRecordToMessage).ToList() ?? new List<Message>(),
+                UserId = userRecord.UserId
+            };
         }
     }
 }
