@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ChatApplication.Service.Contracts
 {
-    public class Class1
+    public interface IRoomReader
     {
+        List<Room> GetAllRooms(long roomId);
+        List<Message> GetRoomMessages(long roomId);
     }
 }
