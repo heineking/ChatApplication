@@ -12,8 +12,6 @@ namespace ChatApplication.Infrastructure.Contracts
         {
             return new MessageRecord
             {
-                Room = message.Room,
-                User = message.User,
                 Text = message.Text,
                 UserId = message.UserId,
                 RoomId = message.RoomId,
@@ -23,14 +21,14 @@ namespace ChatApplication.Infrastructure.Contracts
 
         public Message MessageRecordToMessage(MessageRecord messageRecord)
         {
+
             return new Message
             {
-                Room = messageRecord.Room,
-                User = messageRecord.User,
                 Text = messageRecord.Text,
                 UserId = messageRecord.UserId,
                 RoomId = messageRecord.RoomId,
-                MessageId = messageRecord.MessageId
+                MessageId = messageRecord.MessageId,
+                UserName = messageRecord.User.Name
             };
         }
 

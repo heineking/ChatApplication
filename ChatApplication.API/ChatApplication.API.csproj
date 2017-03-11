@@ -43,11 +43,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Aspnet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Hosting.Aspnet.1.4.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Serialization.JsonNet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Serialization.JsonNet.1.4.1\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -79,7 +103,36 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CustomJsonSerializer.cs" />
+    <Compile Include="Modules\RoomModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
+      <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
+      <Name>ChatApplication.Data.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Data.Dapper\ChatApplication.Data.Dapper.csproj">
+      <Project>{b03b043d-27f3-46b1-b57e-4aed625e5a81}</Project>
+      <Name>ChatApplication.Data.Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Data.EntityFramework\ChatApplication.Data.EntityFramework.csproj">
+      <Project>{71459f49-3f6f-44f0-8c3d-f850a734588b}</Project>
+      <Name>ChatApplication.Data.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
+      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
+      <Name>ChatApplication.Infrastructure.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Service.Contracts\ChatApplication.Service.Contracts.csproj">
+      <Project>{15b635ed-e0f7-467a-809f-5bebc78f8765}</Project>
+      <Name>ChatApplication.Service.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Service\ChatApplication.Service.csproj">
+      <Project>{7af6df0a-7e59-4f85-ae65-313d01d5f609}</Project>
+      <Name>ChatApplication.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
