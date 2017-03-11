@@ -10,5 +10,6 @@ namespace ChatApplication.Service.Contracts
     {
         List<Room> GetAllRooms();
         List<Message> GetRoomMessages(long roomId);
+        List<Message> GetRoomMessagesFromDate(long roomId, long dateTime);
     }
 }

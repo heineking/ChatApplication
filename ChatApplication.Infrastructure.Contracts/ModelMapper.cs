@@ -13,6 +13,7 @@ namespace ChatApplication.Infrastructure.Contracts
             return new MessageRecord
             {
                 Text = message.Text,
+                PostedDate = new DateTime(message.PostedDate),
                 UserId = message.UserId,
                 RoomId = message.RoomId,
                 MessageId = message.MessageId
@@ -28,6 +29,7 @@ namespace ChatApplication.Infrastructure.Contracts
                 UserId = messageRecord.UserId,
                 RoomId = messageRecord.RoomId,
                 MessageId = messageRecord.MessageId,
+                PostedDate = messageRecord.PostedDate.Ticks,
                 UserName = messageRecord.User.Name
             };
         }

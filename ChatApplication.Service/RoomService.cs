@@ -42,5 +42,11 @@ namespace ChatApplication.Service
             _uow.Messages.Add(messageRecord);
             _uow.SaveChanges();
         }
+
+        public List<Message> GetRoomMessagesFromDate(long roomId, long dateTime)
+        {
+            var messages = _uow.Messages.Find(m => m.RoomId == roomId && m.PostedDate > new DateTime(dateTime));
+            return messages.Select(_mapper.MessageRecordToMessage).ToList();
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace ChatApplication.Data.EntityFramework.ContextEF
 {
     public class ChatContext : DbContext
     {
+        public ChatContext() : base("context") { }
         public ChatContext(string connectionStr) : base(connectionStr) { }
 
         public DbSet<UserRecord> Users { get; set; }

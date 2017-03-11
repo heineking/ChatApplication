@@ -1,15 +1,21 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Models;
+using ChatApplication.Data.EntityFramework.ContextEF;
 
-namespace ChatApplication.Data.EntityFramework.ContextEF
+namespace ChatApplication.Data.EntityFramework.Migrations
 {
-    public class ChatInitializer : DropCreateDatabaseAlways<ChatContext>
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<ChatApplication.Data.EntityFramework.ContextEF.ChatContext>
     {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
         protected override void Seed(ChatContext context)
         {
             var users = new List<UserRecord>

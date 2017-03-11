@@ -18,6 +18,7 @@ namespace ChatApplication.Data.Contracts.Models
         }
         public long MessageId { get; set; }
         public string Text { get; set; }
+        public DateTime PostedDate { get; set; }
         
         public long RoomId { get; set; }
         public Guid UserId { get; set; }

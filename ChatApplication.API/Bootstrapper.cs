@@ -27,6 +27,9 @@ namespace ChatApplication.API
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             // your customization goes here
+            var config = new ConfigSettings();
+            var context = new ChatContext(config.GetConnection("context"));
+            var initializer = new ChatInitializer();
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
