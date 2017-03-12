@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using ChatApplication.API.Security;
 using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
@@ -14,6 +15,9 @@ using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Service;
 using ChatApplication.Service.Contracts;
+using JWT;
+using JWT.Algorithms;
+using JWT.Serializers;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
@@ -27,16 +31,16 @@ namespace ChatApplication.API
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             // your customization goes here
-            var config = new ConfigSettings();
-            var context = new ChatContext(config.GetConnection("context"));
-            var initializer = new ChatInitializer();
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
+            container.Register<UserAuth>().AsSingleton();
             container.Register<IApplicationSettings, ConfigSettings>();
             container.Register<JsonSerializer, CustomJsonSerializer>();
+            var userAuth = container.Resolve<UserAuth>();
+            container.Register<IJwtEncoder>((c, p) => new JwtEncoder(userAuth.Algorithm, new JsonNetSerializer()));
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
