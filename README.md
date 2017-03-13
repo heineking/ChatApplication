@@ -104,6 +104,24 @@ public class RoomRepository : Repository<RoomRecord>, IRoomRepository
 
 ```
 
+## Authentication - JWT ##
+
+This application will be using JSON Web Token specification for stateless authentication through NancyFx piplelines.
+
+### What is a JSON Web Token (JWT)? ###
+
+The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally.
+
+sources:
+
+https://jwt.io/introduction/
+
+https://float-middle.com/json-web-tokens-jwt-vs-sessions/
+
+https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage
+
+https://github.com/NancyFx/Nancy/blob/master/samples/Nancy.Demo.Authentication.Stateless/StatelessAuthBootstrapper.cs
+
 ## Resources ##
 
 **Repository Pattern**

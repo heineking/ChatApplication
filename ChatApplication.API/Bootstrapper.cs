@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Configuration;
 using System.Data.Entity;
-using ChatApplication.API.Security;
+using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
+using ChatApplication.API.User;
 using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
@@ -13,12 +14,15 @@ using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Security;
+using ChatApplication.Security.Contracts;
 using ChatApplication.Service;
 using ChatApplication.Service.Contracts;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
 using Nancy;
+using Nancy.Authentication.Stateless;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Newtonsoft.Json;
@@ -27,6 +31,33 @@ namespace ChatApplication.API
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
+        protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
+        {
+            var securityService = container.Resolve<ISecurityService>();
+            var configuration = new StatelessAuthenticationConfiguration(ctx =>
+            {
+                var jwt = ctx.Request.Headers.Authorization;
+                try
+                {
+                    var loginToken = securityService.DecodeToken(jwt);
+                    if (loginToken != null)
+                    {
+                        return new UserIdentity
+                        {
+                            UserName = loginToken.LoginName,
+                            UserId = loginToken.UserId
+                        };
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+                return null;
+            });
+
+            StatelessAuthentication.Enable(pipelines, configuration);
+        }
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
@@ -36,11 +67,18 @@ namespace ChatApplication.API
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-            container.Register<UserAuth>().AsSingleton();
+
+            /* app helper classes */
             container.Register<IApplicationSettings, ConfigSettings>();
             container.Register<JsonSerializer, CustomJsonSerializer>();
-            var userAuth = container.Resolve<UserAuth>();
-            container.Register<IJwtEncoder>((c, p) => new JwtEncoder(userAuth.Algorithm, new JsonNetSerializer()));
+
+            /* security */
+            container.Register<IJwtAlgorithm, HMACSHA256Algorithm>();
+            container.Register<IJsonSerializer, JsonNetSerializer>();
+            container.Register<IJwtEncoder, JwtEncoder>();
+            container.Register<IDateTimeProvider, UtcDateTimeProvider>();
+            container.Register<IJwtValidator, JwtValidator>();
+            container.Register<IJwtDecoder, JwtDecoder>();
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
@@ -61,11 +99,13 @@ namespace ChatApplication.API
             container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RoomRepositoryReader(connStr));
             container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
+            container.Register<ILoginReader, LoginRespositoryEntityFramework>();
 
             // writers
             container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>();
             container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
+            container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
 
             // repositories
             container.Register<IRoomRepository, RoomRepository>();
@@ -77,6 +117,7 @@ namespace ChatApplication.API
 
             /* services */
             container.Register<IRoomReader, RoomService>();
+            container.Register<ISecurityService, SecurityService>();
         }
     }
 }

@@ -23,12 +23,22 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                 new UserRecord
                 {
                     Name = "Foo Bar",
-                    UserId = Guid.NewGuid()
+                    UserId = Guid.NewGuid(),
+                    Login = new LoginRecord
+                    {
+                        Login = "foo.bar@gmail.com",
+                        Password = "secret1"
+                    }
                 },
                 new UserRecord
                 {
                     Name = "Bar Baz",
-                    UserId = Guid.NewGuid()
+                    UserId = Guid.NewGuid(),
+                    Login = new LoginRecord
+                    {
+                        Login = "bar.baz@gmail.com",
+                        Password = "secret2"
+                    }
                 }
             };
             users.ForEach(user => context.Users.Add(user));

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChatApplication.Data.Contracts.Models;
+﻿using ChatApplication.Data.Contracts.Models;
+using ChatApplication.Security.Contracts;
 using ChatApplication.Service.Contracts;
 
 namespace ChatApplication.Infrastructure.Contracts
@@ -18,5 +14,9 @@ namespace ChatApplication.Infrastructure.Contracts
 
         UserRecord UserToUserRecord(User user);
         User UserRecordToUser(UserRecord userRecord);
+
+        LoginRecord LoginToLoginRecord(Login login);
+        Login LoginRecordToLogin(LoginRecord loginRecord);
+
     }
 }

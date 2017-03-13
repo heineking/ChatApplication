@@ -7,13 +7,13 @@ namespace ChatApplication.Data.EntityFramework.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddDatePosted : IMigrationMetadata
+    public sealed partial class Initialize : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDatePosted));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initialize));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703112154124_AddDatePosted"; }
+            get { return "201703121712077_Initialize"; }
         }
         
         string IMigrationMetadata.Source

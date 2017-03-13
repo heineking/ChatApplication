@@ -35,6 +35,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Service", "ChatApplication.Service\ChatApplication.Service.csproj", "{7AF6DF0A-7E59-4F85-AE65-313D01D5F609}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{9B44998A-2672-4A12-8402-2EB0D3B0D679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Security.Contracts", "ChatApplication.Security.Contracts\ChatApplication.Security.Contracts.csproj", "{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Security", "ChatApplication.Security\ChatApplication.Security.csproj", "{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +83,14 @@ Global
 		{7AF6DF0A-7E59-4F85-AE65-313D01D5F609}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AF6DF0A-7E59-4F85-AE65-313D01D5F609}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AF6DF0A-7E59-4F85-AE65-313D01D5F609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +102,7 @@ Global
 		{71459F49-3F6F-44F0-8C3D-F850A734588B} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 		{B03B043D-27F3-46B1-B57E-4AED625E5A81} = {DE4F3032-159E-46C0-8C4A-2B7118F8B8B5}
 		{7AF6DF0A-7E59-4F85-AE65-313D01D5F609} = {F80D7114-0052-46EB-845B-52F8420F15FC}
+		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD} = {9B44998A-2672-4A12-8402-2EB0D3B0D679}
+		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524} = {9B44998A-2672-4A12-8402-2EB0D3B0D679}
 	EndGlobalSection
 EndGlobal

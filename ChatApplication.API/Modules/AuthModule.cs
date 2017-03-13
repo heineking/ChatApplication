@@ -1,19 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ChatApplication.API.Security;
-using JWT;
+﻿using ChatApplication.Security.Contracts;
 using Nancy;
+using Nancy.ModelBinding;
 
 namespace ChatApplication.API.Modules
 {
     public class AuthModule : NancyModule
     {
-        public AuthModule(IJwtEncoder encoder, UserAuth userAuth) : base("api/v1/auth")
+        private readonly ISecurityService _securityService;
+
+        public AuthModule(ISecurityService securityService) : base("api/v1/auth")
         {
-            Get["/"] = _ => encoder.Encode(ApiSecurity.Create(), userAuth.Key);
-            Get["/plain"] = _ => ApiSecurity.Create();
+            _securityService = securityService;
+            Post["/login"] = _ => {
+                var login = this.Bind<LoginRequest>();
+                return ValidateLogin(login);
+            };
+        }
+
+        private object ValidateLogin(LoginRequest loginRequest)
+        {
+            var loginToken = _securityService.ValidateLogin(loginRequest.Email, loginRequest.Password);
+            if (loginToken != null)
+            {
+                return _securityService.EncodeToken(loginToken);
+            }
+            return HttpStatusCode.BadRequest;
         }
     }
 }

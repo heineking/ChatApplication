@@ -21,9 +21,9 @@ namespace ChatApplication.Console
     {
         static void Main(string[] args)
         {
-            var roomService = GetRoomReaderService();
-            var rooms = roomService.GetAllRooms();
-            var afterSave = JsonConvert.SerializeObject(rooms, new JsonSerializerSettings
+            var loginReader = CreateUnitOfWork();
+            var logins = loginReader.GetAll().Select(l => new {l.Login, l.UserId, l.Password}).ToList();
+            var afterSave = JsonConvert.SerializeObject(logins, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -32,24 +32,19 @@ namespace ChatApplication.Console
             System.Console.Read();
         }
 
-        public static IUnitOfWork CreateUnitOfWork()
+        public static IRepositoryReader<LoginRecord> CreateUnitOfWork()
         {
             // set up the UnitOfWork
             var appSettings = new ConfigSettings();
             var connStr = appSettings.GetConnection("context");
             var context = new ChatContext(connStr);
-            var roomReader = new RoomRepositoryReader(connStr);
-            var rooms = new RoomRepository(roomReader, new RepositoryEF<RoomRecord>(context));
-            var users = new UserRepository(new RepositoryEF<UserRecord>(context), new RepositoryEF<UserRecord>(context));
-            var messages = new MessageRepository(new RepositoryEF<MessageRecord>(context), new RepositoryEF<MessageRecord>(context));
-            var uow = new EntityFrameworkUnitOfWork(context, users, rooms, messages);
-            return uow;
+            return new RepositoryEF<LoginRecord>(context);
         }
 
-        public static IRoomReader GetRoomReaderService()
-        {
-            var uow = CreateUnitOfWork();
-            return new RoomService(uow, new ModelMapper());
-        }
+        //public static IRoomReader GetRoomReaderService()
+        //{
+        //    var uow = CreateUnitOfWork();
+        //    return new RoomService(uow, new ModelMapper());
+        //}
     }
 }

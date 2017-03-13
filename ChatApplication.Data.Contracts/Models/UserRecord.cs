@@ -16,7 +16,8 @@ namespace ChatApplication.Data.Contracts.Models
         }
         public Guid UserId { get; set; }
         public string Name { get; set; }
-        
+
+        public virtual LoginRecord Login { get; set; }
         public virtual ICollection<MessageRecord> Messages { get; set; }
     }
 }

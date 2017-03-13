@@ -3,10 +3,32 @@ namespace ChatApplication.Data.EntityFramework.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddDatePosted : DbMigration
+    public partial class Initialize : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.LoginRecords",
+                c => new
+                    {
+                        UserId = c.Guid(nullable: false),
+                        Login = c.String(nullable: false, maxLength: 30),
+                        Password = c.String(),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.UserRecords", t => t.UserId)
+                .Index(t => t.UserId)
+                .Index(t => t.Login);
+            
+            CreateTable(
+                "dbo.UserRecords",
+                c => new
+                    {
+                        UserId = c.Guid(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.UserId);
+            
             CreateTable(
                 "dbo.MessageRecords",
                 c => new
@@ -32,26 +54,21 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                     })
                 .PrimaryKey(t => t.RoomId);
             
-            CreateTable(
-                "dbo.UserRecords",
-                c => new
-                    {
-                        UserId = c.Guid(nullable: false),
-                        Name = c.String(),
-                    })
-                .PrimaryKey(t => t.UserId);
-            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.LoginRecords", "UserId", "dbo.UserRecords");
             DropForeignKey("dbo.MessageRecords", "UserId", "dbo.UserRecords");
             DropForeignKey("dbo.MessageRecords", "RoomId", "dbo.RoomRecords");
             DropIndex("dbo.MessageRecords", new[] { "UserId" });
             DropIndex("dbo.MessageRecords", new[] { "RoomId" });
-            DropTable("dbo.UserRecords");
+            DropIndex("dbo.LoginRecords", new[] { "Login" });
+            DropIndex("dbo.LoginRecords", new[] { "UserId" });
             DropTable("dbo.RoomRecords");
             DropTable("dbo.MessageRecords");
+            DropTable("dbo.UserRecords");
+            DropTable("dbo.LoginRecords");
         }
     }
 }

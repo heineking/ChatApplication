@@ -13,6 +13,7 @@ namespace ChatApplication.Data.EntityFramework.MappingConfig
         public UserRecordMapping()
         {
             HasKey(u => u.UserId);
+            
         }
     }
 }

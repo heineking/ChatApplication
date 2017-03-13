@@ -73,6 +73,10 @@
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nancy.Authentication.Stateless, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Stateless.1.4.1\lib\net40\Nancy.Authentication.Stateless.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy.Hosting.Aspnet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Hosting.Aspnet.1.4.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
       <Private>True</Private>
@@ -112,16 +116,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
+    <Compile Include="LoginRequest.cs" />
     <Compile Include="Modules\AuthModule.cs" />
-    <Compile Include="Security\ApiSecurity.cs" />
     <Compile Include="Modules\RoomModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\UserAuth.cs" />
+    <Compile Include="User\UserIdentity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
@@ -139,6 +145,14 @@
     <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
       <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
       <Name>ChatApplication.Infrastructure.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Security.Contracts\ChatApplication.Security.Contracts.csproj">
+      <Project>{e09cf765-f3a8-4ad7-9277-6cff217e2dad}</Project>
+      <Name>ChatApplication.Security.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Security\ChatApplication.Security.csproj">
+      <Project>{b266d989-63aa-46ee-baa5-ccc0ecde3524}</Project>
+      <Name>ChatApplication.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Service.Contracts\ChatApplication.Service.Contracts.csproj">
       <Project>{15b635ed-e0f7-467a-809f-5bebc78f8765}</Project>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChatApplication.Data.Contracts.Models;
+using ChatApplication.Security.Contracts;
 using ChatApplication.Service.Contracts;
 
 namespace ChatApplication.Infrastructure.Contracts
@@ -71,6 +72,26 @@ namespace ChatApplication.Infrastructure.Contracts
                 Name = userRecord.Name,
                 Messages = userRecord.Messages?.Select(MessageRecordToMessage).ToList() ?? new List<Message>(),
                 UserId = userRecord.UserId
+            };
+        }
+
+        public LoginRecord LoginToLoginRecord(Login login)
+        {
+            return new LoginRecord
+            {
+                Login = login.LoginName,
+                Password = login.Password,
+                UserId = login.UserId
+            };
+        }
+
+        public Login LoginRecordToLogin(LoginRecord loginRecord)
+        {
+            return new Login
+            {
+                LoginName = loginRecord.Login,
+                UserId = loginRecord.UserId,
+                Password = loginRecord.Password
             };
         }
     }
