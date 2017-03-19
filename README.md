@@ -61,6 +61,8 @@ The power of EF, in my opinion, is it's change tracking ability. We can load a r
 
 With our application we are allowing the client to be flexible with the implementation of how to access and save to the database. The client can decide to write both the write and reads in EntityFramework, and then if they would like to change one of the approaches they could simply swap out the read implentation for something written in Dapper or EF with Raw SQL.
 
+This should, however, be done with care. Swapping out the read function for Dapper will break EFs change tracking.
+
 #### Can we further abstract this Repository pattern? ####
 
 Yes, we can further abstract this pattern. The approach we are taking here is generic, and we could create a repository class which other repositories will inherit:
@@ -110,7 +112,35 @@ This application will be using JSON Web Token specification for stateless authen
 
 ### What is a JSON Web Token (JWT)? ###
 
-The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally.
+The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally. Consider what might happen if the application were to be split among multiple servers? Managing a session across multiple servers is difficult. The JWT does allow for authentication to be handled across multiple servers.
+
+The JWT is a cryptographically signed and encrypted JSON object that is saved on the client and sent back to the server. The neat thing about JWT is the flexibility of the information that can used for authentication.
+
+A developer will need to decide where to store the JWT once the user has been authenticated. This [stormpath](https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage) article outlines both approaches: Cookies & Web Storage.
+
+#### Cookies ####
+
+Cookies could be used if the API is being served on the same domain as the application. The advantage of using cookies is that they can be set automatically from the server. The authentication cookie is then automatically sent with every subsequent request to that domain.
+
+Cookies, with the proper HttpOnly flag, can also be protected from being accessed by JavaScript. This helps to protect against cross-site scripting attacks (XSS). There is another concern to protect against cross-site request forgery attacks. The site can generate a **csrf token** to prevent these attacks.
+
+#### Web Storage ####
+
+Web storage is another storage method available for storing JWT. The user can pick between localStorage or sessionStorage. The localStorage will persist until explicitly deleted and the sessionStorage will be deleted only while the window that created it is open.
+
+The Web Storage must be used if accessing an API on a domain that is separate from the initiating resource. The drawback to using WebStorage is that no security standards are enforced (in contrast to cookies). The user must take proper measures to send JWT over HTTPS. To make things worse, since the WebStorage is accessible by JavaScript, there is valid concern for cross-scripting attacks.
+
+A very real concern with XSS attacks is that third-party JavaScript can access the WebStorage and compromise the security. This makes identifying and protecting against XSS attacks difficult.
+
+#### What do we do? ####
+
+Cookies should be used websites that need higher security. The cookies will need to address the CSRF attacks but this is easier to manage by the application.
+
+I will continue to use WebStorage for this project because it presents an interesting problem that I do not often encounter. This should, however, be thought through carefully when developing a *real* application.
+
+In a **real world** situation, I would plan on using cookies if I were planning on shipping this as a live application. Using cookies would require me to host the API on the same domain as the SPA. I would also need to issue a CSRF token in the JWT.
+
+#### JWT Sources: ####
 
 sources:
 
@@ -121,6 +151,50 @@ https://float-middle.com/json-web-tokens-jwt-vs-sessions/
 https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage
 
 https://github.com/NancyFx/Nancy/blob/master/samples/Nancy.Demo.Authentication.Stateless/StatelessAuthBootstrapper.cs
+
+***
+
+## SOLID Code: Single Responsibility Principle ##
+
+The first part of the SOLID principles is to write code that does one thing and does it well. The following code snippet shows that the ```ValidateLogin``` was doing **two** things:
+
+* Getting the ```LoginRecord``` from the database
+* Mapping the ```LoginRecord``` to a ```LoginToken``` with the appropriate token values (e.g., Iss, exp)
+
+We can refactor this code so that the function doesn't need to know how to map the ```LoginRecord``` to the ```LoginToken```.
+
+```csharp
+// Code snip it from the SecurityService
+
+public LoginToken ValidateLogin(string username, string password)
+{
+    var loginRecord = _loginReader.ValidateLogin(username, password);
+    if (loginRecord == null)
+    {
+        return null;
+    }
+    // todo: this should be moved out of the service. Violates SRP
+    return new LoginToken
+    {
+        Exp = DateTime.Now.AddHours(_exp).Ticks.ToString(),
+        Iss = "issuer",
+        LoginName = loginRecord.Login,
+        UserId = loginRecord.UserId
+    };
+}
+```
+
+**After Refactor:**
+
+```csharp
+
+public LoginToken ValidateLogin(string username, string password)
+{
+    var loginRecord = _loginReader.ValidateLogin(username, password);
+    return loginRecord == null ? null : _tokenGenerator.CreateLoginToken(loginRecord);
+}
+
+```
 
 ## Resources ##
 

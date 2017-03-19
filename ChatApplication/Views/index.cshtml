@@ -3,13 +3,37 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"
+            integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+            crossorigin="anonymous"></script>
 </head>
 <body>
     <h2>Hello, World</h2>
-    <form action="http://localhost:64784/api/v1/auth/login.json" method="post">
-        <input type="text" name="email" /><br />
-        <input type="text" name="password" /><br />
-        <button>Submit</button>
-    </form>
+    <button type="button" id="login">Login</button>
+    <br />
+    <button type="button" id="rooms">Get Rooms</button>
+    <div id="results"></div>
+    <script type="text/javascript">
+        $("#login").click(() => {
+            $.post("http://localhost:64784/api/v1/auth/login.json", { email: "foo.bar@gmail.com", password: "secret1" })
+                .done(key => {
+                    sessionStorage.setItem("auth", key);
+                });
+        });
+        $("#rooms").click(() => {
+            fetch('http://localhost:64784/api/v1/rooms/all.json', {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Authorization': sessionStorage.getItem('auth') 
+                }
+            }).then(res => {
+                return res.json();
+            })
+            .then(json => {
+                    $('#results').text(JSON.stringify(json));
+                });
+        });
+    </script>
 </body>
 </html>

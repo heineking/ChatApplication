@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
+using ChatApplication.API.Extensions;
 using ChatApplication.API.User;
 using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Models;
@@ -34,6 +35,7 @@ namespace ChatApplication.API
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
             var securityService = container.Resolve<ISecurityService>();
+            // TODO: remove this to own class
             var configuration = new StatelessAuthenticationConfiguration(ctx =>
             {
                 var jwt = ctx.Request.Headers.Authorization;
@@ -57,6 +59,8 @@ namespace ChatApplication.API
             });
 
             StatelessAuthentication.Enable(pipelines, configuration);
+
+            pipelines.EnableCORS();
         }
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)

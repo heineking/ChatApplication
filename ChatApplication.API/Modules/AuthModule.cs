@@ -1,5 +1,6 @@
 ﻿using ChatApplication.Security.Contracts;
 using Nancy;
+using Nancy.Cookies;
 using Nancy.ModelBinding;
 
 namespace ChatApplication.API.Modules
@@ -22,9 +23,12 @@ namespace ChatApplication.API.Modules
             var loginToken = _securityService.ValidateLogin(loginRequest.Email, loginRequest.Password);
             if (loginToken != null)
             {
-                return _securityService.EncodeToken(loginToken);
+                var encodedToken = _securityService.EncodeToken(loginToken);
+                return Negotiate
+                    .WithModel(encodedToken)
+                    .WithStatusCode(HttpStatusCode.Accepted);
             }
-            return HttpStatusCode.BadRequest;
+            return HttpStatusCode.Unauthorized;
         }
     }
 }

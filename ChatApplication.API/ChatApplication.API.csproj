@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
+    <Compile Include="Extensions\NancyExtensions.cs" />
     <Compile Include="LoginRequest.cs" />
     <Compile Include="Modules\AuthModule.cs" />
     <Compile Include="Modules\RoomModule.cs" />

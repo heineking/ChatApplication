@@ -41,9 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISecurityService.cs" />
+    <Compile Include="ITokenGenerator.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="LoginToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
+      <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
+      <Name>ChatApplication.Data.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

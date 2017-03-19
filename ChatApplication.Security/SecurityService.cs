@@ -21,32 +21,21 @@ namespace ChatApplication.Security
         private readonly IJwtEncoder _encoder;
         private readonly int _exp;
         private readonly ILoginReader _loginReader;
-        private readonly IModelMapper _mapper;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public SecurityService(IApplicationSettings appSettings, ILoginReader loginReader, IJwtEncoder encoder, IJwtDecoder decoder, IModelMapper mapper)
+        public SecurityService(IApplicationSettings appSettings, ILoginReader loginReader, IJwtEncoder encoder, IJwtDecoder decoder, ITokenGenerator tokenGenerator)
         {
             _key = appSettings.GetValue("ApiKey");
             _decoder = decoder;
             _encoder = encoder;
             _exp = int.Parse(appSettings.GetValue("Token:ExpHrs"));
             _loginReader = loginReader;
-            _mapper = mapper;
+            _tokenGenerator = tokenGenerator;
         }
         public LoginToken ValidateLogin(string username, string password)
         {
             var loginRecord = _loginReader.ValidateLogin(username, password);
-            if (loginRecord == null)
-            {
-                return null;
-            }
-            // todo: this should be moved out of the service. Violates SRP
-            return new LoginToken
-            {
-                Exp = DateTime.Now.AddHours(_exp).Ticks.ToString(),
-                Iss = "issuer",
-                LoginName = loginRecord.Login,
-                UserId = loginRecord.UserId
-            };
+            return loginRecord == null ? null : _tokenGenerator.CreateLoginToken(loginRecord);
         }
 
         public string EncodeToken(LoginToken token)
