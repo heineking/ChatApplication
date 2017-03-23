@@ -100,7 +100,7 @@ namespace ChatApplication.API
             /* repositories */
 
             // readers
-            container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
+            container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RoomRepositoryReader(connStr), "roomReader");
             container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
             container.Register<ILoginReader, LoginRespositoryEntityFramework>();
