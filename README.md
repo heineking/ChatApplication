@@ -140,6 +140,8 @@ I will continue to use WebStorage for this project because it presents an intere
 
 In a **real world** situation, I would plan on using cookies if I were planning on shipping this as a live application. Using cookies would require me to host the API on the same domain as the SPA. I would also need to issue a CSRF token in the JWT.
 
+This will be something to address at the of this project if time allows.
+
 #### JWT Sources: ####
 
 sources:
@@ -195,6 +197,37 @@ public LoginToken ValidateLogin(string username, string password)
 }
 
 ```
+
+## Decorator Pattern ##
+
+By using the SOLID principles with our Repository pattern we are able to compose different functionality around the existing implementation. The trick is to pass the implementation that we wish to wrap into the constructor of the decorator. Then we can use the decorator as a substitute for the original implementation. We are able to do this because of the decorated is defined as a ```IRepositoryReader``` and ```IRepositoryWriter```
+
+```csharp
+
+// Decorated Repository that adds logging to the application
+public class RepositoryLogging<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
+{
+
+    private readonly string _loggingFile = @"./logging.txt";
+    private readonly IRepositoryReader<TEntity> _readerDelegate;
+    private readonly IRepositoryWriter<TEntity> _writerDelegate;
+
+    public RepositoryLogging(IRepositoryReader<TEntity> readerDelegate, IRepositoryWriter<TEntity> writeDelegate)
+    {
+        _readerDelegate = readerDelegate;
+        _writerDelegate = writeDelegate;
+    }
+    public TEntity Get(int id)
+    {
+        WriteLog($"Request to get entity of type {typeof(TEntity).Name} with id: {id}");
+        return _readerDelegate.Get(id);
+    }
+    /* code removed for brevity */
+}
+
+```
+
+W
 
 ## Resources ##
 

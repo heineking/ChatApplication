@@ -100,16 +100,26 @@ namespace ChatApplication.API
             /* repositories */
 
             // readers
-            container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RoomRepositoryReader(connStr));
+            container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
             container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
             container.Register<ILoginReader, LoginRespositoryEntityFramework>();
 
             // writers
-            container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>();
+            container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
             container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
             container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
+
+            // register decorators
+            container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
+                c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+                c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+                ));
+            container.Register<IRepositoryWriter<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
+                c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+                c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+                ));
 
             // repositories
             container.Register<IRoomRepository, RoomRepository>();
