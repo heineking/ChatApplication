@@ -3,7 +3,7 @@ using Nancy;
 using Nancy.Cookies;
 using Nancy.ModelBinding;
 
-namespace ChatApplication.API.Modules
+namespace ChatApplication.API.Modules.Room
 {
     public class AuthModule : NancyModule
     {

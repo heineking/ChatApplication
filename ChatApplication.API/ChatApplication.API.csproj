@@ -124,9 +124,10 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
-    <Compile Include="LoginRequest.cs" />
-    <Compile Include="Modules\AuthModule.cs" />
-    <Compile Include="Modules\RoomModule.cs" />
+    <Compile Include="Modules\Auth\LoginRequest.cs" />
+    <Compile Include="Modules\Auth\AuthModule.cs" />
+    <Compile Include="Modules\Room\CreateRoomRequest.cs" />
+    <Compile Include="Modules\Room\RoomModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\UserIdentity.cs" />
   </ItemGroup>

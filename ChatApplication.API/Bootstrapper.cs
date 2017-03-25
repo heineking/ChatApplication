@@ -92,7 +92,7 @@ namespace ChatApplication.API
             var connStr = appSettings.GetConnection("context");
 
             // register the dependencies
-            container.Register<DbContext>((c, p) => new ChatContext(connStr));
+            container.Register<DbContext>(new ChatContext(connStr));
 
             /* model mappers */
             container.Register<IModelMapper, ModelMapper>();
@@ -131,6 +131,7 @@ namespace ChatApplication.API
 
             /* services */
             container.Register<IRoomReader, RoomService>();
+            container.Register<IRoomWriter, RoomService>();
             container.Register<ISecurityService, SecurityService>();
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ChatApplication.API
+namespace ChatApplication.API.Modules.Room
 {
     public class LoginRequest
     {

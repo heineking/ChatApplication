@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Service.Contracts;
@@ -12,11 +13,26 @@ namespace ChatApplication.Service
         private readonly IUnitOfWork _uow;
         private readonly IModelMapper _mapper;
 
+        public void CreateRoom(Room room)
+        {
+            var roomRecord = _mapper.RoomToRoomRecord(room);
+            _uow.Rooms.Add(roomRecord);
+            _uow.SaveChanges();
+        }
+
+        public void CreateRoom(string roomName)
+        {
+            var roomRecord = new RoomRecord(roomName);
+            _uow.Rooms.Add(roomRecord);
+            _uow.SaveChanges();
+        }
+
         public RoomService(IUnitOfWork uow, IModelMapper mapper)
         {
             _uow = uow;
             _mapper = mapper;
         }
+
         public List<Room> GetAllRooms()
         {
             var roomRecords = _uow.Rooms.GetAll();
@@ -27,13 +43,6 @@ namespace ChatApplication.Service
         {
             var messageRecords = _uow.Messages.Find(m => m.RoomId == roomId);
             return messageRecords.Select(_mapper.MessageRecordToMessage).ToList();
-        }
-
-        public void CreateRoom(Room room)
-        {
-            var roomRecord = _mapper.RoomToRoomRecord(room);
-            _uow.Rooms.Add(roomRecord);
-            _uow.SaveChanges();
         }
 
         public void AddMessage(Message message)

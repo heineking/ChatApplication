@@ -11,6 +11,11 @@
     <h2>Hello, World</h2>
     <button type="button" id="login">Login</button>
     <br />
+    <div>
+        <input id="roomName" /><br />
+        <button type="button" id="createRoom">Create Room</button>
+    </div>
+    <br />
     <button type="button" id="rooms">Get Rooms</button>
     <div id="results"></div>
     <script type="text/javascript">
@@ -25,14 +30,30 @@
                 method: 'GET',
                 mode: 'cors',
                 headers: {
-                    'Authorization': sessionStorage.getItem('auth') 
+                    'Authorization': sessionStorage.getItem('auth')
                 }
             }).then(res => {
                 return res.json();
             })
             .then(json => {
-                    $('#results').text(JSON.stringify(json));
-                });
+                $('#results').text(JSON.stringify(json));
+            });
+        });
+        $("#createRoom").click(() => {
+            var roomName = $("#roomName").val();
+            fetch('http://localhost:64784/api/v1/rooms/create', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Authorization': sessionStorage.getItem('auth'),
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify({ name: roomName })
+            })
+            .then(res => {
+                console.log(res);
+            });
         });
     </script>
 </body>
