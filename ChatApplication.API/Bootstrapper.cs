@@ -115,7 +115,7 @@ namespace ChatApplication.API
             container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
                 c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
                 c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
-                ));
+               ));
             container.Register<IRepositoryWriter<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
                 c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
                 c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")

@@ -21,14 +21,11 @@ namespace ChatApplication.API.Modules
         private object ValidateLogin(LoginRequest loginRequest)
         {
             var loginToken = _securityService.ValidateLogin(loginRequest.Email, loginRequest.Password);
-            if (loginToken != null)
-            {
-                var encodedToken = _securityService.EncodeToken(loginToken);
-                return Negotiate
-                    .WithModel(encodedToken)
-                    .WithStatusCode(HttpStatusCode.Accepted);
-            }
-            return HttpStatusCode.Unauthorized;
+            if (loginToken == null) return HttpStatusCode.Unauthorized;
+            var encodedToken = _securityService.EncodeToken(loginToken);
+            return Negotiate
+                .WithModel(encodedToken)
+                .WithStatusCode(HttpStatusCode.Accepted);
         }
     }
 }
