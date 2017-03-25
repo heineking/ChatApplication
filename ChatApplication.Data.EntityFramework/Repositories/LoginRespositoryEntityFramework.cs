@@ -18,13 +18,12 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         {
         }
 
-        public LoginRecord ValidateLogin(string username, string password)
+        public LoginRecord LoginByNameAndPasswordOrDefault(string name, string password)
         {
             return ChatContext
                 .Logins
                 .Include(l => l.User)
-                .FirstOrDefault(l => l.Login == username && l.Password == password);
-
+                .FirstOrDefault(l => l.Login == name && l.Password == password);
         }
     }
 }

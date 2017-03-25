@@ -198,6 +198,8 @@ public LoginToken ValidateLogin(string username, string password)
 
 ```
 
+***
+
 ## Decorator Pattern ##
 
 By using the SOLID principles with our Repository pattern we are able to compose different functionality around the existing implementation. The trick is to pass the implementation that we wish to wrap into the constructor of the decorator. Then we can use the decorator as a substitute for the original implementation. We are able to do this because of the decorated is defined as a ```IRepositoryReader``` and ```IRepositoryWriter```
@@ -227,7 +229,17 @@ public class RepositoryLogging<TEntity> : IRepositoryReader<TEntity>, IRepositor
 
 ```
 
-W
+***
+
+## ChatApplication.Test ##
+
+Testing is an important part of any project, and should be considered an important part of the development of any application. Writing SOLID style code facilitates writing tests because each class/function should be small in responsibility and easily mocked. Mocking allows us to focus on *only* testing the section of code that we interested and ignore any of it's dependencies.
+
+There are several reason why we would want to follow unit tests for our project:
+
+* Helps to support management of the application over time by ensuring that changes do not break functionality. In other words, changes to the application can be made with greater confidence.
+* Helps to document the application
+* Helps to identify code smells
 
 ## Resources ##
 
@@ -238,3 +250,7 @@ source: https://www.youtube.com/watch?v=rtXpYpZdOzM
 **EntityFramework Code-First Approach**
 
 https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/creating-an-entity-framework-data-model-for-an-asp-net-mvc-application
+
+** Testing Examples w/ Nancy **
+
+https://github.com/bytefish/NancyFileUpload/

@@ -20,12 +20,12 @@ namespace ChatApplication.API.Modules.Room
 
         private object ValidateLogin(LoginRequest loginRequest)
         {
-            var loginToken = _securityService.ValidateLogin(loginRequest.Email, loginRequest.Password);
+            var loginToken = _securityService.LoginTokenOrDefault(loginRequest.Email, loginRequest.Password);
             if (loginToken == null) return HttpStatusCode.Unauthorized;
             var encodedToken = _securityService.EncodeToken(loginToken);
             return Negotiate
                 .WithModel(encodedToken)
-                .WithStatusCode(HttpStatusCode.Accepted);
+                .WithStatusCode(HttpStatusCode.OK);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace ChatApplication.Data.Contracts.Repositories
 {
     public interface ILoginReader : IRepositoryReader<LoginRecord>
     {
-        LoginRecord ValidateLogin(string name, string password);
+        LoginRecord LoginByNameAndPasswordOrDefault(string name, string password);
     }
 }
