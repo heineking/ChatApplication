@@ -13,10 +13,11 @@ namespace ChatApplication.Data.Contracts.Models
         public RoomRecord(string name)
         {
             Name = name;
+            DateCreated = DateTime.Now;
         }
         public long RoomId { get; set; }
         public string Name { get; set; }
-
+        public DateTime DateCreated { get; set; }
         public virtual ICollection<MessageRecord> Messages { get; set; }
     }
 }

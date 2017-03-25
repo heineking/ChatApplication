@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201703121712077_Initialize.Designer.cs">
       <DependentUpon>201703121712077_Initialize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703250138345_RoomRecordDateCreated.cs" />
+    <Compile Include="Migrations\201703250138345_RoomRecordDateCreated.Designer.cs">
+      <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\UserUnitOfWork.cs" />
@@ -80,6 +84,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703121712077_Initialize.resx">
       <DependentUpon>201703121712077_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703250138345_RoomRecordDateCreated.resx">
+      <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
