@@ -47,7 +47,6 @@ namespace ChatApplication.API.Modules.Room
             };
             Post["/create"] = _ =>
             {
-                var name = this.Request.Form["name"];
                 var model = this.Bind<CreateRoomRequest>();
                 if (model == null) return HttpStatusCode.BadRequest;
                 writer.CreateRoom(model.Name);
