@@ -11,6 +11,6 @@ namespace ChatApplication.Service.Contracts
         public DateTime PostedDate { get; set; }
         
         public long RoomId { get; set; }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

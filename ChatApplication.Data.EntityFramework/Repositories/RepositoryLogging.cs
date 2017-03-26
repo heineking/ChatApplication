@@ -22,7 +22,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
             _readerDelegate = readerDelegate;
             _writerDelegate = writeDelegate;
         }
-        public TEntity Get(int id)
+        public TEntity Get(long id)
         {
             WriteLog($"Request to get entity of type {typeof(TEntity).Name} with id: {id}");
             return _readerDelegate.Get(id);

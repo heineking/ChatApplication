@@ -8,9 +8,10 @@ namespace ChatApplication.Data.Contracts.Models
 {
     public class LoginRecord
     {
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public int LoginAttempts { get; set; }
 
         public virtual UserRecord User { get; set; }
     }

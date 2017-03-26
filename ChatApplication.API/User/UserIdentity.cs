@@ -10,6 +10,6 @@ namespace ChatApplication.API.User
     {
         public string UserName { get; set; }
         public IEnumerable<string> Claims { get; set; }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

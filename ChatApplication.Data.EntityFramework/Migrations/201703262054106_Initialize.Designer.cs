@@ -13,7 +13,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201703121712077_Initialize"; }
+            get { return "201703262054106_Initialize"; }
         }
         
         string IMigrationMetadata.Source

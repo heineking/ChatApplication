@@ -17,12 +17,12 @@ namespace ChatApplication.Data.EntityFramework.ContextEF
                 new UserRecord
                 {
                     Name = "Foo Bar",
-                    UserId = Guid.NewGuid()
+                    UserId = 1
                 },
                 new UserRecord
                 {
                     Name = "Bar Baz",
-                    UserId = Guid.NewGuid()
+                    UserId = 2
                 }
             };
             users.ForEach(user => context.Users.Add(user));

@@ -23,7 +23,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                 new UserRecord
                 {
                     Name = "Foo Bar",
-                    UserId = Guid.NewGuid(),
+                    UserId = 1,
                     Login = new LoginRecord
                     {
                         Username = "foo.bar@gmail.com",
@@ -33,7 +33,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                 new UserRecord
                 {
                     Name = "Bar Baz",
-                    UserId = Guid.NewGuid(),
+                    UserId = 2,
                     Login = new LoginRecord
                     {
                         Username = "bar.baz@gmail.com",

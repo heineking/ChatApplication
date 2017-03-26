@@ -17,7 +17,7 @@ namespace ChatApplication.Data.Contracts.Repositories
             ReaderDelegate = reader;
             WriterDelegate = writer;
         }
-        public TEntity Get(int id)
+        public TEntity Get(long id)
         {
             return ReaderDelegate.Get(id);
         }

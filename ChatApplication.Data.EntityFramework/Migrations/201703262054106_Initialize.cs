@@ -11,20 +11,21 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                 "dbo.LoginRecords",
                 c => new
                     {
-                        UserId = c.Guid(nullable: false),
-                        Login = c.String(nullable: false, maxLength: 30),
+                        UserId = c.Long(nullable: false),
+                        Username = c.String(nullable: false, maxLength: 30),
                         Password = c.String(),
+                        LoginAttempts = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.UserRecords", t => t.UserId)
                 .Index(t => t.UserId)
-                .Index(t => t.Login);
+                .Index(t => t.Username);
             
             CreateTable(
                 "dbo.UserRecords",
                 c => new
                     {
-                        UserId = c.Guid(nullable: false),
+                        UserId = c.Long(nullable: false, identity: true),
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.UserId);
@@ -37,7 +38,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                         Text = c.String(),
                         PostedDate = c.DateTime(nullable: false),
                         RoomId = c.Long(nullable: false),
-                        UserId = c.Guid(nullable: false),
+                        UserId = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.MessageId)
                 .ForeignKey("dbo.RoomRecords", t => t.RoomId, cascadeDelete: true)
@@ -51,6 +52,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                     {
                         RoomId = c.Long(nullable: false, identity: true),
                         Name = c.String(),
+                        DateCreated = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.RoomId);
             
@@ -63,7 +65,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
             DropForeignKey("dbo.MessageRecords", "RoomId", "dbo.RoomRecords");
             DropIndex("dbo.MessageRecords", new[] { "UserId" });
             DropIndex("dbo.MessageRecords", new[] { "RoomId" });
-            DropIndex("dbo.LoginRecords", new[] { "Login" });
+            DropIndex("dbo.LoginRecords", new[] { "Username" });
             DropIndex("dbo.LoginRecords", new[] { "UserId" });
             DropTable("dbo.RoomRecords");
             DropTable("dbo.MessageRecords");

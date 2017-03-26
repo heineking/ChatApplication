@@ -10,7 +10,7 @@ namespace ChatApplication.Data.Contracts.Models
     {
         public MessageRecord() {}
 
-        public MessageRecord(string text, Guid userId, long roomId)
+        public MessageRecord(string text, long userId, long roomId)
         {
             Text = text;
             UserId = userId;
@@ -21,7 +21,7 @@ namespace ChatApplication.Data.Contracts.Models
         public DateTime PostedDate { get; set; }
         
         public long RoomId { get; set; }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
 
         public virtual RoomRecord Room { get; set; }
         public virtual UserRecord User { get; set; }

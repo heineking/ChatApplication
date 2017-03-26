@@ -6,7 +6,7 @@ namespace ChatApplication.Service.Contracts
 {
     public class User
     {
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
         public List<Message> Messages { get; set; }
     }

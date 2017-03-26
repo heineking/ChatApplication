@@ -55,17 +55,9 @@
     <Compile Include="MappingConfig\MessageRecordMapping.cs" />
     <Compile Include="MappingConfig\RoomRecordMapping.cs" />
     <Compile Include="MappingConfig\UserRecordMapping.cs" />
-    <Compile Include="Migrations\201703121712077_Initialize.cs" />
-    <Compile Include="Migrations\201703121712077_Initialize.Designer.cs">
-      <DependentUpon>201703121712077_Initialize.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703250138345_RoomRecordDateCreated.cs" />
-    <Compile Include="Migrations\201703250138345_RoomRecordDateCreated.Designer.cs">
-      <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703261137121_ChangeLoginToUsername.cs" />
-    <Compile Include="Migrations\201703261137121_ChangeLoginToUsername.Designer.cs">
-      <DependentUpon>201703261137121_ChangeLoginToUsername.cs</DependentUpon>
+    <Compile Include="Migrations\201703262054106_Initialize.cs" />
+    <Compile Include="Migrations\201703262054106_Initialize.Designer.cs">
+      <DependentUpon>201703262054106_Initialize.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
@@ -86,18 +78,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703121712077_Initialize.resx">
-      <DependentUpon>201703121712077_Initialize.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703250138345_RoomRecordDateCreated.resx">
-      <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703261137121_ChangeLoginToUsername.resx">
-      <DependentUpon>201703261137121_ChangeLoginToUsername.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="out\logging.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="out\logging.txt" />
+    <EmbeddedResource Include="Migrations\201703262054106_Initialize.resx">
+      <DependentUpon>201703262054106_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

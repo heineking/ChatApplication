@@ -14,6 +14,6 @@ namespace ChatApplication.Security.Contracts
 
         // ChatApplication information
         public string LoginName { get; set; }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

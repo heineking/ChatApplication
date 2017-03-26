@@ -19,7 +19,7 @@ namespace ChatApplication.Data.Dapper.Repositories
             _connectionString = connectionString;
         }
 
-        public RoomRecord Get(int id)
+        public RoomRecord Get(long id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {

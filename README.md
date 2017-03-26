@@ -241,6 +241,31 @@ There are several reason why we would want to follow unit tests for our project:
 * Helps to document the application
 * Helps to identify code smells
 
+## Adaptive Example ##
+
+**User Story**: we must prevent hackers from compromising a user account through a brute force attack.
+
+**Solution**: We will disable the ability to log into the account if there are too many unsuccessful attempts.
+
+This is take several steps.
+
+**Step 1**: update the login table with appropriate fields to track.
+
+```csharp
+
+public class LoginRecord
+{
+    public Guid UserId { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public int LoginAttempts { get; set; }  // <-- added
+
+    public virtual UserRecord User { get; set; }
+}
+
+```
+
+
 ## Resources ##
 
 **Repository Pattern**

@@ -10,6 +10,6 @@ namespace ChatApplication.Security.Contracts
     {
         public string LoginName { get; set; }
         public string Password { get; set; }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

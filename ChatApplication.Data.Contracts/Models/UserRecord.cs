@@ -14,7 +14,7 @@ namespace ChatApplication.Data.Contracts.Models
         {
             Name = name;
         }
-        public Guid UserId { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
 
         public virtual LoginRecord Login { get; set; }
