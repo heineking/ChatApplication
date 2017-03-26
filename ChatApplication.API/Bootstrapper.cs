@@ -100,7 +100,7 @@ namespace ChatApplication.API
             /* repositories */
 
             // readers
-            container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RoomRepositoryReader(connStr), "roomReader");
+            container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
             container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
             container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
             container.Register<ILoginReader, LoginRespositoryEntityFramework>();
@@ -112,13 +112,13 @@ namespace ChatApplication.API
             container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
 
             // register decorators
-            container.Register<IRepositoryReader<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
-                c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-                c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+            container.Register<IRepositoryReader<RoomRecord>>(new RepositoryLogging<RoomRecord>(
+                container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+                container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
                ));
-            container.Register<IRepositoryWriter<RoomRecord>>((c, p) => new RepositoryLogging<RoomRecord>(
-                c.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-                c.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+            container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryLogging<RoomRecord>(
+                container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+                container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
                 ));
 
             // repositories
@@ -132,6 +132,7 @@ namespace ChatApplication.API
             /* services */
             container.Register<IRoomReader, RoomService>();
             container.Register<IRoomWriter, RoomService>();
+            container.Register<IMessageWriter, MessageService>();
             container.Register<ISecurityService, SecurityService>();
         }
     }

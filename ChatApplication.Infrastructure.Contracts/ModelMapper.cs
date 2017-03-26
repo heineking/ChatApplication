@@ -23,7 +23,6 @@ namespace ChatApplication.Infrastructure.Contracts
 
         public Message MessageRecordToMessage(MessageRecord messageRecord)
         {
-
             return new Message
             {
                 Text = messageRecord.Text,
