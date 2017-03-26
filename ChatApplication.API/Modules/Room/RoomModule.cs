@@ -1,5 +1,6 @@
 ﻿using System;
 using ChatApplication.API.Extensions;
+using ChatApplication.API.User;
 using ChatApplication.Service.Contracts;
 using Nancy;
 using Nancy.ModelBinding;
@@ -10,6 +11,7 @@ namespace ChatApplication.API.Modules.Room
 {
     public class RoomModule : NancyModule
     {
+
         public RoomModule(IRoomReader reader, IRoomWriter writer) : base("/api/v1/rooms")
         {
             this.RequiresAuthentication();
@@ -49,10 +51,11 @@ namespace ChatApplication.API.Modules.Room
             };
             Post["/{roomId:long}"] = p =>
             {
+                var chatUser = (UserIdentity) Context.CurrentUser;
                 var messageRequest = this.Bind<CreateMessageRequest>();
                 writer.AddMessage(new Message
                 {
-                    UserId = Guid.Parse("c9a835b1-c108-43a1-962b-4fb5f4739f69"),
+                    UserId = chatUser.UserId,
                     PostedDate = DateTime.Now,
                     RoomId = p.roomId,
                     Text = messageRequest.Text,
