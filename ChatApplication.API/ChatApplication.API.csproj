@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
+    <Compile Include="Extensions\JavaScriptConvert.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
     <Compile Include="Modules\Auth\LoginRequest.cs" />
     <Compile Include="Modules\Auth\AuthModule.cs" />

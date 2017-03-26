@@ -1,8 +1,10 @@
 ﻿using System;
+using ChatApplication.API.Extensions;
 using ChatApplication.Service.Contracts;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
+using Newtonsoft.Json.Converters;
 
 namespace ChatApplication.API.Modules.Room
 {
@@ -36,7 +38,7 @@ namespace ChatApplication.API.Modules.Room
             };
             Get["/{roomId:long}/{dateTime:long}"] = p =>
             {
-                var roomMessagesFromDate = reader.GetRoomMessagesFromDate(p.roomId, p.dateTime);
+                var roomMessagesFromDate = reader.GetRoomMessagesFromDate(p.roomId, DateTimeJavascript.ToCsharpDateTime(p.dateTime));
                 if (roomMessagesFromDate != null)
                 {
                     return Negotiate
@@ -51,7 +53,7 @@ namespace ChatApplication.API.Modules.Room
                 writer.AddMessage(new Message
                 {
                     UserId = Guid.Parse("c9a835b1-c108-43a1-962b-4fb5f4739f69"),
-                    PostedDate = DateTime.Now.Ticks,
+                    PostedDate = DateTime.Now,
                     RoomId = p.roomId,
                     Text = messageRequest.Text,
                 });
