@@ -45,6 +45,18 @@ namespace ChatApplication.API.Modules.Room
                 }
                 return HttpStatusCode.BadRequest;
             };
+            Post["/{roomId:long}"] = p =>
+            {
+                var messageRequest = this.Bind<CreateMessageRequest>();
+                writer.AddMessage(new Message
+                {
+                    UserId = Guid.Parse("c9a835b1-c108-43a1-962b-4fb5f4739f69"),
+                    PostedDate = DateTime.Now.Ticks,
+                    RoomId = p.roomId,
+                    Text = messageRequest.Text,
+                });
+                return HttpStatusCode.OK;
+            };
             Post["/create"] = _ =>
             {
                 var model = this.Bind<CreateRoomRequest>();

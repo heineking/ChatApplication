@@ -59,7 +59,7 @@
         });
         $("#sendMessage").click(() => {
             var message = $("#message").val();
-            fetch('http://localhost:64784/api/v1/messages/5',
+            fetch('http://localhost:64784/api/v1/rooms/5',
             {
                 method: 'POST',
                 mode: 'cors',

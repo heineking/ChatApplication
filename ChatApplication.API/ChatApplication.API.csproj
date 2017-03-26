@@ -117,7 +117,6 @@
     <Content Include="README.md" />
     <Content Include="packages.config" />
     <Content Include="Views\index.cshtml" />
-    <Compile Include="Modules\Message\CreateMessageRequest.cs" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -137,7 +136,7 @@
     <Compile Include="Modules\Auth\LoginRequest.cs" />
     <Compile Include="Modules\Auth\AuthModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
-    <Compile Include="Modules\Message\MessageModule.cs" />
+    <Compile Include="Modules\Room\CreateMessageRequest.cs" />
     <Compile Include="Modules\Room\CreateRoomRequest.cs" />
     <Compile Include="Modules\Room\RoomModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

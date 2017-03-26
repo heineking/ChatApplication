@@ -132,7 +132,6 @@ namespace ChatApplication.API
             /* services */
             container.Register<IRoomReader, RoomService>();
             container.Register<IRoomWriter, RoomService>();
-            container.Register<IMessageWriter, MessageService>();
             container.Register<ISecurityService, SecurityService>();
         }
     }

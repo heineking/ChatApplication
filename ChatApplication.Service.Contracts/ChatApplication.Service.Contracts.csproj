@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMessageWriter.cs" />
     <Compile Include="IRoomReader.cs" />
     <Compile Include="IRoomWriter.cs" />
     <Compile Include="Message.cs" />
