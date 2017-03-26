@@ -10,7 +10,7 @@ namespace ChatApplication.Security.Contracts
     {
         // JWT reservered claims
         public string Iss { get; set; } // issuer
-        public string Exp { get; set; } // expiration
+        public DateTime Exp { get; set; } // expiration
 
         // ChatApplication information
         public string LoginName { get; set; }

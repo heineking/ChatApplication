@@ -24,9 +24,9 @@ namespace ChatApplication.Security
         {
             return new LoginToken
             {
-                Exp = DateTime.Now.AddHours(_exp).Ticks.ToString(),
+                Exp = DateTime.Now.AddHours(_exp),
                 Iss = _iss,
-                LoginName = loginRecord.Login,
+                LoginName = loginRecord.Username,
                 UserId = loginRecord.UserId
             };
         }
