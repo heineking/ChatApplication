@@ -26,7 +26,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                     UserId = Guid.NewGuid(),
                     Login = new LoginRecord
                     {
-                        Login = "foo.bar@gmail.com",
+                        Username = "foo.bar@gmail.com",
                         Password = "secret1"
                     }
                 },
@@ -36,7 +36,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                     UserId = Guid.NewGuid(),
                     Login = new LoginRecord
                     {
-                        Login = "bar.baz@gmail.com",
+                        Username = "bar.baz@gmail.com",
                         Password = "secret2"
                     }
                 }

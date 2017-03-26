@@ -9,7 +9,7 @@ namespace ChatApplication.Data.Contracts.Models
     public class LoginRecord
     {
         public Guid UserId { get; set; }
-        public string Login { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
         public virtual UserRecord User { get; set; }

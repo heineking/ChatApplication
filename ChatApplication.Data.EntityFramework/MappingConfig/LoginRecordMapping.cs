@@ -18,7 +18,7 @@ namespace ChatApplication.Data.EntityFramework.MappingConfig
             HasKey(l => l.UserId);
 
             // set the login as unique across all rows
-            Property(l => l.Login)
+            Property(l => l.Username)
                 .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));

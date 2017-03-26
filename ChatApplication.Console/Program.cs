@@ -22,7 +22,7 @@ namespace ChatApplication.Console
         static void Main(string[] args)
         {
             var loginReader = CreateUnitOfWork();
-            var logins = loginReader.GetAll().Select(l => new {l.Login, l.UserId, l.Password}).ToList();
+            var logins = loginReader.GetAll().Select(l => new {l.Username, l.UserId, l.Password}).ToList();
             var afterSave = JsonConvert.SerializeObject(logins, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,

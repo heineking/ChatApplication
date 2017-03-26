@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201703250138345_RoomRecordDateCreated.Designer.cs">
       <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703261137121_ChangeLoginToUsername.cs" />
+    <Compile Include="Migrations\201703261137121_ChangeLoginToUsername.Designer.cs">
+      <DependentUpon>201703261137121_ChangeLoginToUsername.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\UserUnitOfWork.cs" />
@@ -87,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703250138345_RoomRecordDateCreated.resx">
       <DependentUpon>201703250138345_RoomRecordDateCreated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703261137121_ChangeLoginToUsername.resx">
+      <DependentUpon>201703261137121_ChangeLoginToUsername.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

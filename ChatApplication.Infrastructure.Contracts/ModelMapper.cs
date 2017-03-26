@@ -78,7 +78,7 @@ namespace ChatApplication.Infrastructure.Contracts
         {
             return new LoginRecord
             {
-                Login = login.LoginName,
+                Username = login.LoginName,
                 Password = login.Password,
                 UserId = login.UserId
             };
@@ -88,7 +88,7 @@ namespace ChatApplication.Infrastructure.Contracts
         {
             return new Login
             {
-                LoginName = loginRecord.Login,
+                LoginName = loginRecord.Username,
                 UserId = loginRecord.UserId,
                 Password = loginRecord.Password
             };
