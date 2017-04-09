@@ -51,5 +51,10 @@ namespace ChatApplication.Data.Contracts.Repositories
         {
             WriterDelegate.RemoveRange(entities);
         }
+
+        public virtual void Update(TEntity entity)
+        {
+            WriterDelegate.Update(entity);
+        }
     }
 }

@@ -43,7 +43,7 @@
     <Compile Include="IApplicationSettings.cs" />
     <Compile Include="Models\LoginRecord.cs" />
     <Compile Include="Models\UserRecord.cs" />
-    <Compile Include="Persistence\IUserUnitOfWork.cs" />
+    <Compile Include="Persistence\ILoginUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Repositories\ILoginReader.cs" />
     <Compile Include="Repositories\ILoginRepository.cs" />

@@ -10,5 +10,6 @@ namespace ChatApplication.Data.Contracts.Repositories
     public interface ILoginReader : IRepositoryReader<LoginRecord>
     {
         LoginRecord LoginByNameAndPasswordOrDefault(string name, string password);
+        LoginRecord LoginByNameOrDefault(string name);
     }
 }

@@ -61,7 +61,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
-    <Compile Include="Persistence\UserUnitOfWork.cs" />
+    <Compile Include="Persistence\LoginUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\LoginRespositoryEntityFramework.cs" />
     <Compile Include="Repositories\RepositoryEF.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -51,6 +52,12 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
+        }
+
+        public void Update(TEntity entity)
+        {
+            /* warning! we probably shouldn't do this...*/
+            Context.Set<TEntity>().AddOrUpdate(entity);
         }
     }
 }

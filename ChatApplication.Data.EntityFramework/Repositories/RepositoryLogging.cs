@@ -61,6 +61,13 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             WriteLog($"Request to remove entities of type {typeof(TEntity).Name}");
+            _writerDelegate.AddRange(entities);
+        }
+
+        public void Update(TEntity entity)
+        {
+            WriteLog($"Request to update entity of type {typeof(TEntity).Name}");
+            _writerDelegate.Update(entity);
         }
 
         private void WriteLog(string logText)

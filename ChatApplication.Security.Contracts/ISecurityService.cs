@@ -9,7 +9,8 @@ namespace ChatApplication.Security.Contracts
 {
     public interface ISecurityService
     {
-        LoginToken LoginTokenOrDefault(string name, string password);
+        LoginRecord LoginByNameOrDefault(string name);
+        LoginToken LoginTokenOrDefault(LoginRecord login, string password);
         string EncodeToken(LoginToken token);
         LoginToken DecodeToken(string jwt);
     }

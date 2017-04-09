@@ -25,5 +25,13 @@ namespace ChatApplication.Data.EntityFramework.Repositories
                 .Include(l => l.User)
                 .FirstOrDefault(l => l.Username == name && l.Password == password);
         }
+
+        public LoginRecord LoginByNameOrDefault(string name)
+        {
+            return ChatContext
+                .Logins
+                .Include(l => l.User)
+                .FirstOrDefault(l => l.Username == name);
+        }
     }
 }

@@ -7,7 +7,7 @@ using ChatApplication.Data.Contracts.Repositories;
 
 namespace ChatApplication.Data.Contracts.Persistence
 {
-    public interface IUserUnitOfWork : IDisposable
+    public interface ILoginUnitOfWork : IDisposable
     {
         int SaveChanges();
         IUserRepository Users { get; set; }

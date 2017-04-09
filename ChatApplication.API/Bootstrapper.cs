@@ -125,14 +125,24 @@ namespace ChatApplication.API
             container.Register<IRoomRepository, RoomRepository>();
             container.Register<IUserRepository, UserRepository>();
             container.Register<IMessageRepository, MessageRepository>();
+            container.Register<ILoginRepository, LoginRepository>();
 
             /* uow */
             container.Register<IUnitOfWork, EntityFrameworkUnitOfWork>();
+            container.Register<ILoginUnitOfWork, LoginUnitOfWork>();
 
             /* services */
             container.Register<IRoomReader, RoomService>();
             container.Register<IRoomWriter, RoomService>();
-            container.Register<ISecurityService, SecurityService>();
+
+            /* register the base security service then tie it into the decorator */
+            container.Register<ISecurityService, SecurityService>("baseService");
+
+            container.Register<ISecurityService>(new BruteForceDecorator(
+                container.Resolve<ISecurityService>("baseService"),
+                container.Resolve<ILoginUnitOfWork>(),
+                container.Resolve<IApplicationSettings>())
+                );
         }
     }
 }

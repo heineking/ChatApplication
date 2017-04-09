@@ -27,8 +27,8 @@ namespace ChatApplication.Test.API
         public void SetUp()
         {
             var mockedSecurityService = new Mock<ISecurityService>();
-            mockedSecurityService.Setup(s => s.LoginTokenOrDefault("invalid", "wrong")).Returns(() => null);
-            mockedSecurityService.Setup(s => s.LoginTokenOrDefault("user", "password")).Returns(() => new LoginToken());
+            mockedSecurityService.Setup(s => s.LoginTokenOrDefault(new LoginRecord(), "wrong")).Returns(() => null);
+            mockedSecurityService.Setup(s => s.LoginTokenOrDefault(new LoginRecord(), "password")).Returns(() => new LoginToken());
 
             _browser = new Browser(cfg =>
             {

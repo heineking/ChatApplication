@@ -32,10 +32,19 @@ namespace ChatApplication.Security
             _loginReader = loginReader;
             _tokenGenerator = tokenGenerator;
         }
-        public LoginToken LoginTokenOrDefault(string username, string password)
+
+        public LoginRecord LoginByNameOrDefault(string name)
         {
-            var loginRecord = _loginReader.LoginByNameAndPasswordOrDefault(username, password);
-            return loginRecord == null ? null : _tokenGenerator.CreateLoginToken(loginRecord);
+            return _loginReader.LoginByNameOrDefault(name);
+        }
+
+        public LoginToken LoginTokenOrDefault(LoginRecord loginRecord, string password)
+        {
+            if (loginRecord == null)
+            {
+                return null;
+            }
+            return loginRecord.Password != password ? null : _tokenGenerator.CreateLoginToken(loginRecord);
         }
 
         public string EncodeToken(LoginToken token)

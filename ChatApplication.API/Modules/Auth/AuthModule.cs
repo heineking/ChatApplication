@@ -12,7 +12,8 @@ namespace ChatApplication.API.Modules.Room
         public AuthModule(ISecurityService securityService) : base("api/v1/auth")
         {
             _securityService = securityService;
-            Post["/login"] = _ => {
+            Post["/login"] = _ =>
+            {
                 var login = this.Bind<LoginRequest>();
                 return ValidateLogin(login);
             };
@@ -20,7 +21,10 @@ namespace ChatApplication.API.Modules.Room
 
         private object ValidateLogin(LoginRequest loginRequest)
         {
-            var loginToken = _securityService.LoginTokenOrDefault(loginRequest.Email, loginRequest.Password);
+            var loginToken = _securityService.LoginTokenOrDefault(
+                _securityService.LoginByNameOrDefault(loginRequest.Email),
+                loginRequest.Password);
+
             if (loginToken == null) return HttpStatusCode.Unauthorized;
             var encodedToken = _securityService.EncodeToken(loginToken);
             return Negotiate

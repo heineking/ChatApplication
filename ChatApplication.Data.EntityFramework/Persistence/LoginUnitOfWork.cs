@@ -10,11 +10,11 @@ using ChatApplication.Data.EntityFramework.ContextEF;
 
 namespace ChatApplication.Data.EntityFramework.Persistence
 {
-    public class UserUnitOfWork : IUserUnitOfWork
+    public class LoginUnitOfWork : ILoginUnitOfWork
     {
         private readonly ChatContext _context;
 
-        public UserUnitOfWork(DbContext context, IUserRepository userRepository, ILoginRepository loginRepository)
+        public LoginUnitOfWork(DbContext context, IUserRepository userRepository, ILoginRepository loginRepository)
         {
             _context = (ChatContext)context;
             Users = userRepository;
