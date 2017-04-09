@@ -112,7 +112,7 @@ This application will be using JSON Web Token specification for stateless authen
 
 ### What is a JSON Web Token (JWT)? ###
 
-The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally. Consider what might happen if the application were to be split among multiple servers? Managing a session across multiple servers is difficult. The JWT does allow for authentication to be handled across multiple servers.
+The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally. Consider what might happen if the application were to be split among multiple servers? Managing a session across multiple servers is difficult. The JWT does allow for authentication to be handled **across multiple servers**.
 
 The JWT is a cryptographically signed and encrypted JSON object that is saved on the client and sent back to the server. The neat thing about JWT is the flexibility of the information that can used for authentication.
 
@@ -143,8 +143,6 @@ In a **real world** situation, I would plan on using cookies if I were planning 
 This will be something to address at the of this project if time allows.
 
 #### JWT Sources: ####
-
-sources:
 
 https://jwt.io/introduction/
 
@@ -241,11 +239,15 @@ There are several reason why we would want to follow unit tests for our project:
 * Helps to document the application
 * Helps to identify code smells
 
+***
+
 ## Adaptive Example ##
 
 **User Story**: we must prevent hackers from compromising a user account through a brute force attack.
 
-**Solution**: We will disable the ability to log into the account if there are too many unsuccessful attempts.
+**Naive Solution**: The naive solution would be to update the code of the existing ```ISecurityService``` implementation. This would, however, violate the single responsibility principle because then the ```SecurityService``` would be responsible for checking the for the brute force violations and also encoding the LoginRecord into an encrypted token for the client to consume.
+
+**SOLID Solution**: We will disable the ability to log into the account if there are too many unsuccessful attempts. We will do this by creating a ```BruteForceDecorator``` implementation of ```ISecurityService```.
 
 This is take several steps.
 
@@ -265,6 +267,109 @@ public class LoginRecord
 
 ```
 
+**Step 2**: create a ```ISecurityService``` decorator that bolts on the brute force detection and handling.
+
+```csharp
+
+public class BruteForceDecorator : ISecurityService
+{
+    private readonly ISecurityService _security;
+    private readonly ILoginUnitOfWork _uow;
+    private readonly int _maxAttempts;
+
+    public BruteForceDecorator(ISecurityService security, ILoginUnitOfWork uow, IApplicationSettings appSettings)
+    {
+        _security = security;
+        _uow = uow;
+        _maxAttempts = int.Parse(appSettings.GetValue("Login:MaxAttempts"));
+    }
+    /// <summary>
+    /// Returns the LoginRecord associated with the passed in username. It also updates
+    /// the loginAttempts on the record to keep track of how many login attempts were made for
+    /// the record.
+    /// </summary>
+    /// <param name="name">The name of a login record</param>
+    /// <returns>LoginRecord or Null</returns>
+    public LoginRecord LoginByNameOrDefault(string name)
+    {
+        var loginRecord = _security.LoginByNameOrDefault(name);
+
+        // return null if the record has reached the max attempts or we didn't
+        // find the login record
+        if (loginRecord == null) return null;
+        if (loginRecord.LoginAttempts >= _maxAttempts) return null;
+
+        // we found a login in record so let's increment the attempt and
+        // return it.
+        loginRecord.LoginAttempts += 1;
+        return loginRecord;
+    }
+
+    /// <summary>
+    /// Validates the passed in LoginRecord against the passed in password. Will update
+    /// the LoginRecord attempts if the password was incorrect.
+    /// </summary>
+    /// <param name="login">LoginRecord to get the associated LoginToken</param>
+    /// <param name="password">Password associated with the LoginRecord</param>
+    /// <returns>LoginToken or Null</returns>
+    public LoginToken LoginTokenOrDefault(LoginRecord login, string password)
+    {
+        // there was no login so immediately return
+        if (login == null) return null;
+
+        // call down to the delegate which handles verifying the password and
+        // generating the token from our API key.
+        var token = _security.LoginTokenOrDefault(login, password);
+        if (token != null) return token;
+
+        // The password wasn't valid so we need to save the login attempt
+        _uow.Logins.Update(login);
+        _uow.SaveChanges();
+        return null;
+    }
+    /* code removed for brevity */
+}
+
+```
+
+The following is what our functions might have looked like if we took the naive approach to implementing this user story. These functions are now a lot more confusing to reason about because each of them are trying to do too many things. The second function ```LoginTokenOrDefault``` is generating the encrypted token and updating the database if the login fails the brute force detection. We abstracted that out with the decorator above. We also added additional dependencies to this implementation because of the need to save changes to the login record. Overall it's more complicated.
+
+```csharp
+
+/* code removed for brevity */
+
+public LoginRecord LoginByNameOrDefault(string name)
+{
+     var loginRecord = _loginReader.LoginByNameOrDefault(name);
+    // return null if the record has reached the max attempts or we didn't
+    // find the login record
+    if (loginRecord == null) return null;
+    if (loginRecord.LoginAttempts >= _maxAttempts) return null;
+
+    // we found a login in record so let's increment the attempt and
+    // return it.
+    loginRecord.LoginAttempts += 1;
+    return loginRecord;
+}
+
+public LoginToken LoginTokenOrDefault(LoginRecord loginRecord, string password)
+{
+    if (loginRecord == null)
+    {
+        return null;
+    }
+    var token = loginRecord.Password != password ? null : _tokenGenerator.CreateLoginToken(loginRecord);
+    if (token != null) return token;
+
+    // The password wasn't valid so we need to save the login attempt
+    _uow.Logins.Update(login);
+    _uow.SaveChanges();
+    return null;
+}
+
+/* code removed for brevity */
+
+```
 
 ## Resources ##
 

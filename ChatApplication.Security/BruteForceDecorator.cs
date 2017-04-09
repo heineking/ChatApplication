@@ -22,6 +22,14 @@ namespace ChatApplication.Security
             _uow = uow;
             _maxAttempts = int.Parse(appSettings.GetValue("Login:MaxAttempts"));
         }
+
+        /// <summary>
+        /// Returns the LoginRecord associated with the passed in username. It also updates
+        /// the loginAttempts on the record to keep track of how many login attempts were made for
+        /// the record.
+        /// </summary>
+        /// <param name="name">The name of a login record</param>
+        /// <returns>LoginRecord or Null</returns>
         public LoginRecord LoginByNameOrDefault(string name)
         {
             var loginRecord = _security.LoginByNameOrDefault(name);
@@ -36,7 +44,13 @@ namespace ChatApplication.Security
             loginRecord.LoginAttempts += 1;
             return loginRecord;
         }
-
+        /// <summary>
+        /// Validates the passed in LoginRecord against the passed in password. Will update
+        /// the LoginRecord attempts if the password was incorrect.
+        /// </summary>
+        /// <param name="login">LoginRecord to get the associated LoginToken</param>
+        /// <param name="password">Password associated with the LoginRecord</param>
+        /// <returns>LoginToken or Null</returns>
         public LoginToken LoginTokenOrDefault(LoginRecord login, string password)
         {
             // there was no login so immediately return
