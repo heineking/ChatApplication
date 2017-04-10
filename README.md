@@ -371,6 +371,10 @@ public LoginToken LoginTokenOrDefault(LoginRecord loginRecord, string password)
 
 ```
 
+## MongoDb ##
+
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
+
 ## Resources ##
 
 **Repository Pattern**

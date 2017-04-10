@@ -10,7 +10,6 @@ namespace ChatApplication.Data.Contracts.Persistence
     public interface ILoginUnitOfWork : IDisposable
     {
         int SaveChanges();
-        IUserRepository Users { get; set; }
         ILoginRepository Logins { get; set; }
     }
 }

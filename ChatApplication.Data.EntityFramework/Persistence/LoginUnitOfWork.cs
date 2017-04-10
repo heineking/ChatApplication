@@ -14,10 +14,9 @@ namespace ChatApplication.Data.EntityFramework.Persistence
     {
         private readonly ChatContext _context;
 
-        public LoginUnitOfWork(DbContext context, IUserRepository userRepository, ILoginRepository loginRepository)
+        public LoginUnitOfWork(DbContext context, ILoginRepository loginRepository)
         {
             _context = (ChatContext)context;
-            Users = userRepository;
             Logins = loginRepository;
         }
 
@@ -30,8 +29,7 @@ namespace ChatApplication.Data.EntityFramework.Persistence
         {
             return _context.SaveChanges();
         }
-
-        public IUserRepository Users { get; set; }
+        
         public ILoginRepository Logins { get; set; }
     }
 }
