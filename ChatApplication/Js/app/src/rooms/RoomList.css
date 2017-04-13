@@ -1,0 +1,28 @@
+.room-card {
+  position: relative;
+  min-height: 75px;
+  margin: 10px;
+}
+
+.room-card span {
+  margin-right: 5px;
+}
+
+.room-card .top {
+  display: block;
+  font-size: small;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.room-card > .main {
+  font-size: smaller;
+}
+
+.room-card > .bottom {
+  font-size: small;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: lightray;
+}
