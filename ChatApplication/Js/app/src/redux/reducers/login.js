@@ -25,6 +25,15 @@ export const loginAction = (email, password) => {
   };
 }
 
+const LOGOUT = 'login/LOGOUT';
+
+export const logOutAction = () => {
+  return ({
+    type: LOGOUT,
+    payload: null
+  });
+};
+
 const apiDefault = {
   loggedIn: false,
   loggingIn: false,
@@ -33,6 +42,12 @@ const apiDefault = {
 
 const api = (state = apiDefault, action) => {
   switch (action.type) {
+    case LOGOUT:
+      sessionStorage.removeItem('auth');
+      return {
+        ...state,
+        loggedIn: false
+      };
     case LOGIN_REQUEST:
       return {
         ...state,
@@ -40,7 +55,7 @@ const api = (state = apiDefault, action) => {
       };
     case LOGIN_SUCCESSFUL:
       const { payload: token } = action;
-      sessionStorage.setItem("auth", token);
+      sessionStorage.setItem('auth', token);
       return {
         ...state,
         loggingIn: false,

@@ -15,39 +15,44 @@ namespace ChatApplication.Data.EntityFramework.Migrations
         {
             AutomaticMigrationsEnabled = false;
         }
-
         protected override void Seed(ChatContext context)
         {
             var users = new List<UserRecord>
             {
                 new UserRecord
                 {
-                    Name = "Foo Bar",
-                    UserId = 1,
-                    Login = new LoginRecord
-                    {
-                        Username = "foo.bar@gmail.com",
-                        Password = "secret1"
-                    }
+                    Name = "User A",
+                    UserId = 1
                 },
                 new UserRecord
                 {
-                    Name = "Bar Baz",
-                    UserId = 2,
-                    Login = new LoginRecord
-                    {
-                        Username = "bar.baz@gmail.com",
-                        Password = "secret2"
-                    }
+                    Name = "User B",
+                    UserId = 2
                 }
             };
             users.ForEach(user => context.Users.Add(user));
             context.SaveChanges();
-
+            var logins = new List<LoginRecord>
+            {
+                new LoginRecord
+                {
+                    Password = "password",
+                    Username = "UserA@gmail.com",
+                    UserId = 1
+                },
+                new LoginRecord
+                {
+                    Password = "password",
+                    Username = "UserB@gmail.com",
+                    UserId = 2
+                }
+            };
+            logins.ForEach(login => context.Logins.Add(login));
+            context.SaveChanges();
             var rooms = new List<RoomRecord>
             {
-                new RoomRecord("cats"),
-                new RoomRecord("dogs")
+                new RoomRecord("Senior Seminar", "University of Akron course to prepare CS students for the real world", 1),
+                new RoomRecord("Operating Systems", "Take this class and learn how to write your own DOS operating system!", 2)
             };
             rooms.ForEach(room => context.Rooms.Add(room));
             context.SaveChanges();
@@ -56,28 +61,28 @@ namespace ChatApplication.Data.EntityFramework.Migrations
             {
                 new MessageRecord
                 {
-                    Text = "Cats rule",
+                    Text = "We are presenting our term projects this week",
                     PostedDate = DateTime.Now.AddMinutes(-30),
                     Room = rooms[0],
                     User = users[0]
                 },
                 new MessageRecord
                 {
-                    Text = "Dogs drool",
+                    Text = "The name of Emil's project is Adaptive Chat Application",
                     PostedDate = DateTime.Now,
                     Room = rooms[0],
                     User = users[0]
                 },
                 new MessageRecord
                 {
-                    Text = "Dogs rule",
+                    Text = "There is a project due on Friday",
                     PostedDate = DateTime.Now,
                     Room = rooms[1],
                     User = users[1]
                 },
                 new MessageRecord
                 {
-                    Text = "Cats drool",
+                    Text = "It is building out our own Linux shell",
                     PostedDate = DateTime.Now.AddMinutes(-45),
                     Room = rooms[1],
                     User = users[1]

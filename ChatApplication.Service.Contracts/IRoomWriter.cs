@@ -10,6 +10,6 @@ namespace ChatApplication.Service.Contracts
     {
         void CreateRoom(Room room);
         void AddMessage(Message message);
-        void CreateRoom(string roomName);
+        void CreateRoom(string roomName, string description, long userId);
     }
 }

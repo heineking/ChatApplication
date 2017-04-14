@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import NavBar from './header/NavBar';
 import NewRoom from './room/NewRoom';
-import RoomList from './rooms/RoomList';
+import Rooms from './rooms/Rooms';
+import LoginRedirect from './login/LoginRedirect';
 import Login from './login/Login';
 import './App.css';
 
@@ -18,9 +19,9 @@ class App extends Component {
             <NavBar />
           </div>
           <div className="App-intro">
-            <Route exact path="/" component={RoomList} />
-            <Route path="/new-post" component={NewRoom} />
             <Route path="/login" component={Login} />
+            <Route exact path="/" component={Rooms} />
+            <Route path="/new-post" component={NewRoom} />
           </div>
         </div>
       </Router>

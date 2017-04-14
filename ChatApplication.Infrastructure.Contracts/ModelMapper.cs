@@ -39,8 +39,11 @@ namespace ChatApplication.Infrastructure.Contracts
             return new RoomRecord
             {
                 Name = room.Name,
+                Description = room.Description,
+                DateCreated = room.DateCreated,
                 Messages = room.Messages.Select(MessageToMessageRecord).ToList(),
-                RoomId = room.RoomId
+                RoomId = room.RoomId,
+                UserId = room.UserId
             };
         }
 
@@ -49,8 +52,12 @@ namespace ChatApplication.Infrastructure.Contracts
             return new Room
             {
                 Name = roomRecord.Name,
+                DateCreated = roomRecord.DateCreated,
+                Description = roomRecord.Description,
                 Messages = roomRecord.Messages?.Select(MessageRecordToMessage).ToList() ?? new List<Message>(),
-                RoomId = roomRecord.RoomId
+                RoomId = roomRecord.RoomId,
+                UserId = roomRecord.UserId,
+                UserName = roomRecord.User.Name
             };
         }
 

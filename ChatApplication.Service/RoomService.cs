@@ -20,9 +20,9 @@ namespace ChatApplication.Service
             _uow.SaveChanges();
         }
 
-        public void CreateRoom(string roomName)
+        public void CreateRoom(string roomName, string description, long userId)
         {
-            var roomRecord = new RoomRecord(roomName);
+            var roomRecord = new RoomRecord(roomName, description, userId);
             _uow.Rooms.Add(roomRecord);
             _uow.SaveChanges();
         }

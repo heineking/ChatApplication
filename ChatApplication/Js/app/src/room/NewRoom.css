@@ -1,0 +1,11 @@
+.New-Room {
+  margin: 10px;
+}
+
+.New-Room > header {
+  text-align: center;
+}
+
+.New-Room .content {
+  margin: 10px;
+}

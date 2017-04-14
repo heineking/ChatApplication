@@ -4,22 +4,21 @@ import Divider from 'material-ui/Divider';
 import './RoomList.css';
 
 const RoomCard = ({ room }) => {
+  const { name, description, dateCreated, messageCount, userName } = room;
   return (
     <div className="room-card">
       <div className="top">
-        <span className="title">Room Subject</span>
+        <span className="title">{name}</span>
         <span className="bullet">&#8226;</span>
-        <span className="date">4h</span>
+        <span className="date">{new Date(dateCreated).toLocaleDateString()}</span>
         <span className="bullet">&#8226;</span>
-        <span className="user">u/User1</span>
+        <span className="user">{userName}</span>
       </div>
       <div className="main">
-        Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit, sed do eiusmod tempor.
+        {description}
       </div>
       <div className="bottom">
-        <span>(icon)</span>
-        <span className="comments">534 Comments</span>
+        <span className="comments">{messageCount} Comments</span>
       </div>
     </div>
   );
@@ -28,11 +27,12 @@ const RoomCard = ({ room }) => {
 const RoomList = ({ rooms }) => {
   return (
     <div>
-      <Divider />
-      <RoomCard />
-      <Divider />
-      <RoomCard />
-      <Divider />
+      {rooms.map(room =>
+        <div>
+          <RoomCard {...{ room }} />
+          <Divider />
+        </div>
+      )}
     </div>
   );
 };

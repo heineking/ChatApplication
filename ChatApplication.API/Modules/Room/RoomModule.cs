@@ -14,8 +14,6 @@ namespace ChatApplication.API.Modules.Room
 
         public RoomModule(IRoomReader reader, IRoomWriter writer) : base("/api/v1/rooms")
         {
-            this.RequiresAuthentication();
-            
             Get["/all"] = _ =>
             {
                 var rooms = reader.GetAllRooms();
@@ -51,6 +49,7 @@ namespace ChatApplication.API.Modules.Room
             };
             Post["/{roomId:long}"] = p =>
             {
+                this.RequiresAuthentication();
                 var chatUser = (UserIdentity) Context.CurrentUser;
                 var messageRequest = this.Bind<CreateMessageRequest>();
                 writer.AddMessage(new Message
@@ -64,9 +63,11 @@ namespace ChatApplication.API.Modules.Room
             };
             Post["/create"] = _ =>
             {
+                this.RequiresAuthentication();
                 var model = this.Bind<CreateRoomRequest>();
                 if (model == null) return HttpStatusCode.BadRequest;
-                writer.CreateRoom(model.Name);
+                var chatUser = (UserIdentity) Context.CurrentUser;
+                writer.CreateRoom(model.Name, model.Description, chatUser.UserId);
                 return HttpStatusCode.OK;
             };
         }

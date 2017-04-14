@@ -10,6 +10,7 @@ import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import FlatButton from 'material-ui/FlatButton';
+import { logOutAction } from '../redux/reducers/login';
 import './NavBar.css';
 
 const Login = (props) => {
@@ -21,7 +22,8 @@ const Login = (props) => {
 };
 Login.muiName = 'FlatButton';
 
-const Logged = (props) => {
+const Logged = connect()((props) => {
+  const { dispatch } = props;
   return (
     <IconMenu
       {...props}
@@ -36,10 +38,13 @@ const Logged = (props) => {
         <MenuItem primaryText="New Post" />
       </Link>
       <Divider />
-      <MenuItem primaryText="Sign out" />
+      <MenuItem
+        onClick={e => dispatch(logOutAction())}
+        primaryText="Sign out"
+      />
     </IconMenu>
   );
-};
+});
 
 Logged.muiName = 'IconMenu';
 

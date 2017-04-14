@@ -8,5 +8,6 @@ namespace ChatApplication.API.Modules.Room
     public class CreateRoomRequest
     {
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

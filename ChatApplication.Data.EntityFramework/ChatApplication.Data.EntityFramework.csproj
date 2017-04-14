@@ -59,6 +59,14 @@
     <Compile Include="Migrations\201703262054106_Initialize.Designer.cs">
       <DependentUpon>201703262054106_Initialize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704141926392_AddingDescriptionToRoom.cs" />
+    <Compile Include="Migrations\201704141926392_AddingDescriptionToRoom.Designer.cs">
+      <DependentUpon>201704141926392_AddingDescriptionToRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704142042392_AddingUserInformationToRoom.cs" />
+    <Compile Include="Migrations\201704142042392_AddingUserInformationToRoom.Designer.cs">
+      <DependentUpon>201704142042392_AddingUserInformationToRoom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\LoginUnitOfWork.cs" />
@@ -83,6 +91,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703262054106_Initialize.resx">
       <DependentUpon>201703262054106_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704141926392_AddingDescriptionToRoom.resx">
+      <DependentUpon>201704141926392_AddingDescriptionToRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704142042392_AddingUserInformationToRoom.resx">
+      <DependentUpon>201704142042392_AddingUserInformationToRoom.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
