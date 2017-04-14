@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import { Link } from 'react-router-dom';
 import Divider from 'material-ui/Divider';
@@ -31,7 +32,7 @@ const Logged = (props) => {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem primaryText="Refresh" />
-      <Link to="/new-post">
+      <Link to="/new-post" className="logged-action">
         <MenuItem primaryText="New Post" />
       </Link>
       <Divider />
@@ -42,15 +43,23 @@ const Logged = (props) => {
 
 Logged.muiName = 'IconMenu';
 
-const NavBar = () => {
+const NavBar = (props) => {
+  const { loggedIn, ...passProps } = props;
   return (
     <AppBar
       title={
         <Link className="header" to="/">Chat Application</Link>
       }
-      iconElementRight={<Login />}
+      iconElementRight={loggedIn ? <Logged {...passProps} /> : <Login />}
     />
   );
 };
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  return {
+    ...state.login.api,
+    ...state.login.user
+  };
+}
+
+export default connect(mapStateToProps)(NavBar);

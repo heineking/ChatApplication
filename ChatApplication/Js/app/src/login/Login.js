@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import { loginAction } from '../redux/reducers/login';
 
 class Login extends Component {
   constructor() {
     super();
     this.handleLogin = this.handleLogin.bind(this);
   }
+  componentWillReceiveProps
   handleLogin() {
     const { userInput, passwordInput } = this;
+    const { dispatch } = this.props;
+
     const user = userInput.input;
     const password = passwordInput.input;
-    console.log(`username: ${user.value}, pwd: ${password.value}`)
+    console.log(`username: ${user.value}, pwd: ${password.value}`);
+    dispatch(loginAction(user.value, password.value));
   }
   render() {
+    const { loggingIn, loggedIn } = this.props;
     return (
       <form>
         <div style={{ textAlign: 'center', margin: 20 }}>
@@ -29,16 +37,23 @@ class Login extends Component {
             />
           </div>
           <div style={{ marginTop: 20 }}>
-            <RaisedButton
-              onClick={this.handleLogin}
-              primary
-              label="Login"
-            />
+            {!loggingIn &&
+              <RaisedButton
+                onClick={this.handleLogin}
+                primary
+                label="Login"
+              />
+            }
           </div>
         </div>
+        {loggedIn && <Redirect to="/" />}
       </form>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  ...state.login.api
+});
+
+export default connect(mapStateToProps)(Login);
