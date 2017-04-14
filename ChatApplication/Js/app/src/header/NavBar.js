@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
+import { Link } from 'react-router-dom';
 import Divider from 'material-ui/Divider';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -8,9 +9,14 @@ import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import FlatButton from 'material-ui/FlatButton';
+import './NavBar.css';
 
 const Login = (props) => {
-  return (<FlatButton {...props} label="Login" />);
+  return (
+    <Link to="/login">
+      <FlatButton {...props} label="Login" />
+    </Link>
+  );
 };
 Login.muiName = 'FlatButton';
 
@@ -25,7 +31,9 @@ const Logged = (props) => {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem primaryText="Refresh" />
-      <MenuItem primaryText="New Post" />
+      <Link to="/new-post">
+        <MenuItem primaryText="New Post" />
+      </Link>
       <Divider />
       <MenuItem primaryText="Sign out" />
     </IconMenu>
@@ -37,8 +45,10 @@ Logged.muiName = 'IconMenu';
 const NavBar = () => {
   return (
     <AppBar
-      title="Chat Application"
-      iconElementRight={<Logged />}
+      title={
+        <Link className="header" to="/">Chat Application</Link>
+      }
+      iconElementRight={<Login />}
     />
   );
 };
