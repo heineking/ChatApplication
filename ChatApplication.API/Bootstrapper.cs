@@ -11,7 +11,6 @@ using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Data.Dapper.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
