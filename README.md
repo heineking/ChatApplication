@@ -195,6 +195,50 @@ public LoginToken ValidateLogin(string username, string password)
 }
 
 ```
+***
+
+## Dependency Injection ##
+
+```csharp
+
+// Bad
+public SecurityService()
+{
+    var myHardCodedDependency = new JwtDecoder();
+}
+
+// Good
+public SecurityService(IJwtDecoder decoder)
+{
+
+}
+```
+
+Use an Inversion of Control container to handle all the resolving and set up the the decorators.
+
+```csharp
+
+protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
+ {
+     /* repositories */
+
+     // readers
+     container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
+     // writers
+     container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
+
+     // register decorators
+     container.Register<IRepositoryReader<RoomRecord>>(new RepositoryLogging<RoomRecord>(
+         container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+         container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+        ));
+     container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryLogging<RoomRecord>(
+         container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
+         container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
+         ));
+ }
+
+```
 
 ***
 
