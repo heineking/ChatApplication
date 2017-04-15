@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { CALL_API } from 'redux-api-middleware';
+import createApiReducer from './api';
 
 const ROOMS_REQUEST = 'rooms/api/REQUEST_ROOMS';
 const ROOMS_SUCCESS = 'rooms/api/SUCCESSFUL_ROOM';
@@ -35,7 +36,6 @@ export const getRoomAction = (roomId) => {
   }
 };
 
-
 const CREATE_ROOM_REQUEST = 'rooms/api/CREATE_ROOM_REQUEST';
 const CREATE_ROOM_SUCCESS = 'rooms/api/CREATE_ROOM_SUCCESS';
 const CREATE_ROOM_FAILURE = 'rooms/api/CREATE_ROOM_FAILURE';
@@ -60,9 +60,9 @@ export const createRoomAction = (name, description) => {
   };
 };
 
-const REQUEST_MESSAGE_CREATE = 'login/api/REQUEST_MESSAGE_CREATE';
-const CREATE_MESSAGE_SUCCESS = 'login/api/CREATE_MESSAGE_SUCCESS';
-const CREATE_MESSAGE_FAILURE = 'login/api/CREATE_MESSAGE_FAILURE';
+const REQUEST_MESSAGE_CREATE = 'rooms/api/REQUEST_MESSAGE_CREATE';
+const CREATE_MESSAGE_SUCCESS = 'rooms/api/CREATE_MESSAGE_SUCCESS';
+const CREATE_MESSAGE_FAILURE = 'rooms/api/CREATE_MESSAGE_FAILURE';
 
 export const createMessageAction = (message, roomId) => {
   return {
@@ -84,50 +84,88 @@ export const createMessageAction = (message, roomId) => {
   };
 }
 
+const DELETE_ROOM = 'rooms/api/DELETE_ROOM';
+const DELETE_ROOM_SUCCESS = 'rooms/api/DELETE_ROOM_SUCCESS';
+const DELETE_ROOM_FAILURE = 'rooms/api/DELETE_ROOM_FAILURE';
+
+export const deleteRoomAction = (roomId) => {
+  return {
+    [CALL_API]: {
+      endpoint: `http://localhost:64784/api/v1/rooms/delete/${roomId}`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: sessionStorage.getItem('auth'),
+        Accept: 'application/json',
+      },
+      types: [
+        DELETE_ROOM,
+        DELETE_ROOM_SUCCESS,
+        DELETE_ROOM_FAILURE
+      ]
+    }
+  };
+}
+
 export const getRoomById = (state, roomId) => state.find(room => room.roomId === Number(roomId)) || {};
 
-const rooms = (state = [], action) => {
-
-  switch (action.type) {
-    case ROOMS_SUCCESS:
-      const { payload: { rooms } } = action;
-      return rooms;
-    case ROOM_SUCCESS:
-        const { payload: { roomId  } } = action;
-        const roomIdx = state.findIndex(room => room.roomId === roomId);
-        const { payload: { room: newRoom } } = action;
-        if (roomIdx === -1) {
-          return state.concat(newRoom);
-        }
-        return [
-          ...state.slice(0, roomIdx),
-          newRoom,
-          ...state.slice(roomIdx + 1)
-        ];
-    case CREATE_MESSAGE_SUCCESS:
-      const { payload: { roomId: roomId2 } } = action;
-      const roomIdx2 = state.findIndex(room => room.roomId === roomId2);
-      const { payload: { message } } = action;
-      if (roomIdx2 > -1) {
-        const room = state[roomIdx2];
-        return [
-          ...state.slice(0, roomIdx2),
-          {
-            ...room,
-            messages: [
-              ...room.messages,
-              message
-            ]
-          },
-          ...state.slice(roomIdx2 + 1)
-        ];
-      }
-      throw new Error(`Expected to find room with id ${roomId}`);
-    default:
-      return state;
+const behaviors = {
+  [ROOMS_SUCCESS](state, action) {
+    const { payload: { rooms } } = action;
+    return rooms;
+  },
+  [ROOM_SUCCESS](state, action) {
+    const { payload: { roomId  } } = action;
+    const roomIdx = state.findIndex(room => room.roomId === roomId);
+    const { payload: { room: newRoom } } = action;
+    if (roomIdx === -1) {
+      return state.concat(newRoom);
+    }
+    return [
+      ...state.slice(0, roomIdx),
+      newRoom,
+      ...state.slice(roomIdx + 1)
+    ];
+  },
+  [DELETE_ROOM_SUCCESS](state, action) {
+    const { payload: { roomId } } = action;
+    return state.filter(room => room.roomId !== roomId);
+  },
+  [CREATE_MESSAGE_SUCCESS](state, action) {
+    const { payload: { roomId } } = action;
+    const roomIdx = state.findIndex(room => room.roomId === roomId);
+    const { payload: { message } } = action;
+    if (roomIdx > -1) {
+      const room = state[roomIdx];
+      return [
+        ...state.slice(0, roomIdx),
+        {
+          ...room,
+          messages: [
+            ...room.messages,
+            message
+          ]
+        },
+        ...state.slice(roomIdx + 1)
+      ];
+    }
+    throw new Error(`Expected to find room with id ${roomId}`);
   }
 };
 
+const roomsReducer = (state = [], action = {}) => {
+  const behavior = behaviors[action.type];
+  return behavior ? behavior(state, action) : state;
+};
+
 export default combineReducers({
-  rooms
+  rooms: roomsReducer,
+  /* GET reducers */
+  getRooms: createApiReducer([ROOMS_REQUEST, ROOMS_SUCCESS, ROOMS_FAILURE]),
+  getRoom: createApiReducer([ROOM_REQUEST, ROOM_SUCCESS, ROOM_FAILURE]),
+  /* POST reducers */
+  postMessage: createApiReducer([REQUEST_MESSAGE_CREATE, CREATE_MESSAGE_SUCCESS, CREATE_MESSAGE_FAILURE]),
+  postRoom: createApiReducer([CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE]),
+  /* Delete reducers */
+  deleteRoom: createApiReducer([DELETE_ROOM, DELETE_ROOM_SUCCESS, DELETE_ROOM_FAILURE])
 });

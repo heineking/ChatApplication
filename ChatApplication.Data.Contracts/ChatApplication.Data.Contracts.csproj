@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IApplicationSettings.cs" />
     <Compile Include="Models\LoginRecord.cs" />
+    <Compile Include="Models\UserClaimsRecord.cs" />
     <Compile Include="Models\UserRecord.cs" />
     <Compile Include="Persistence\ILoginUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
@@ -62,6 +63,9 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RoomRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\ClaimRecord.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

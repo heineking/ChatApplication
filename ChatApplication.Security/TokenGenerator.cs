@@ -26,8 +26,11 @@ namespace ChatApplication.Security
             {
                 Exp = DateTime.Now.AddHours(_exp),
                 Iss = _iss,
+                /* user information */
                 LoginName = loginRecord.Username,
-                UserId = loginRecord.UserId
+                UserId = loginRecord.UserId,
+                Claims = loginRecord.User.UserClaims.Select(uc => uc.Claim.ClaimName).ToList(),
+                UserName = loginRecord.User.Name
             };
         }
     }

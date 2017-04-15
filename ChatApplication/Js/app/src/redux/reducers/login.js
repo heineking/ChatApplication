@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import createApiReducer from './api';
 import { CALL_API } from 'redux-api-middleware';
 
 const LOGIN_REQUEST = 'login/api/REQUESTING_LOGIN';
@@ -6,6 +7,7 @@ const LOGIN_SUCCESSFUL = 'login/api/LOGIN_SUCCESSFUL';
 const LOGIN_FAILURE = 'login/api/LOGIN_FAILURE';
 
 export const loginAction = (email, password) => {
+  sessionStorage.removeItem('auth');
   return {
     [CALL_API]: {
       endpoint: 'http://localhost:64784/api/v1/auth/login.json',
@@ -15,10 +17,7 @@ export const loginAction = (email, password) => {
       },
       body: JSON.stringify({ email, password }),
       types: [
-        {
-          type: LOGIN_REQUEST,
-          payload: { email }
-        },
+        LOGIN_REQUEST,
         LOGIN_SUCCESSFUL,
         LOGIN_FAILURE
       ]}
@@ -34,70 +33,33 @@ export const logOutAction = () => {
   });
 };
 
-const apiDefault = {
-  loggedIn: false,
-  loggingIn: false,
-  loginError: false
-};
-
-const api = (state = apiDefault, action) => {
-  switch (action.type) {
-    case LOGOUT:
-      sessionStorage.removeItem('auth');
-      return {
-        ...state,
-        loggedIn: false
-      };
-    case LOGIN_REQUEST:
-      return {
-        ...state,
-        loggingIn: true
-      };
-    case LOGIN_SUCCESSFUL:
-      const { payload: token } = action;
-      sessionStorage.setItem('auth', token);
-      return {
-        ...state,
-        loggingIn: false,
-        loggedIn: true
-      };
-    case LOGIN_FAILURE:
-      const { payload: error } = action;
-      return {
-        ...state,
-        loggedIn: false,
-        loggingIn: false,
-        loginError: true,
-        error
-      };
-    default:
-      return state;
-  }
-};
-
 const defaultUser = {
-  user: ''
+  userName: '',
+  userId: '',
+  isAdmin: false
 };
 
 const user = (state = defaultUser, action) => {
   switch (action.type) {
-    case LOGIN_REQUEST:
-      const { payload: { email } } = action;
+    case LOGIN_SUCCESSFUL:
+      const { payload: { encodedToken, user } } = action;
+      sessionStorage.setItem('auth', encodedToken);
       return {
         ...state,
-        user: email
+        ...user
       };
     case LOGIN_FAILURE:
+    case LOGOUT:
       return {
         ...state,
         ...defaultUser
-      }
+      };
     default:
       return state;
   }
 }
 
 export default combineReducers({
-  api,
+  api: createApiReducer([LOGIN_REQUEST, LOGIN_SUCCESSFUL, LOGIN_FAILURE]),
   user
 });

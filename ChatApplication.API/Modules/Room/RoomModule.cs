@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.User;
 using ChatApplication.Service.Contracts;
@@ -47,6 +48,19 @@ namespace ChatApplication.API.Modules.Room
                         .WithModel(new {messages = roomMessagesFromDate});
                 }
                 return HttpStatusCode.BadRequest;
+            };
+            Get["/delete/{roomId:long}"] = p =>
+            {
+                this.RequiresAuthentication();
+                /* only admins can delete a room */
+                var chatUser = (UserIdentity) Context.CurrentUser;
+                if (!chatUser.Claims.ToList().Contains("admin")) return HttpStatusCode.Unauthorized;
+
+                long roomId = p.roomId;
+                writer.DeleteRoom(roomId);
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(new {roomId});
             };
             Post["/{roomId:long}"] = p =>
             {

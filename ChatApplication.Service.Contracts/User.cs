@@ -8,6 +8,7 @@ namespace ChatApplication.Service.Contracts
     {
         public long UserId { get; set; }
         public string Name { get; set; }
+        public bool IsAdmin { get; set; }
         public List<Message> Messages { get; set; }
     }
 }

@@ -10,50 +10,55 @@ class Login extends Component {
     super();
     this.handleLogin = this.handleLogin.bind(this);
   }
-  componentWillReceiveProps
-  handleLogin() {
+  handleLogin(e) {
+    e.preventDefault();
     const { userInput, passwordInput } = this;
     const { dispatch } = this.props;
 
     const user = userInput.input;
     const password = passwordInput.input;
-    console.log(`username: ${user.value}, pwd: ${password.value}`);
     dispatch(loginAction(user.value, password.value));
+    user.value = '';
+    password.value = '';
+    return false;
   }
   render() {
-    const { loggingIn, loggedIn } = this.props;
+    const { api: { requesting, failure }, user: { userId } } = this.props;
     return (
-      <form>
+      <form onSubmit={e => this.handleLogin(e)}>
         <div style={{ textAlign: 'center', margin: 20 }}>
           <div>
             <TextField
+              required
               ref={(input) => { this.userInput = input; }}
               floatingLabelText="Username"
             />
             <TextField
               ref={(input) => { this.passwordInput = input; }}
+              required
               floatingLabelText="Password"
               type="password"
             />
           </div>
           <div style={{ marginTop: 20 }}>
-            {!loggingIn &&
+            {!requesting &&
               <RaisedButton
-                onClick={this.handleLogin}
+                type="submit"
                 primary
                 label="Login"
               />
             }
+            {failure && <div style={{ color: 'red' }}>Login Failed!</div>}
           </div>
         </div>
-        {loggedIn && <Redirect to="/" />}
+        {userId && <Redirect to="/" />}
       </form>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  ...state.login.api
+  ...state.login
 });
 
 export default connect(mapStateToProps)(Login);

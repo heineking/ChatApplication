@@ -19,6 +19,8 @@ namespace ChatApplication.Data.EntityFramework.ContextEF
         public DbSet<RoomRecord> Rooms { get; set; }
         public DbSet<MessageRecord> Messages { get; set; }
         public DbSet<LoginRecord> Logins { get; set; }
+        public DbSet<ClaimRecord> Claims { get; set; }
+        public DbSet<UserClaimsRecord> UserClaims { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
@@ -27,6 +29,8 @@ namespace ChatApplication.Data.EntityFramework.ContextEF
             builder.Configurations.Add(new RoomRecordMapping());
             builder.Configurations.Add(new MessageRecordMapping());
             builder.Configurations.Add(new LoginRecordMapping());
+            builder.Configurations.Add(new ClaimRecordMapping());
+            builder.Configurations.Add(new UserClaimRecordMapping());
         }
     }
 }

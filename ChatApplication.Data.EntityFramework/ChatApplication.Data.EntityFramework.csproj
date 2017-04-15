@@ -51,9 +51,11 @@
   <ItemGroup>
     <Compile Include="ContextEF\ChatContext.cs" />
     <Compile Include="ContextEF\ChatInitializer.cs" />
+    <Compile Include="MappingConfig\ClaimRecordMapping.cs" />
     <Compile Include="MappingConfig\LoginRecordMapping.cs" />
     <Compile Include="MappingConfig\MessageRecordMapping.cs" />
     <Compile Include="MappingConfig\RoomRecordMapping.cs" />
+    <Compile Include="MappingConfig\UserClaimRecordMapping.cs" />
     <Compile Include="MappingConfig\UserRecordMapping.cs" />
     <Compile Include="Migrations\201703262054106_Initialize.cs" />
     <Compile Include="Migrations\201703262054106_Initialize.Designer.cs">
@@ -66,6 +68,10 @@
     <Compile Include="Migrations\201704142042392_AddingUserInformationToRoom.cs" />
     <Compile Include="Migrations\201704142042392_AddingUserInformationToRoom.Designer.cs">
       <DependentUpon>201704142042392_AddingUserInformationToRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704151449035_AddedClaimsEntities.cs" />
+    <Compile Include="Migrations\201704151449035_AddedClaimsEntities.Designer.cs">
+      <DependentUpon>201704151449035_AddedClaimsEntities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
@@ -97,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704142042392_AddingUserInformationToRoom.resx">
       <DependentUpon>201704142042392_AddingUserInformationToRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704151449035_AddedClaimsEntities.resx">
+      <DependentUpon>201704151449035_AddedClaimsEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

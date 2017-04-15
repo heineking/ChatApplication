@@ -76,6 +76,7 @@ namespace ChatApplication.Infrastructure.Contracts
             return new User
             {
                 Name = userRecord.Name,
+                IsAdmin = userRecord.UserClaims.FirstOrDefault(uc => uc.Claim.ClaimName == "admin") != null,
                 Messages = userRecord.Messages?.Select(MessageRecordToMessage).ToList() ?? new List<Message>(),
                 UserId = userRecord.UserId
             };

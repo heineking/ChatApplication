@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatApplication.Data.Contracts.Models;
 
 namespace ChatApplication.Security.Contracts
 {
@@ -15,5 +16,7 @@ namespace ChatApplication.Security.Contracts
         // ChatApplication information
         public string LoginName { get; set; }
         public long UserId { get; set; }
+        public string UserName { get; set; }
+        public List<string> Claims { get; set; }
     }
 }

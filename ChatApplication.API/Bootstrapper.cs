@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -47,7 +48,9 @@ namespace ChatApplication.API
                         return new UserIdentity
                         {
                             UserName = loginToken.LoginName,
-                            UserId = loginToken.UserId
+                            UserId = loginToken.UserId,
+                            Claims = loginToken.Claims,
+                            Name = loginToken.UserName
                         };
                     }
                 }

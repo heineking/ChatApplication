@@ -17,6 +17,22 @@ namespace ChatApplication.Data.EntityFramework.Migrations
         }
         protected override void Seed(ChatContext context)
         {
+            var claims = new List<ClaimRecord>
+            {
+                new ClaimRecord
+                {
+                    ClaimName = "admin",
+                    ClaimId = 1
+                },
+                new ClaimRecord
+                {
+                    ClaimName = "user",
+                    ClaimId = 2
+                }
+            };
+            claims.ForEach(claim => context.Claims.Add(claim));
+            context.SaveChanges();
+
             var users = new List<UserRecord>
             {
                 new UserRecord
@@ -28,10 +44,42 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                 {
                     Name = "User B",
                     UserId = 2
+                },
+                new UserRecord
+                {
+                    Name = "Admin",
+                    UserId = 3
                 }
             };
             users.ForEach(user => context.Users.Add(user));
             context.SaveChanges();
+
+            var userClaims = new List<UserClaimsRecord>
+            {
+                new UserClaimsRecord
+                {
+                    UserId = 1,
+                    ClaimId = 2,
+                },
+                new UserClaimsRecord
+                {
+                    UserId = 2,
+                    ClaimId = 2
+                },
+                new UserClaimsRecord
+                {
+                    UserId = 3,
+                    ClaimId = 1
+                },
+                new UserClaimsRecord
+                {
+                    UserId = 3,
+                    ClaimId = 2
+                }
+            };
+            userClaims.ForEach(uc => context.UserClaims.Add(uc));
+            context.SaveChanges();
+
             var logins = new List<LoginRecord>
             {
                 new LoginRecord
@@ -45,6 +93,12 @@ namespace ChatApplication.Data.EntityFramework.Migrations
                     Password = "password",
                     Username = "UserB@gmail.com",
                     UserId = 2
+                },
+                new LoginRecord
+                {
+                    Password = "admin",
+                    Username = "admin",
+                    UserId = 3
                 }
             };
             logins.ForEach(login => context.Logins.Add(login));

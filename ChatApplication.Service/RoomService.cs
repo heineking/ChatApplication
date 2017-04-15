@@ -27,6 +27,14 @@ namespace ChatApplication.Service
             _uow.SaveChanges();
         }
 
+        public void DeleteRoom(long roomId)
+        {
+            var roomRecord = _uow.Rooms.Get(roomId);
+            if (roomRecord == null) return;
+            _uow.Rooms.Remove(roomRecord);
+            _uow.SaveChanges();
+        }
+
         public RoomService(IUnitOfWork uow, IModelMapper mapper)
         {
             _uow = uow;

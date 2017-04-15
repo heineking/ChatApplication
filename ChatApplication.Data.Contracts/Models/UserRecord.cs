@@ -20,5 +20,6 @@ namespace ChatApplication.Data.Contracts.Models
         public virtual LoginRecord Login { get; set; }
         public virtual ICollection<MessageRecord> Messages { get; set; }
         public virtual ICollection<RoomRecord> Rooms { get; set; }
+        public virtual ICollection<UserClaimsRecord> UserClaims { get; set; }
     }
 }

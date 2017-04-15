@@ -23,10 +23,10 @@ const Login = (props) => {
 Login.muiName = 'FlatButton';
 
 const Logged = connect()((props) => {
-  const { dispatch } = props;
+  const { dispatch, user, ...passProps } = props;
   return (
     <IconMenu
-      {...props}
+      {...passProps}
       iconButtonElement={
         <IconButton><MoreVertIcon /></IconButton>
       }
@@ -40,7 +40,7 @@ const Logged = connect()((props) => {
       <Divider />
       <MenuItem
         onClick={e => dispatch(logOutAction())}
-        primaryText="Sign out"
+        primaryText="Log Out"
       />
     </IconMenu>
   );
@@ -49,21 +49,20 @@ const Logged = connect()((props) => {
 Logged.muiName = 'IconMenu';
 
 const NavBar = (props) => {
-  const { loggedIn, ...passProps } = props;
+  const { api, user: { userId }, ...passProps } = props;
   return (
     <AppBar
       title={
         <Link className="header" to="/">Chat Application</Link>
       }
-      iconElementRight={loggedIn ? <Logged {...passProps} /> : <Login />}
+      iconElementRight={userId ? <Logged {...passProps} /> : <Login />}
     />
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    ...state.login.api,
-    ...state.login.user
+    ...state.login,
   };
 }
 
