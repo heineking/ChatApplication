@@ -16,9 +16,10 @@ const genericBehaviors = (types = []) => {
   const [ REQUESTING, SUCCESS, FAILURE ] = types;
   return {
     [RESET_API](state, action) {
-      if (state.successful) {
+      if (state.success) {
         return apiState;
       }
+      return state;
     },
     [REQUESTING](state, action) {
       return {

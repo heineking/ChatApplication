@@ -13,7 +13,7 @@ class NewRoom extends Component {
     super();
     this.handlePost = this.handlePost.bind(this);
   }
-  componentWillMount() {
+  componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(resetApiAction());
   }
