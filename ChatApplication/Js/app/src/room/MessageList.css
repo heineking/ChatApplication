@@ -1,0 +1,18 @@
+.message-card {
+  margin: 10px;
+  min-height: 50px;
+}
+
+.message-card .top > span {
+  font-weight: 700;
+  font-size: smaller;
+}
+
+.message-card .top > span:not(:last-child):after {
+  content: '  \2022   ';
+}
+
+.message-card .main {
+  margin-top: 5px;
+  font-size: small;
+}

@@ -39,6 +39,11 @@ namespace ChatApplication.Service
             return roomRecords.Select(_mapper.RoomRecordToRoom).ToList();
         }
 
+        public Room GetRoom(long roomId)
+        {
+            var room = _uow.Rooms.Get(roomId);
+            return _mapper.RoomRecordToRoom(room);
+        }
         public List<Message> GetRoomMessages(long roomId)
         {
             var messageRecords = _uow.Messages.Find(m => m.RoomId == roomId);

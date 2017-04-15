@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import NavBar from './header/NavBar';
 import NewRoom from './room/NewRoom';
+import Room from './room/Room';
 import Rooms from './rooms/Rooms';
 import LoginRedirect from './login/LoginRedirect';
 import Login from './login/Login';
@@ -19,8 +20,10 @@ class App extends Component {
             <NavBar />
           </div>
           <div className="App-intro">
-            <Route path="/login" component={Login} />
             <Route exact path="/" component={Rooms} />
+            <Route path="/room/:id" component={Room} />
+            <Route path="/login" component={Login} />
+
             <Route path="/new-post" component={NewRoom} />
           </div>
         </div>

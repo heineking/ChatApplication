@@ -27,12 +27,13 @@ namespace ChatApplication.API.Modules.Room
             };
             Get["/{roomId:long}"] = p =>
             {
-                var room = reader.GetRoomMessages(p.roomId);
+                long roomId = p.roomId;
+                var room = reader.GetRoom(roomId);
                 if (room != null)
                 {
                     return Negotiate
                         .WithStatusCode(HttpStatusCode.OK)
-                        .WithModel(new {room});
+                        .WithModel(new { roomId, room });
                 }
                 return HttpStatusCode.BadRequest;
             };
