@@ -14,6 +14,7 @@ using ChatApplication.Data.Dapper.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
+using ChatApplication.DocumentStorage;
 using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
@@ -132,8 +133,8 @@ namespace ChatApplication.API
             container.Register<ILoginUnitOfWork, LoginUnitOfWork>();
 
             /* services */
-            container.Register<IRoomReader, RoomService>();
-            container.Register<IRoomWriter, RoomService>();
+            container.Register<IRoomReader, MongoRoomStorage>();
+            container.Register<IRoomWriter, MongoRoomStorage>();
 
             /* register the base security service then tie it into the decorator */
             container.Register<ISecurityService, SecurityService>("baseService");

@@ -156,6 +156,10 @@
       <Project>{71459f49-3f6f-44f0-8c3d-f850a734588b}</Project>
       <Name>ChatApplication.Data.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.DocumentStorage\ChatApplication.Mongo.csproj">
+      <Project>{314f2734-a53d-459f-9b35-243c5ca4463d}</Project>
+      <Name>ChatApplication.Mongo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
       <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
       <Name>ChatApplication.Infrastructure.Contracts</Name>

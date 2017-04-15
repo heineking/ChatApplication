@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ChatApplication.Service.Contracts;
 using MongoDB.Driver;
 using MongoDB.Bson;
@@ -12,39 +13,52 @@ namespace ChatApplication.DocumentStorage
         private readonly string _chatDatabase = "ChatApplication";
         private readonly string _roomsCollection = "rooms";
 
-        public MongoRoomStorage(string connectionString)
+        public MongoRoomStorage()
         {
-            _mongoConnectionString = connectionString;
+            _mongoConnectionString = "mongodb://host:27017/ChatApplication";
         }
 
         public List<Room> GetAllRooms()
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            return roomsCollection.Find(_ => true).ToList();
         }
 
         public List<Message> GetRoomMessages(long roomId)
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            var room = roomsCollection.Find(r => r.RoomId == roomId).FirstOrDefault();
+            if (room == null) return new List<Message>();
+            return room.Messages;
         }
 
         public List<Message> GetRoomMessagesFromDate(long roomId, long dateTime)
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            var room = roomsCollection.Find(r => r.RoomId == roomId).FirstOrDefault();
+            if (room == null) return new List<Message>();
+            return room.Messages.Where(m => m.PostedDate >= new DateTime(dateTime)).ToList();
         }
 
         public void CreateRoom(Room room)
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            roomsCollection.InsertOne(room);
         }
 
         public void AddMessage(Message message)
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            var room = roomsCollection.Find(r => r.RoomId == message.RoomId).FirstOrDefault();
+            room.Messages.Add(message);
+            roomsCollection.FindOneAndReplace(r => r.RoomId == message.RoomId, room);
         }
 
         public void CreateRoom(string roomName)
         {
-            throw new NotImplementedException();
+            var roomsCollection = GetRoomsCollection();
+            var maxId = roomsCollection.Find(_ => true).ToList().Select(r => r.RoomId);
+            roomsCollection.InsertOne(new Room {Name = roomName, Messages = new List<Message>(), RoomId = 1});
         }
 
         private IMongoCollection<Room> GetRoomsCollection()
@@ -57,7 +71,7 @@ namespace ChatApplication.DocumentStorage
         private IMongoDatabase GetDatabase()
         {
             var connectionString = _mongoConnectionString;
-            var client = new MongoClient(connectionString);
+            var client = new MongoClient();
             return client.GetDatabase(_chatDatabase);
         }
     }
