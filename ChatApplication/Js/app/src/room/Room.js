@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import MessageList from './MessageList';
 import NewMessage from './NewMessage';
-import { getRoomById, getRoomAction } from '../redux/reducers/rooms';
+import {
+  getRoomById,
+  getRoomAction,
+  createMessageAction
+} from '../redux/reducers/rooms';
 import './Room.css';
 
 class Room extends Component {
@@ -27,7 +31,9 @@ class Room extends Component {
   }
   handlePostMessage() {
     const { messageInput } = this;
-    console.log(messageInput.value);
+    const { dispatch, match: { params: { id } } } = this.props;
+    dispatch(createMessageAction(messageInput.value, id));
+    this.setState({ newMessage: false });
   }
   refMessage(input) {
     this.messageInput = input;

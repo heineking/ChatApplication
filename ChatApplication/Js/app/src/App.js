@@ -12,6 +12,9 @@ import Login from './login/Login';
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    sessionStorage.removeItem('auth');
+  }
   render() {
     return (
       <Router>

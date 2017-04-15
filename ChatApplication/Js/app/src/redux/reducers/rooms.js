@@ -78,7 +78,7 @@ export const createMessageAction = (message, roomId) => {
       types: [
         REQUEST_MESSAGE_CREATE,
         CREATE_MESSAGE_SUCCESS,
-        CREATE_ROOM_FAILURE
+        CREATE_MESSAGE_FAILURE
       ]
     }
   };
@@ -87,13 +87,15 @@ export const createMessageAction = (message, roomId) => {
 export const getRoomById = (state, roomId) => state.find(room => room.roomId === Number(roomId)) || {};
 
 const rooms = (state = [], action) => {
+
   switch (action.type) {
     case ROOMS_SUCCESS:
       const { payload: { rooms } } = action;
       return rooms;
     case ROOM_SUCCESS:
-        const { payload: { room: newRoom, roomId } } = action;
+        const { payload: { roomId  } } = action;
         const roomIdx = state.findIndex(room => room.roomId === roomId);
+        const { payload: { room: newRoom } } = action;
         if (roomIdx === -1) {
           return state.concat(newRoom);
         }
@@ -102,6 +104,25 @@ const rooms = (state = [], action) => {
           newRoom,
           ...state.slice(roomIdx + 1)
         ];
+    case CREATE_MESSAGE_SUCCESS:
+      const { payload: { roomId: roomId2 } } = action;
+      const roomIdx2 = state.findIndex(room => room.roomId === roomId2);
+      const { payload: { message } } = action;
+      if (roomIdx2 > -1) {
+        const room = state[roomIdx2];
+        return [
+          ...state.slice(0, roomIdx2),
+          {
+            ...room,
+            messages: [
+              ...room.messages,
+              message
+            ]
+          },
+          ...state.slice(roomIdx2 + 1)
+        ];
+      }
+      throw new Error(`Expected to find room with id ${roomId}`);
     default:
       return state;
   }

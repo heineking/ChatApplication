@@ -51,16 +51,21 @@ namespace ChatApplication.API.Modules.Room
             Post["/{roomId:long}"] = p =>
             {
                 this.RequiresAuthentication();
+                long roomId = p.roomId;
                 var chatUser = (UserIdentity) Context.CurrentUser;
                 var messageRequest = this.Bind<CreateMessageRequest>();
-                writer.AddMessage(new Message
+                var message = new Message
                 {
                     UserId = chatUser.UserId,
+                    UserName = chatUser.UserName,
                     PostedDate = DateTime.Now,
-                    RoomId = p.roomId,
+                    RoomId = roomId,
                     Text = messageRequest.Text,
-                });
-                return HttpStatusCode.OK;
+                };
+                writer.AddMessage(message);
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(new {roomId, message});
             };
             Post["/create"] = _ =>
             {
