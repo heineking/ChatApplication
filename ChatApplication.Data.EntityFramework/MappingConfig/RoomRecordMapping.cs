@@ -16,6 +16,11 @@ namespace ChatApplication.Data.EntityFramework.MappingConfig
             HasKey(r => r.RoomId);
             Property(r => r.RoomId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            HasRequired(m => m.User)
+                .WithMany(u => u.Rooms)
+                .HasForeignKey(m => m.UserId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

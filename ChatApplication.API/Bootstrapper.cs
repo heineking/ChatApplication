@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -10,7 +11,6 @@ using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Data.Dapper.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
@@ -48,7 +48,9 @@ namespace ChatApplication.API
                         return new UserIdentity
                         {
                             UserName = loginToken.LoginName,
-                            UserId = loginToken.UserId
+                            UserId = loginToken.UserId,
+                            Claims = loginToken.Claims,
+                            Name = loginToken.UserName
                         };
                     }
                 }

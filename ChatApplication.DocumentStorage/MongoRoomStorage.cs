@@ -54,13 +54,6 @@ namespace ChatApplication.DocumentStorage
             roomsCollection.FindOneAndReplace(r => r.RoomId == message.RoomId, room);
         }
 
-        public void CreateRoom(string roomName)
-        {
-            var roomsCollection = GetRoomsCollection();
-            var maxId = roomsCollection.Find(_ => true).ToList().Select(r => r.RoomId);
-            roomsCollection.InsertOne(new Room {Name = roomName, Messages = new List<Message>(), RoomId = 1});
-        }
-
         private IMongoCollection<Room> GetRoomsCollection()
         {
             var database = GetDatabase();
@@ -73,6 +66,37 @@ namespace ChatApplication.DocumentStorage
             var connectionString = _mongoConnectionString;
             var client = new MongoClient();
             return client.GetDatabase(_chatDatabase);
+        }
+
+        public Room GetRoom(long roomId)
+        {
+            var rooms = GetRoomsCollection();
+            return rooms.Find(r => r.RoomId == roomId).FirstOrDefault();
+        }
+
+        public void CreateRoom(string roomName, string description, long userId)
+        {
+            var rooms = GetRoomsCollection();
+            long maxId = 0;
+            var allRooms = rooms.Find(_ => true).ToList();
+            if (allRooms.Any())
+            {
+                maxId = allRooms.Max(r => r.RoomId);
+            }
+            var room = new Room
+            {
+                RoomId = ++maxId,
+                UserId = userId,
+                Name = roomName,
+                Description = description
+            };
+            rooms.InsertOne(room);
+        }
+
+        public void DeleteRoom(long roomId)
+        {
+            var rooms = GetRoomsCollection();
+            rooms.DeleteOne(r => r.RoomId == roomId);
         }
     }
 }

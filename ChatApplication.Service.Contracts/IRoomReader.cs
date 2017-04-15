@@ -9,6 +9,7 @@ namespace ChatApplication.Service.Contracts
     public interface IRoomReader
     {
         List<Room> GetAllRooms();
+        Room GetRoom(long roomId);
         List<Message> GetRoomMessages(long roomId);
         List<Message> GetRoomMessagesFromDate(long roomId, long dateTime);
     }

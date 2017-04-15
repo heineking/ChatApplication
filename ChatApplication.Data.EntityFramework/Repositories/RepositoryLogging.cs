@@ -55,7 +55,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Remove(TEntity entity)
         {
             WriteLog($"Request to remove entity of type {typeof(TEntity).Name}");
-            _writerDelegate.Add(entity);
+            _writerDelegate.Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)

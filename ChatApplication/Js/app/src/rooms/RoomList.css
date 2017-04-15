@@ -1,0 +1,36 @@
+.room-card {
+  position: relative;
+  min-height: 75px;
+  margin: 10px;
+}
+
+.room-card span {
+  margin-right: 5px;
+}
+
+.room-card .top {
+  display: block;
+  font-size: small;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.room-card > .main {
+  font-size: smaller;
+}
+
+.room-card > .bottom {
+  width: 100%;
+  font-size: small;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: lightray;
+}
+
+.bottom > .delete {
+  height: 100%;
+  float: right;
+  cursor: pointer;
+  color: red;
+}

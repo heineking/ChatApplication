@@ -20,10 +20,18 @@ namespace ChatApplication.Service
             _uow.SaveChanges();
         }
 
-        public void CreateRoom(string roomName)
+        public void CreateRoom(string roomName, string description, long userId)
         {
-            var roomRecord = new RoomRecord(roomName);
+            var roomRecord = new RoomRecord(roomName, description, userId);
             _uow.Rooms.Add(roomRecord);
+            _uow.SaveChanges();
+        }
+
+        public void DeleteRoom(long roomId)
+        {
+            var roomRecord = _uow.Rooms.Get(roomId);
+            if (roomRecord == null) return;
+            _uow.Rooms.Remove(roomRecord);
             _uow.SaveChanges();
         }
 
@@ -39,6 +47,11 @@ namespace ChatApplication.Service
             return roomRecords.Select(_mapper.RoomRecordToRoom).ToList();
         }
 
+        public Room GetRoom(long roomId)
+        {
+            var room = _uow.Rooms.Get(roomId);
+            return _mapper.RoomRecordToRoom(room);
+        }
         public List<Message> GetRoomMessages(long roomId)
         {
             var messageRecords = _uow.Messages.Find(m => m.RoomId == roomId);

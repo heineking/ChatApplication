@@ -31,6 +31,8 @@ namespace ChatApplication.Data.EntityFramework.Repositories
             return ChatContext
                 .Logins
                 .Include(l => l.User)
+                .Include(l => l.User.UserClaims)
+                .Include(l => l.User.UserClaims.Select(u => u.Claim))
                 .FirstOrDefault(l => l.Username == name);
         }
     }

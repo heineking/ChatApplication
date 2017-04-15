@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.User;
 using ChatApplication.Service.Contracts;
@@ -27,12 +28,13 @@ namespace ChatApplication.API.Modules.Room
             };
             Get["/{roomId:long}"] = p =>
             {
-                var room = reader.GetRoomMessages(p.roomId);
+                long roomId = p.roomId;
+                var room = reader.GetRoom(roomId);
                 if (room != null)
                 {
                     return Negotiate
                         .WithStatusCode(HttpStatusCode.OK)
-                        .WithModel(new {room});
+                        .WithModel(new { roomId, room });
                 }
                 return HttpStatusCode.BadRequest;
             };
@@ -47,26 +49,45 @@ namespace ChatApplication.API.Modules.Room
                 }
                 return HttpStatusCode.BadRequest;
             };
+            Get["/delete/{roomId:long}"] = p =>
+            {
+                this.RequiresAuthentication();
+                /* only admins can delete a room */
+                var chatUser = (UserIdentity) Context.CurrentUser;
+                if (!chatUser.Claims.ToList().Contains("admin")) return HttpStatusCode.Unauthorized;
+
+                long roomId = p.roomId;
+                writer.DeleteRoom(roomId);
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(new {roomId});
+            };
             Post["/{roomId:long}"] = p =>
             {
                 this.RequiresAuthentication();
+                long roomId = p.roomId;
                 var chatUser = (UserIdentity) Context.CurrentUser;
                 var messageRequest = this.Bind<CreateMessageRequest>();
-                writer.AddMessage(new Message
+                var message = new Message
                 {
                     UserId = chatUser.UserId,
+                    UserName = chatUser.UserName,
                     PostedDate = DateTime.Now,
-                    RoomId = p.roomId,
+                    RoomId = roomId,
                     Text = messageRequest.Text,
-                });
-                return HttpStatusCode.OK;
+                };
+                writer.AddMessage(message);
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(new {roomId, message});
             };
             Post["/create"] = _ =>
             {
                 this.RequiresAuthentication();
                 var model = this.Bind<CreateRoomRequest>();
                 if (model == null) return HttpStatusCode.BadRequest;
-                writer.CreateRoom(model.Name);
+                var chatUser = (UserIdentity) Context.CurrentUser;
+                writer.CreateRoom(model.Name, model.Description, chatUser.UserId);
                 return HttpStatusCode.OK;
             };
         }
