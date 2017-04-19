@@ -50,6 +50,7 @@ const user = (state = defaultUser, action) => {
       };
     case LOGIN_FAILURE:
     case LOGOUT:
+      sessionStorage.removeItem('auth');
       return {
         ...state,
         ...defaultUser
