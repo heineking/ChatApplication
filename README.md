@@ -10,6 +10,17 @@ Term Project
 
 Learn better OOP design and best practices through trying to implement SOLID principles.
 
+## Build & Run ##
+
+Go to the Js/app in the ChatApplication.UI project.
+
+run:
+
+>> npm install
+>> npm run start
+
+Then start the visual studio project
+
 ## ChatApplication.Data ##
 
 This is the portion of the project that defines the data access layer. The approach I am taking is to model a generic repository pattern with a unit of work pattern for the persistence layer. A repository should be considered an in-memory collection of objects, and **not** a part of the application that will actually provide any logic for persisting to the database. With this in mind, the repository should be implemented similar to a IList. The repository will allow the client to load collections from the database into memory and provide the user the ability to manipulate that collection. Then the UnitOfWork implementation will handle the actual logic that persists the in-memory representation down to the database layer.
