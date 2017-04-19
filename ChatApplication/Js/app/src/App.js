@@ -7,7 +7,6 @@ import NavBar from './header/NavBar';
 import NewRoom from './room/NewRoom';
 import Room from './room/Room';
 import Rooms from './rooms/Rooms';
-import LoginRedirect from './login/LoginRedirect';
 import Login from './login/Login';
 import './App.css';
 

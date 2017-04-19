@@ -23,7 +23,7 @@ const MessageList = props => {
     <div className="message-list">
       {messages.map(message =>
         <div key={message.messageId}>
-          <Message key={message.id} message={message} />
+          <Message message={message} />
           <Divider />
         </div>
       )}

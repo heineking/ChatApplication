@@ -21,6 +21,7 @@ class NewMessage extends Component {
     const { msgInput } = this;
     const { dispatch, roomId } = this.props;
     dispatch(createMessageAction(msgInput.value, roomId));
+    msgInput.value = '';
     return false;
   }
   render() {

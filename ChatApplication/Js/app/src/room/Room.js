@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
 import MessageList from './MessageList';
 import NewMessage from './NewMessage';
 import {
