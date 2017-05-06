@@ -9,7 +9,7 @@ The following security features were implemented in this project:
 
 ***
 
-### Password Hashing ###
+## Password Hashing ##
 
 **see:** `ChatApplication.Password` for the implementation.
 
@@ -29,7 +29,7 @@ https://crackstation.net/hashing-security.htm
 
 ***
 
-### Brute Force Protection ###
+## Brute Force Protection ##
 
 **see:** `BruteForceDecorator` in `ChatApplication.Security.Security` for the implementation
 
@@ -39,7 +39,7 @@ The `LoginRecord` in the database keeps track of how many failed login attempts 
 
 ***
 
-### JSON Web Token ###
+## JSON Web Token ##
 
 This application will be using JSON Web Token specification for stateless authentication through NancyFx piplelines.
 
@@ -87,6 +87,6 @@ https://github.com/NancyFx/Nancy/blob/master/samples/Nancy.Demo.Authentication.S
 
 ***
 
-### HTTPS / SSL ###
+## HTTPS / SSL ##
 
 Https will be implemented for the API because we are sending username and password to login the record. We want this to be secure against a man in the middle attack.
