@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Password;
 using ChatApplication.Security;
 
 namespace ChatApplication.Data.EntityFramework.Migrations
