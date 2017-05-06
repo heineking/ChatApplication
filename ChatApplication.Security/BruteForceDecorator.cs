@@ -59,12 +59,13 @@ namespace ChatApplication.Security
             // call down to the delegate which handles verifying the password and
             // generating the token from our API key.
             var token = _security.LoginTokenOrDefault(login, password);
-            if (token != null) return token;
-
-            // The password wasn't valid so we need to save the login attempt
+            // reset the login attempts if had a valid password
+            if (token != null) login.LoginAttempts = 0;
+            
+            // sync the login attempts
             _uow.Logins.Update(login);
             _uow.SaveChanges();
-            return null;
+            return token;
         }
 
         public string EncodeToken(LoginToken token)
