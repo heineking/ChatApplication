@@ -82,8 +82,54 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\build\favicon.ico" />
+    <Content Include="App\build\index.html" />
+    <Content Include="App\build\static\css\main.c31adbb3.css" />
+    <Content Include="App\build\static\js\main.dd29b230.js" />
+    <Content Include="App\config\env.js" />
+    <Content Include="App\config\jest\cssTransform.js" />
+    <Content Include="App\config\jest\fileTransform.js" />
+    <Content Include="App\config\paths.js" />
+    <Content Include="App\config\polyfills.js" />
+    <Content Include="App\config\webpack.config.dev.js" />
+    <Content Include="App\config\webpack.config.prod.js" />
+    <Content Include="App\public\favicon.ico" />
+    <Content Include="App\public\index.html" />
+    <Content Include="App\scripts\build.js" />
+    <Content Include="App\scripts\start.js" />
+    <Content Include="App\scripts\test.js" />
+    <Content Include="App\src\App.css" />
+    <Content Include="App\src\App.js" />
+    <Content Include="App\src\App.test.js" />
+    <Content Include="App\src\auth\Protected.js" />
+    <Content Include="App\src\header\NavBar.css" />
+    <Content Include="App\src\header\NavBar.js" />
+    <Content Include="App\src\index.css" />
+    <Content Include="App\src\index.js" />
+    <Content Include="App\src\login\Login.js" />
+    <Content Include="App\src\login\LoginRedirect.js" />
+    <Content Include="App\src\logo.svg" />
+    <Content Include="App\src\redux\index.js" />
+    <Content Include="App\src\redux\reducers\api.js" />
+    <Content Include="App\src\redux\reducers\index.js" />
+    <Content Include="App\src\redux\reducers\login.js" />
+    <Content Include="App\src\redux\reducers\rooms.js" />
+    <Content Include="App\src\rooms\RoomList.css" />
+    <Content Include="App\src\rooms\RoomList.js" />
+    <Content Include="App\src\rooms\Rooms.js" />
+    <Content Include="App\src\room\MessageList.css" />
+    <Content Include="App\src\room\MessageList.js" />
+    <Content Include="App\src\room\NewMessage.js" />
+    <Content Include="App\src\room\NewRoom.css" />
+    <Content Include="App\src\room\NewRoom.js" />
+    <Content Include="App\src\room\Room.css" />
+    <Content Include="App\src\room\Room.js" />
     <Content Include="README.md" />
     <Content Include="packages.config" />
+    <Content Include="App\build\asset-manifest.json" />
+    <Content Include="App\build\static\css\main.c31adbb3.css.map" />
+    <Content Include="App\build\static\js\main.dd29b230.js.map" />
+    <Content Include="App\package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -96,12 +142,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,7 +6,7 @@ namespace ChatApplication.Modules
     {
         public IndexModule()
         {
-            Get["/"] = parameters => View["index.cshtml"];
+            Get["/"] = parameters => View["index.html"];
         }
     }
 }
