@@ -22,8 +22,9 @@ namespace ChatApplication.Security
         private readonly int _exp;
         private readonly ILoginReader _loginReader;
         private readonly ITokenGenerator _tokenGenerator;
+        private readonly IPasswordService _passwordService;
 
-        public SecurityService(IApplicationSettings appSettings, ILoginReader loginReader, IJwtEncoder encoder, IJwtDecoder decoder, ITokenGenerator tokenGenerator)
+        public SecurityService(IApplicationSettings appSettings, ILoginReader loginReader, IPasswordService passwordService, IJwtEncoder encoder, IJwtDecoder decoder, ITokenGenerator tokenGenerator)
         {
             _key = appSettings.GetValue("API:Key");
             _decoder = decoder;
@@ -31,6 +32,7 @@ namespace ChatApplication.Security
             _exp = int.Parse(appSettings.GetValue("Token:ExpHrs"));
             _loginReader = loginReader;
             _tokenGenerator = tokenGenerator;
+            _passwordService = passwordService;
         }
 
         public LoginRecord LoginByNameOrDefault(string name)
@@ -44,7 +46,8 @@ namespace ChatApplication.Security
             {
                 return null;
             }
-            return loginRecord.Password != password ? null : _tokenGenerator.CreateLoginToken(loginRecord);
+            var isValid = _passwordService.ValidatePassword(loginRecord.Password, password);
+            return isValid ? _tokenGenerator.CreateLoginToken(loginRecord) : null;
         }
 
         public string EncodeToken(LoginToken token)

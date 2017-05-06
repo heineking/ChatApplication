@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using ChatApplication.Data.Contracts;
 using ChatApplication.Security.Contracts;
 
@@ -69,9 +65,9 @@ namespace ChatApplication.Security
             return Keyed(pdkdf2.GetBytes(_pwdLength));
         }
 
-        private byte[] Combine(byte[] salt, byte[] password)
+        private static byte[] Combine(byte[] salt, byte[] password)
         {
-            byte[] hash = new byte[salt.Length + password.Length];
+            var hash = new byte[salt.Length + password.Length];
             Array.Copy(salt, 0, hash, 0, salt.Length);
             Array.Copy(password, 0, hash, salt.Length, password.Length);
             return hash;

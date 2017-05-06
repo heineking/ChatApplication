@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.EntityFramework.ContextEF;
+using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Security;
 
 namespace ChatApplication.Data.EntityFramework.Migrations
 {
@@ -17,6 +20,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
         }
         protected override void Seed(ChatContext context)
         {
+            var passwordService = new PasswordService(new ConfigSettings(), new RNGCryptoServiceProvider());
             var claims = new List<ClaimRecord>
             {
                 new ClaimRecord
@@ -84,19 +88,19 @@ namespace ChatApplication.Data.EntityFramework.Migrations
             {
                 new LoginRecord
                 {
-                    Password = "password",
+                    Password = passwordService.GeneratePasswordHash("password"),
                     Username = "UserA@gmail.com",
                     UserId = 1
                 },
                 new LoginRecord
                 {
-                    Password = "password",
+                    Password = passwordService.GeneratePasswordHash("password"),
                     Username = "UserB@gmail.com",
                     UserId = 2
                 },
                 new LoginRecord
                 {
-                    Password = "admin",
+                    Password = passwordService.GeneratePasswordHash("admin"),
                     Username = "admin",
                     UserId = 3
                 }

@@ -86,6 +86,18 @@
       <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
       <Name>ChatApplication.Data.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
+      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
+      <Name>ChatApplication.Infrastructure.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Password\ChatApplication.Password.csproj">
+      <Project>{396b2fbd-d2c7-4eb6-b190-07ce51b89add}</Project>
+      <Name>ChatApplication.Password</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Security.Contracts\ChatApplication.Security.Contracts.csproj">
+      <Project>{e09cf765-f3a8-4ad7-9277-6cff217e2dad}</Project>
+      <Name>ChatApplication.Security.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
