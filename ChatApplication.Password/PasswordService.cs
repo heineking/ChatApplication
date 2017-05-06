@@ -4,7 +4,7 @@ using System.Text;
 using ChatApplication.Data.Contracts;
 using ChatApplication.Security.Contracts;
 
-namespace ChatApplication.Security
+namespace ChatApplication.Password
 {
     public class PasswordService : IPasswordService
     {
