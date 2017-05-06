@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Nancy;
 
 namespace ChatApplication.API.Extensions
 {
@@ -14,20 +15,16 @@ namespace ChatApplication.API.Extensions
             {
                 if (ctx.Request.Headers.Keys.Contains("Origin"))
                 {
-                    var origins = "" + string.Join(" ", ctx.Request.Headers["Origin"]);
-                    ctx.Response.Headers["Access-Control-Allow-Origin"] = origins;
-
+                    // only allow our application to access the API
+                    ctx.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:62709";
                     if (ctx.Request.Method == "OPTIONS")
                     {
                         // handle CORS preflight request
-
-                        ctx.Response.Headers["Access-Control-Allow-Methods"] =
-                            "GET, POST, PUT, DELETE, OPTIONS";
+                        ctx.Response.Headers["Access-Control-Allow-Methods"] = "GET,POST,DELETE,PUT,OPTIONS";
 
                         if (ctx.Request.Headers.Keys.Contains("Access-Control-Request-Headers"))
                         {
-                            var allowedHeaders = "" + string.Join(
-                                ", ", ctx.Request.Headers["Access-Control-Request-Headers"]);
+                            var allowedHeaders = "" + string.Join(", ", ctx.Request.Headers["Access-Control-Request-Headers"]);
                             ctx.Response.Headers["Access-Control-Allow-Headers"] = allowedHeaders;
                         }
                     }

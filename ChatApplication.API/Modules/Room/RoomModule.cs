@@ -49,19 +49,22 @@ namespace ChatApplication.API.Modules.Room
                 }
                 return HttpStatusCode.BadRequest;
             };
-            Get["/delete/{roomId:long}"] = p =>
+
+            /**
+             * Create Room
+             */
+            Post["/"] = _ =>
             {
                 this.RequiresAuthentication();
-                /* only admins can delete a room */
-                var chatUser = (UserIdentity) Context.CurrentUser;
-                if (!chatUser.Claims.ToList().Contains("admin")) return HttpStatusCode.Unauthorized;
-
-                long roomId = p.roomId;
-                writer.DeleteRoom(roomId);
-                return Negotiate
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithModel(new {roomId});
+                var model = this.Bind<CreateRoomRequest>();
+                if (model == null) return HttpStatusCode.BadRequest;
+                var chatUser = (UserIdentity)Context.CurrentUser;
+                writer.CreateRoom(model.Name, model.Description, chatUser.UserId);
+                return HttpStatusCode.OK;
             };
+            /**
+             * Add a message to the room
+             */
             Post["/{roomId:long}"] = p =>
             {
                 this.RequiresAuthentication();
@@ -81,14 +84,21 @@ namespace ChatApplication.API.Modules.Room
                     .WithStatusCode(HttpStatusCode.OK)
                     .WithModel(new {roomId, message});
             };
-            Post["/create"] = _ =>
+            /**
+             * Delete room
+             */
+            Delete["/{roomId:long}"] = p =>
             {
                 this.RequiresAuthentication();
-                var model = this.Bind<CreateRoomRequest>();
-                if (model == null) return HttpStatusCode.BadRequest;
-                var chatUser = (UserIdentity) Context.CurrentUser;
-                writer.CreateRoom(model.Name, model.Description, chatUser.UserId);
-                return HttpStatusCode.OK;
+                /* only admins can delete a room */
+                var chatUser = (UserIdentity)Context.CurrentUser;
+                if (!chatUser.Claims.ToList().Contains("admin")) return HttpStatusCode.Unauthorized;
+
+                long roomId = p.roomId;
+                writer.DeleteRoom(roomId);
+                return Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(new { roomId });
             };
         }
     }

@@ -43,7 +43,7 @@ const CREATE_ROOM_FAILURE = 'rooms/api/CREATE_ROOM_FAILURE';
 export const createRoomAction = (name, description) => {
   return {
     [CALL_API]: {
-      endpoint: 'http://localhost:64784/api/v1/rooms/create',
+      endpoint: 'http://localhost:64784/api/v1/rooms/',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -91,10 +91,9 @@ const DELETE_ROOM_FAILURE = 'rooms/api/DELETE_ROOM_FAILURE';
 export const deleteRoomAction = (roomId) => {
   return {
     [CALL_API]: {
-      endpoint: `http://localhost:64784/api/v1/rooms/delete/${roomId}`,
-      method: 'GET',
+      endpoint: `http://localhost:64784/api/v1/rooms/${roomId}`,
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: sessionStorage.getItem('auth'),
         Accept: 'application/json',
       },
