@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.User;
@@ -15,6 +16,7 @@ using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Password;
 using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
 using ChatApplication.Service;
@@ -136,6 +138,7 @@ namespace ChatApplication.API
             /* services */
             container.Register<IRoomReader, RoomService>();
             container.Register<IRoomWriter, RoomService>();
+            container.Register<IPasswordService, PasswordService>();
 
             /* register the base security service then tie it into the decorator */
             container.Register<ISecurityService, SecurityService>("baseService");
