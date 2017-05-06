@@ -25,7 +25,7 @@ namespace ChatApplication.Security
 
         public SecurityService(IApplicationSettings appSettings, ILoginReader loginReader, IJwtEncoder encoder, IJwtDecoder decoder, ITokenGenerator tokenGenerator)
         {
-            _key = appSettings.GetValue("ApiKey");
+            _key = appSettings.GetValue("API:Key");
             _decoder = decoder;
             _encoder = encoder;
             _exp = int.Parse(appSettings.GetValue("Token:ExpHrs"));

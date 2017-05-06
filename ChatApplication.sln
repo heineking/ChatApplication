@@ -43,6 +43,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Security", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Test", "ChatApplication.Test\ChatApplication.Test.csproj", "{1C50AE5A-C187-47C7-9B3D-62A23A8BF3EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{9120E884-8C59-4AE1-8330-1FB0AA0E5242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.User.Contracts", "ChatApplication.User.Contracts\ChatApplication.User.Contracts.csproj", "{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.User", "ChatApplication.User\ChatApplication.User.csproj", "{2875BC0E-77CE-4DAF-A1B1-492B065146C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +103,14 @@ Global
 		{1C50AE5A-C187-47C7-9B3D-62A23A8BF3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C50AE5A-C187-47C7-9B3D-62A23A8BF3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C50AE5A-C187-47C7-9B3D-62A23A8BF3EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2875BC0E-77CE-4DAF-A1B1-492B065146C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2875BC0E-77CE-4DAF-A1B1-492B065146C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2875BC0E-77CE-4DAF-A1B1-492B065146C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2875BC0E-77CE-4DAF-A1B1-492B065146C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,5 +124,7 @@ Global
 		{7AF6DF0A-7E59-4F85-AE65-313D01D5F609} = {F80D7114-0052-46EB-845B-52F8420F15FC}
 		{E09CF765-F3A8-4AD7-9277-6CFF217E2DAD} = {9B44998A-2672-4A12-8402-2EB0D3B0D679}
 		{B266D989-63AA-46EE-BAA5-CCC0ECDE3524} = {9B44998A-2672-4A12-8402-2EB0D3B0D679}
+		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4} = {9120E884-8C59-4AE1-8330-1FB0AA0E5242}
+		{2875BC0E-77CE-4DAF-A1B1-492B065146C3} = {9120E884-8C59-4AE1-8330-1FB0AA0E5242}
 	EndGlobalSection
 EndGlobal
