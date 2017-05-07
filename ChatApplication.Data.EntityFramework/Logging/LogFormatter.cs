@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using ChatApplication.Logging;
 using log4net;
 
@@ -28,7 +25,7 @@ namespace ChatApplication.Data.EntityFramework.Logging
         }
         public override void LogCommand<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
-            Write($"Context '{Context.GetType().Name}' is executing command '{Environment.NewLine}{command.CommandText}{Environment.NewLine}");
+            Write($"Context '{Context.GetType().Name}' is executing command '{Environment.NewLine}{command.CommandText}");
         }
     }
 }
