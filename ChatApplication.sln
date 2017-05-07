@@ -30,7 +30,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Data.Dapper
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{0F9603AC-542B-4412-AB45-1BD448AA911B}"
 	ProjectSection(SolutionItems) = preProject
+		Documentation\API.md = Documentation\API.md
+		Documentation\DocumentStorage.md = Documentation\DocumentStorage.md
+		Logging.md = Logging.md
 		README.md = README.md
+		Documentation\Security.md = Documentation\Security.md
+		Documentation\ServerArchitecture.md = Documentation\ServerArchitecture.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Service", "ChatApplication.Service\ChatApplication.Service.csproj", "{7AF6DF0A-7E59-4F85-AE65-313D01D5F609}"
