@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Security.Principal;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.User;
 using ChatApplication.Data.Contracts;
@@ -16,6 +10,7 @@ using ChatApplication.Data.EntityFramework.ContextEF;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Logging;
 using ChatApplication.Password;
 using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
@@ -69,7 +64,9 @@ namespace ChatApplication.API
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
-            // your customization goes here
+            // set up the log4net
+            log4net.Config.XmlConfigurator.Configure();
+            Log4NetExtensions.Configure();
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)

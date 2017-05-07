@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\jwt\src\JWT\bin\Debug\JWT.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -117,6 +121,9 @@
     <Content Include="README.md" />
     <Content Include="packages.config" />
     <Content Include="Views\index.cshtml" />
+    <Content Include="Log4Net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -159,6 +166,10 @@
     <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
       <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
       <Name>ChatApplication.Infrastructure.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Logging\ChatApplication.Logging.csproj">
+      <Project>{8fab92bb-8c38-4f56-8578-55b54d339855}</Project>
+      <Name>ChatApplication.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Password\ChatApplication.Password.csproj">
       <Project>{396b2fbd-d2c7-4eb6-b190-07ce51b89add}</Project>
