@@ -6,7 +6,7 @@ namespace ChatApplication.Logging
 {
     public static class Log4NetExtensions
     {
-        private static readonly Level SqlLevel = new Level(40000, "SQL");
+        private static readonly Level SqlLevel = new Level(30000, "SQL");
         private static readonly Level TimingLevel = new Level(40000, "TIMING");
         private static readonly Level RepoLevel = new Level(40000, "REPO");
 
@@ -27,7 +27,10 @@ namespace ChatApplication.Logging
 
         public static void Configure()
         {
+            // this probably isn't necessary...
             LogManager.GetRepository().LevelMap.Add(RepoLevel);
+            LogManager.GetRepository().LevelMap.Add(SqlLevel);
+            LogManager.GetRepository().LevelMap.Add(TimingLevel);
         }
     }
 }

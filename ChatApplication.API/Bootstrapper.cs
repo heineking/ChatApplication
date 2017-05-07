@@ -7,6 +7,7 @@ using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
+using ChatApplication.Data.EntityFramework.Logging;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
@@ -73,6 +74,9 @@ namespace ChatApplication.API
         {
             base.ConfigureApplicationContainer(container);
 
+            /* ef logger */
+            container.Register<EntityFrameworkLogger>();
+
             /* app helper classes */
             container.Register<IApplicationSettings, ConfigSettings>();
             container.Register<JsonSerializer, CustomJsonSerializer>();
@@ -94,6 +98,11 @@ namespace ChatApplication.API
 
             // register the dependencies
             container.Register<DbContext>(new ChatContext(connStr));
+
+            /* set up the ef logger */
+            var dbContext = container.Resolve<DbContext>();
+            var entityFrameworkLogger = container.Resolve<EntityFrameworkLogger>();
+            dbContext.Database.Log = s => entityFrameworkLogger.Log(s);
 
             /* model mappers */
             container.Register<IModelMapper, ModelMapper>();

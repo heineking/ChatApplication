@@ -54,7 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContextEF\ChatContext.cs" />
+    <Compile Include="ContextEF\ChatDbConfiguration.cs" />
     <Compile Include="ContextEF\ChatInitializer.cs" />
+    <Compile Include="Logging\LogFormatter.cs" />
+    <Compile Include="Logging\LoggingInterceptor.cs" />
     <Compile Include="MappingConfig\ClaimRecordMapping.cs" />
     <Compile Include="MappingConfig\LoginRecordMapping.cs" />
     <Compile Include="MappingConfig\MessageRecordMapping.cs" />
