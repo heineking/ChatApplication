@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Password;
 using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
 using NUnit.Framework;
