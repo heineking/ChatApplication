@@ -1,8 +1,6 @@
-﻿using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Infrastructure.Contracts;
+﻿using ChatApplication.Mapper;
 using ChatApplication.Security.Contracts;
 using Nancy;
-using Nancy.Cookies;
 using Nancy.ModelBinding;
 
 namespace ChatApplication.API.Modules.Room

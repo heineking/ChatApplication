@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
-using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Mapper;
 using ChatApplication.Service.Contracts;
 
 namespace ChatApplication.Service

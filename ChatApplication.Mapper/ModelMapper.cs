@@ -5,7 +5,7 @@ using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Security.Contracts;
 using ChatApplication.Service.Contracts;
 
-namespace ChatApplication.Infrastructure.Contracts
+namespace ChatApplication.Mapper
 {
     public class ModelMapper : IModelMapper
     {

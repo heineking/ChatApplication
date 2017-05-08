@@ -34,6 +34,10 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,11 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStopwatch.cs" />
+    <Compile Include="JsonNet\LoggingContractResolver.cs" />
     <Compile Include="Log4NetExtensions.cs" />
+    <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StopwatchAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
+      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
+      <Name>ChatApplication.Infrastructure.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

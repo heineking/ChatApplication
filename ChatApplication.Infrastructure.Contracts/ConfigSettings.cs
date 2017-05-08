@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using ChatApplication.Data.Contracts;
 
 namespace ChatApplication.Infrastructure.Contracts
 {

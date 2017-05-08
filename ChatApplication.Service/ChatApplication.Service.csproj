@@ -52,6 +52,10 @@
       <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
       <Name>ChatApplication.Infrastructure.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Mapper\ChatApplication.Mapper.csproj">
+      <Project>{dd3ccef7-0f7c-42e9-9efe-3868c847c523}</Project>
+      <Name>ChatApplication.Mapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Service.Contracts\ChatApplication.Service.Contracts.csproj">
       <Project>{15b635ed-e0f7-467a-809f-5bebc78f8765}</Project>
       <Name>ChatApplication.Service.Contracts</Name>

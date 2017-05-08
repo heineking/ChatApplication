@@ -8,8 +8,7 @@ namespace ChatApplication.Data.EntityFramework.ContextEF
     {
         public ChatDbConfiguration()
         {
-            SetDatabaseLogFormatter((ctx, writer) => new LogFormatter(ctx, writer));
-            // DbInterception.Add(new LoggingInterceptor());
+            DbInterception.Add(new LoggingInterceptor());
         }
     }
 }

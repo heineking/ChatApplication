@@ -13,7 +13,7 @@ namespace ChatApplication.Data.EntityFramework.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ChatApplication.Data.EntityFramework.ContextEF.ChatContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ChatContext>
     {
         public Configuration()
         {

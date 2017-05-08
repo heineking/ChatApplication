@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Password", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Logging", "ChatApplication.Logging\ChatApplication.Logging.csproj", "{8FAB92BB-8C38-4F56-8578-55B54D339855}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Mapper", "ChatApplication.Mapper\ChatApplication.Mapper.csproj", "{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{8FAB92BB-8C38-4F56-8578-55B54D339855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FAB92BB-8C38-4F56-8578-55B54D339855}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FAB92BB-8C38-4F56-8578-55B54D339855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

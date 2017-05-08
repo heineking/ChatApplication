@@ -13,32 +13,39 @@ namespace ChatApplication.Data.EntityFramework.Logging
 
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
         {
-            
+            LogIfError(command, interceptionContext);
         }
 
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
         {
-            
+            LogIfError(command, interceptionContext);
         }
 
         public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
         {
-            // Log4Net.Sql($"");
+            LogIfError(command, interceptionContext);
         }
 
         public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
         {
-            throw new NotImplementedException();
+            LogIfError(command, interceptionContext);
         }
 
         public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
         {
-            throw new NotImplementedException();
+            LogIfError(command, interceptionContext);
         }
 
         public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
         {
-            throw new NotImplementedException();
+            LogIfError(command, interceptionContext);
+        }
+        private void LogIfError<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
+        {
+            if (interceptionContext.Exception != null)
+            {
+                Log4Net.SqlFatal($"Command {command.CommandText} failed with exception {interceptionContext.Exception}");
+            }
         }
     }
 }

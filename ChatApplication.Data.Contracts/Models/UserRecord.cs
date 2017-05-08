@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatApplication.Infrastructure.Contracts;
 
 namespace ChatApplication.Data.Contracts.Models
 {
@@ -14,7 +15,9 @@ namespace ChatApplication.Data.Contracts.Models
         {
             Name = name;
         }
+        [JsonLogging]
         public long UserId { get; set; }
+        [JsonLogging]
         public string Name { get; set; }
 
         public virtual LoginRecord Login { get; set; }

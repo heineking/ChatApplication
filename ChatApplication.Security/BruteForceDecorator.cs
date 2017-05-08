@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChatApplication.Data.Contracts;
-using ChatApplication.Data.Contracts.Models;
+﻿using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
+using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Security.Contracts;
 
 namespace ChatApplication.Security

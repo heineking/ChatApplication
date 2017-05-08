@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B266D989-63AA-46EE-BAA5-CCC0ECDE3524}</ProjectGuid>
+    <ProjectGuid>{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChatApplication.Security</RootNamespace>
-    <AssemblyName>ChatApplication.Security</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>ChatApplication.Mapper</RootNamespace>
+    <AssemblyName>ChatApplication.Mapper</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,13 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JWT">
-      <HintPath>..\..\jwt\src\JWT\bin\Debug\JWT.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,28 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IModelMapper.cs" />
+    <Compile Include="ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityService.cs" />
-    <Compile Include="BruteForceDecorator.cs" />
-    <Compile Include="TokenGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">
       <Project>{a5dcdc48-f31c-4bec-b07d-fc24511d0ef9}</Project>
       <Name>ChatApplication.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
-      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
-      <Name>ChatApplication.Infrastructure.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Security.Contracts\ChatApplication.Security.Contracts.csproj">
       <Project>{e09cf765-f3a8-4ad7-9277-6cff217e2dad}</Project>
       <Name>ChatApplication.Security.Contracts</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\ChatApplication.Service.Contracts\ChatApplication.Service.Contracts.csproj">
+      <Project>{15b635ed-e0f7-467a-809f-5bebc78f8765}</Project>
+      <Name>ChatApplication.Service.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

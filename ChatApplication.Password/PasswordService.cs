@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using ChatApplication.Data.Contracts;
+using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Security.Contracts;
 
 namespace ChatApplication.Password

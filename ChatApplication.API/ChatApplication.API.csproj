@@ -93,8 +93,8 @@
       <HintPath>..\packages\Nancy.Viewengines.Razor.1.4.3\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
+    <Compile Include="Extensions\BootstraperExtensions.cs" />
     <Compile Include="Extensions\JavaScriptConvert.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
     <Compile Include="Modules\Auth\LoginRequest.cs" />
@@ -170,6 +171,10 @@
     <ProjectReference Include="..\ChatApplication.Logging\ChatApplication.Logging.csproj">
       <Project>{8fab92bb-8c38-4f56-8578-55b54d339855}</Project>
       <Name>ChatApplication.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Mapper\ChatApplication.Mapper.csproj">
+      <Project>{dd3ccef7-0f7c-42e9-9efe-3868c847c523}</Project>
+      <Name>ChatApplication.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Password\ChatApplication.Password.csproj">
       <Project>{396b2fbd-d2c7-4eb6-b190-07ce51b89add}</Project>
