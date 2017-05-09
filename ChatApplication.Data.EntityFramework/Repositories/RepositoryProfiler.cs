@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Logging;
+using ChatApplication.Logging.Profiling;
 using log4net;
 using Newtonsoft.Json;
 

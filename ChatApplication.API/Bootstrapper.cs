@@ -14,6 +14,7 @@ using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Logging;
+using ChatApplication.Logging.Profiling;
 using ChatApplication.Mapper;
 using ChatApplication.Password;
 using ChatApplication.Security;

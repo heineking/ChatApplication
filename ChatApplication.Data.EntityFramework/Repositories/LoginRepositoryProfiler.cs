@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Logging;
+using ChatApplication.Logging.Profiling;
 using log4net;
 
 namespace ChatApplication.Data.EntityFramework.Repositories
