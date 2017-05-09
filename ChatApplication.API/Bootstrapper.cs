@@ -3,12 +3,15 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.EnterpriseServices.Internal;
 using ChatApplication.API.Extensions;
+using ChatApplication.API.PubSub;
 using ChatApplication.API.User;
 using ChatApplication.Data.Contracts;
+using ChatApplication.Data.Contracts.Events;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
+using ChatApplication.Data.EntityFramework.Events;
 using ChatApplication.Data.EntityFramework.Logging;
 using ChatApplication.Data.EntityFramework.Persistence;
 using ChatApplication.Data.EntityFramework.Repositories;
@@ -84,6 +87,9 @@ namespace ChatApplication.API
             /* ef logger */
             container.Register<EntityFrameworkLogger>();
 
+            /* pubsub */
+            container.Register<Publisher>();
+
             /* app helper classes */
             container.Register<IApplicationSettings, ConfigSettings>();
             container.Register<JsonSerializer, CustomJsonSerializer>();
@@ -121,91 +127,26 @@ namespace ChatApplication.API
             container.Register<IModelMapper, ModelMapper>();
 
             /* profiler */
-            container.Register<IStopwatch>((c,p) => new StopwatchAdapter(new Stopwatch()));
+            container.Register<IStopwatch>((c, p) => new StopwatchAdapter(new Stopwatch()));
             container.Register<IProfiler>((c, p) => new Profiler(c.Resolve<IStopwatch>()));
 
             /* repositories */
 
-            // register decorators
-            if (profile)
-            {
-                /* BASE IMPLEMENTATIONS */
-                // readers
-                container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
-                container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>("messageReader");
-                container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>("userReader");
-                container.Register<ILoginReader, LoginRespositoryEntityFramework>("loginReader");
+            // readers
+            container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>();
+            container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
+            container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
+            container.Register<ILoginReader, LoginRespositoryEntityFramework>();
 
-                // writers
-                container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
-                container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>("messageWriter");
-                container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>("userWriter");
-                container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>("loginWriter");
+            // writers
+            container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
+            container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>();
+            container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
+            container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
 
-                /* DECORATOR IMPLEMENTATIONS */
-                // Room
-                container.Register<IRepositoryReader<RoomRecord>>(new RepositoryProfiler<RoomRecord>(
-                    container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-                    container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-                container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryProfiler<RoomRecord>(
-                    container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-                    container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-
-                // message
-                container.Register<IRepositoryReader<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
-                    container.Resolve<IRepositoryReader<MessageRecord>>("messageReader"),
-                    container.Resolve<IRepositoryWriter<MessageRecord>>("messageWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-
-                container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
-                    container.Resolve<IRepositoryReader<MessageRecord>>("messageReader"),
-                    container.Resolve<IRepositoryWriter<MessageRecord>>("messageWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-
-                // login
-                container.Register<IRepositoryWriter<LoginRecord>>(new RepositoryProfiler<LoginRecord>(
-                    container.Resolve<ILoginReader>("loginReader"),
-                    container.Resolve<IRepositoryWriter<LoginRecord>>("loginWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-
-                container.Register<ILoginReader>(new LoginRepositoryProfiler(
-                    container.Resolve<ILoginReader>("loginReader"),
-                    container.Resolve<IProfiler>()
-                ));
-
-                // users
-                container.Register<IRepositoryWriter<UserRecord>>(new RepositoryProfiler<UserRecord>(
-                    container.Resolve<IRepositoryReader<UserRecord>>("userReader"),
-                    container.Resolve<IRepositoryWriter<UserRecord>>("userWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-                container.Register<IRepositoryReader<UserRecord>>(new RepositoryProfiler<UserRecord>(
-                    container.Resolve<IRepositoryReader<UserRecord>>("userReader"),
-                    container.Resolve<IRepositoryWriter<UserRecord>>("userWriter"),
-                    container.Resolve<IProfiler>()
-                ));
-            }
-            else
-            {
-                // readers
-                container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>();
-                container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
-                container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
-                container.Register<ILoginReader, LoginRespositoryEntityFramework>();
-
-                // writers
-                container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>();
-                container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>();
-                container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
-                container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
-            }
+            /* pub sub */
+            var publisher = container.Resolve<Publisher>();
+            publisher.ConfigureEntityFrameworkDecorator(container);
 
             // repositories
             container.Register<IRoomRepository, RoomRepository>();

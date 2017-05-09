@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Configure\Decorators.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
     <Compile Include="Extensions\BootstraperExtensions.cs" />
     <Compile Include="Extensions\JavaScriptConvert.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Modules\Room\CreateRoomRequest.cs" />
     <Compile Include="Modules\Room\RoomModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Configure\PubSub.cs" />
     <Compile Include="User\UserIdentity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +197,10 @@
     <ProjectReference Include="..\ChatApplication.Service\ChatApplication.Service.csproj">
       <Project>{7af6df0a-7e59-4f85-ae65-313d01d5f609}</Project>
       <Name>ChatApplication.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Syncronization\ChatApplication.Syncronization.csproj">
+      <Project>{374df564-b16d-47d9-b471-7ae495a83bcb}</Project>
+      <Name>ChatApplication.Syncronization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

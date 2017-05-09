@@ -62,6 +62,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Mapper", "C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Syncronization", "Syncronization", "{C750B889-8ADF-4973-B589-81EE13075DE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Syncronization.Contracts", "ChatApplication.Syncronization.Contracts\ChatApplication.Syncronization.Contracts.csproj", "{161AFECE-AF36-4EF3-9722-4375398ED649}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApplication.Syncronization", "ChatApplication.Syncronization\ChatApplication.Syncronization.csproj", "{374DF564-B16D-47D9-B471-7AE495A83BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +140,14 @@ Global
 		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD3CCEF7-0F7C-42E9-9EFE-3868C847C523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161AFECE-AF36-4EF3-9722-4375398ED649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161AFECE-AF36-4EF3-9722-4375398ED649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161AFECE-AF36-4EF3-9722-4375398ED649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161AFECE-AF36-4EF3-9722-4375398ED649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{374DF564-B16D-47D9-B471-7AE495A83BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374DF564-B16D-47D9-B471-7AE495A83BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374DF564-B16D-47D9-B471-7AE495A83BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374DF564-B16D-47D9-B471-7AE495A83BCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +164,7 @@ Global
 		{E5FCFF73-5A14-4B25-A106-84D4DC41DAD4} = {9120E884-8C59-4AE1-8330-1FB0AA0E5242}
 		{2875BC0E-77CE-4DAF-A1B1-492B065146C3} = {9120E884-8C59-4AE1-8330-1FB0AA0E5242}
 		{396B2FBD-D2C7-4EB6-B190-07CE51B89ADD} = {9B44998A-2672-4A12-8402-2EB0D3B0D679}
+		{161AFECE-AF36-4EF3-9722-4375398ED649} = {C750B889-8ADF-4973-B589-81EE13075DE7}
+		{374DF564-B16D-47D9-B471-7AE495A83BCB} = {C750B889-8ADF-4973-B589-81EE13075DE7}
 	EndGlobalSection
 EndGlobal

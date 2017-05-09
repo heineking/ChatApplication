@@ -60,6 +60,9 @@
     <Compile Include="ContextEF\ChatContext.cs" />
     <Compile Include="ContextEF\ChatDbConfiguration.cs" />
     <Compile Include="ContextEF\ChatInitializer.cs" />
+    <Compile Include="Events\EntityFrameworkDeleteEvent.cs" />
+    <Compile Include="Events\EntityFrameworkEvents.cs" />
+    <Compile Include="Events\EntityFrameworkPublisher.cs" />
     <Compile Include="Logging\LogFormatter.cs" />
     <Compile Include="Logging\LoggingInterceptor.cs" />
     <Compile Include="MappingConfig\ClaimRecordMapping.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Repositories\LoginRepositoryProfiler.cs" />
     <Compile Include="Repositories\LoginRespositoryEntityFramework.cs" />
     <Compile Include="Repositories\RepositoryEF.cs" />
+    <Compile Include="Repositories\RepositoryEventPublishing.cs" />
     <Compile Include="Repositories\RepositoryLogging.cs" />
     <Compile Include="Repositories\RepositoryProfiler.cs" />
   </ItemGroup>
