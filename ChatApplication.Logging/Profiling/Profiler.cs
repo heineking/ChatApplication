@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChatApplication.Logging.JsonNet;
+using ChatApplication.Logging.Profiling;
 using log4net;
 using Newtonsoft.Json;
 
