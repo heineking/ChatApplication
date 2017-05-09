@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Diagnostics;
 using System.EnterpriseServices.Internal;
+using ChatApplication.API.Configure;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.PubSub;
 using ChatApplication.API.User;
@@ -88,7 +89,7 @@ namespace ChatApplication.API
             container.Register<EntityFrameworkLogger>();
 
             /* pubsub */
-            container.Register<Publisher>();
+            container.Register<Decorators>();
 
             /* app helper classes */
             container.Register<IApplicationSettings, ConfigSettings>();
@@ -145,8 +146,8 @@ namespace ChatApplication.API
             container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
 
             /* pub sub */
-            var publisher = container.Resolve<Publisher>();
-            publisher.ConfigureEntityFrameworkDecorator(container);
+            var decorators = container.Resolve<Decorators>();
+            decorators.Configure(container);
 
             // repositories
             container.Register<IRoomRepository, RoomRepository>();

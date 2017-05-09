@@ -19,15 +19,30 @@ namespace ChatApplication.Syncronization.Archive
         {
             if (@event.Name == EntityFrameworkEvents.Delete(typeof(RoomRecord)))
             {
-                Delete(@event);
+                DeletedRoom(@event);
+            }
+            if (@event.Name == EntityFrameworkEvents.Add(typeof(RoomRecord)))
+            {
+                AddedRoom(@event);
             }
         }
 
-        private void Delete<TEvent>(TEvent @event)
+        private void DeletedRoom<TEvent>(TEvent @event)
         {
-            var deleteEvent = @event as EntityFrameworkDeleteEvent<RoomRecord>;
+            var deleteEvent = @event as EntityFrameworkModificationEvent<RoomRecord>;
             if (deleteEvent?.Entity == null) return;
             var room = JsonConvert.SerializeObject(deleteEvent.Entity, new JsonSerializerSettings {
+                ContractResolver = LoggingContractResolver<RoomRecord>.Instance()
+            });
+            _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; type=[{nameof(RoomRecord)}]; room=[{room}]");
+        }
+
+        private void AddedRoom<TEvent>(TEvent @event)
+        {
+            var addedRoom = @event as EntityFrameworkModificationEvent<RoomRecord>;
+            if (addedRoom?.Entity == null) return;
+            var room = JsonConvert.SerializeObject(addedRoom.Entity, new JsonSerializerSettings
+            {
                 ContractResolver = LoggingContractResolver<RoomRecord>.Instance()
             });
             _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; type=[{nameof(RoomRecord)}]; room=[{room}]");

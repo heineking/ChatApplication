@@ -22,6 +22,7 @@ namespace ChatApplication.API.Configure
         public Decorators(IApplicationSettings appSettings)
         {
             _profiling = bool.Parse(appSettings.GetValue("Logging:Profile"));
+            _publishEvents = bool.Parse(appSettings.GetValue("Repo:EnableEvents"));
         }
 
         public void Configure(TinyIoCContainer container)
@@ -80,7 +81,7 @@ namespace ChatApplication.API.Configure
                 container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
                 container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter"),
                 container.Resolve<IProfiler>()
-            ));
+            ), "roomWriterProfiler");
 
             // message
             container.Register<IRepositoryReader<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
@@ -125,8 +126,18 @@ namespace ChatApplication.API.Configure
             
             /* add subscribers */
             entityFrameworkPublisher.AddSubscriber(new Archive());
+
+            /* register the decorators */
+            var roomWriter = container.ResolveAll<IRepositoryWriter<RoomRecord>>().Last();
+            var messageWriter = container.ResolveAll<IRepositoryWriter<MessageRecord>>().Last();
+
             container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryEventPublishing<RoomRecord>(
-                container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter"),
+                roomWriter,
+                entityFrameworkPublisher
+            ));
+
+            container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryEventPublishing<MessageRecord>(
+                messageWriter,
                 entityFrameworkPublisher
             ));
         }

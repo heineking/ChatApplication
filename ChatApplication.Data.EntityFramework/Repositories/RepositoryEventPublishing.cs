@@ -23,6 +23,8 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Add(TEntity entity)
         {
             _delegateWriter.Add(entity);
+            var entityEvent = new EntityFrameworkModificationEvent<TEntity>(entity, EntityFrameworkEvents.Add(typeof(TEntity)));
+            _publisher.Publish(entityEvent);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
@@ -33,8 +35,8 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Remove(TEntity entity)
         {
             _delegateWriter.Remove(entity);
-            var entityDeleted = new EntityFrameworkDeleteEvent<TEntity>(entity, EntityFrameworkEvents.Delete(typeof(TEntity)));
-            _publisher.Publish(entityDeleted);
+            var entityEvent = new EntityFrameworkModificationEvent<TEntity>(entity, EntityFrameworkEvents.Delete(typeof(TEntity)));
+            _publisher.Publish(entityEvent);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)

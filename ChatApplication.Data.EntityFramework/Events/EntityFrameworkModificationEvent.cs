@@ -7,12 +7,12 @@ using ChatApplication.Data.Contracts.Events;
 
 namespace ChatApplication.Data.EntityFramework.Events
 {
-    public class EntityFrameworkDeleteEvent<TEntity> : IEvent where TEntity : class
+    public class EntityFrameworkModificationEvent<TEntity> : IEvent where TEntity : class
     {
         public TEntity Entity { get; set; }
         public string Name { get; private set; }
 
-        public EntityFrameworkDeleteEvent(TEntity entity, string eventName)
+        public EntityFrameworkModificationEvent(TEntity entity, string eventName)
         {
             Entity = entity;
             Name = eventName;
