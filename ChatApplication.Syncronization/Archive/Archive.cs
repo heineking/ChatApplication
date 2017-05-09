@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Odbc;
 using System.Reflection;
 using ChatApplication.Data.Contracts.Events;
 using ChatApplication.Data.Contracts.Models;
@@ -17,35 +18,56 @@ namespace ChatApplication.Syncronization.Archive
 
         public void Subscribe<TEvent>(TEvent @event) where TEvent : IEvent
         {
+            if (@event.Name.Contains(nameof(RoomRecord))) RoomEvent(@event);
+            if (@event.Name.Contains(nameof(MessageRecord))) MessageEvent(@event);
+        }
+
+        #region Room Events
+        private void RoomEvent<TEvent>(TEvent @event) where TEvent : IEvent
+        {
+            var roomEvent = @event as EntityFrameworkModificationEvent<RoomRecord>;
+            if (roomEvent?.Entity == null) return;
+
             if (@event.Name == EntityFrameworkEvents.Delete(typeof(RoomRecord)))
-            {
-                DeletedRoom(@event);
-            }
+                DeletedRoom(roomEvent.Entity);
+
             if (@event.Name == EntityFrameworkEvents.Add(typeof(RoomRecord)))
-            {
-                AddedRoom(@event);
-            }
+                AddedRoom(roomEvent.Entity);
         }
-
-        private void DeletedRoom<TEvent>(TEvent @event)
+        private void DeletedRoom(RoomRecord deletedRoom)
         {
-            var deleteEvent = @event as EntityFrameworkModificationEvent<RoomRecord>;
-            if (deleteEvent?.Entity == null) return;
-            var room = JsonConvert.SerializeObject(deleteEvent.Entity, new JsonSerializerSettings {
-                ContractResolver = LoggingContractResolver<RoomRecord>.Instance()
-            });
-            _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; type=[{nameof(RoomRecord)}]; room=[{room}]");
-        }
-
-        private void AddedRoom<TEvent>(TEvent @event)
-        {
-            var addedRoom = @event as EntityFrameworkModificationEvent<RoomRecord>;
-            if (addedRoom?.Entity == null) return;
-            var room = JsonConvert.SerializeObject(addedRoom.Entity, new JsonSerializerSettings
+            var room = JsonConvert.SerializeObject(deletedRoom, new JsonSerializerSettings
             {
                 ContractResolver = LoggingContractResolver<RoomRecord>.Instance()
             });
             _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; type=[{nameof(RoomRecord)}]; room=[{room}]");
         }
+        private void AddedRoom(RoomRecord addedRoom)
+        {
+            var room = JsonConvert.SerializeObject(addedRoom, new JsonSerializerSettings
+            {
+                ContractResolver = LoggingContractResolver<RoomRecord>.Instance()
+            });
+            _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; type=[{nameof(RoomRecord)}]; room=[{room}]");
+        }
+        #endregion
+
+        #region Message Events
+        public void MessageEvent<TEvent>(TEvent @event) where TEvent : IEvent
+        {
+            var messageEvent = @event as EntityFrameworkModificationEvent<MessageRecord>;
+            if (messageEvent?.Entity == null) return;
+            if (messageEvent.Name == EntityFrameworkEvents.Add(typeof(MessageRecord)))
+                AddMessage(messageEvent.Entity);
+        }
+        public void AddMessage(MessageRecord messageRecord)
+        {
+            var json = JsonConvert.SerializeObject(messageRecord, new JsonSerializerSettings
+            {
+                ContractResolver = LoggingContractResolver<MessageRecord>.Instance()
+            });
+            _log.Info($"function=[{MethodBase.GetCurrentMethod().Name}]; message=[{json}]; ");
+        }
+        #endregion
     }
 }

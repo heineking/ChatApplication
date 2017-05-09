@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Diagnostics;
 using System.EnterpriseServices.Internal;
+using System.Linq;
 using ChatApplication.API.Configure;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.PubSub;
@@ -88,12 +89,15 @@ namespace ChatApplication.API
             /* ef logger */
             container.Register<EntityFrameworkLogger>();
 
-            /* pubsub */
+            /* decorators */
             container.Register<Decorators>();
 
             /* app helper classes */
             container.Register<IApplicationSettings, ConfigSettings>();
             container.Register<JsonSerializer, CustomJsonSerializer>();
+            
+            /* model mappers */
+            container.Register<IModelMapper, ModelMapper>();
 
             /* security */
             container.Register<IJwtAlgorithm, HMACSHA256Algorithm>();
@@ -124,28 +128,13 @@ namespace ChatApplication.API
                 dbContext.Database.Log = s => entityFrameworkLogger.Log(s);
             }
 
-            /* model mappers */
-            container.Register<IModelMapper, ModelMapper>();
-
             /* profiler */
             container.Register<IStopwatch>((c, p) => new StopwatchAdapter(new Stopwatch()));
             container.Register<IProfiler>((c, p) => new Profiler(c.Resolve<IStopwatch>()));
 
             /* repositories */
 
-            // readers
-            container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>();
-            container.Register<IRepositoryReader<MessageRecord>, RepositoryEF<MessageRecord>>();
-            container.Register<IRepositoryReader<UserRecord>, RepositoryEF<UserRecord>>();
-            container.Register<ILoginReader, LoginRespositoryEntityFramework>();
-
-            // writers
-            container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
-            container.Register<IRepositoryWriter<MessageRecord>, RepositoryEF<MessageRecord>>();
-            container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
-            container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
-
-            /* pub sub */
+            /* decorators */
             var decorators = container.Resolve<Decorators>();
             decorators.Configure(container);
 

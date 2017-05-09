@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Configure\Decorators.cs" />
+    <Compile Include="Configure\RepoImplementations.cs" />
     <Compile Include="CustomJsonSerializer.cs" />
     <Compile Include="Extensions\BootstraperExtensions.cs" />
     <Compile Include="Extensions\JavaScriptConvert.cs" />
