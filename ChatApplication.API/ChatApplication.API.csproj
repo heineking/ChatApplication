@@ -150,8 +150,10 @@
     <Compile Include="Modules\Room\CreateMessageRequest.cs" />
     <Compile Include="Modules\Room\CreateRoomRequest.cs" />
     <Compile Include="Modules\Room\RoomModule.cs" />
+    <Compile Include="Modules\_events\RequestEvent.cs" />
+    <Compile Include="Modules\_events\RequestName.cs" />
+    <Compile Include="Modules\_events\RequestSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configure\PubSub.cs" />
     <Compile Include="User\UserIdentity.cs" />
   </ItemGroup>
   <ItemGroup>

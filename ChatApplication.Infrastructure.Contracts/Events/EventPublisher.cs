@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChatApplication.Data.Contracts.Events;
 
-namespace ChatApplication.Data.EntityFramework.Events
+namespace ChatApplication.Infrastructure.Contracts.Events
 {
-    public class EntityFrameworkPublisher : IEventPublisher
+    public class EventPublisher : IEventPublisher
     {
         private List<IEventSubscriber> Subscribers { get; }
 
-        public EntityFrameworkPublisher()
+        public EventPublisher()
         {
             Subscribers = new List<IEventSubscriber>();
         }
+
         public void Publish<TEvent>(TEvent @event) where TEvent : IEvent
         {
             Subscribers.ForEach(sub => sub.Subscribe(@event));

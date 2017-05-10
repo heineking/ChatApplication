@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using ChatApplication.Data.Contracts.Events;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Data.EntityFramework.Events;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Infrastructure.Contracts.Events;
+using ChatApplication.Logging;
 using ChatApplication.Logging.Profiling;
 using ChatApplication.Service.Contracts;
 using ChatApplication.Syncronization.Archive;
@@ -18,24 +21,25 @@ namespace ChatApplication.API.Configure
     public class Decorators
     {
         private readonly bool _profiling;
-        private readonly bool _publishEvents;
         private readonly bool _enableArchiving;
+        private readonly bool _enableCrmSync;
 
         public Decorators(IApplicationSettings appSettings)
         {
             _profiling = bool.Parse(appSettings.GetValue("Logging:Profile"));
-            _publishEvents = bool.Parse(appSettings.GetValue("Repo:EnableEvents"));
             _enableArchiving = bool.Parse(appSettings.GetValue("Repo:EnableArchiving"));
+            _enableCrmSync = bool.Parse(appSettings.GetValue("CRM:EnableSync"));
         }
 
         public void Configure(TinyIoCContainer container)
         {
             ConfigureBaseImplementations(container);
             if (_profiling) ConfigureProfiling(container);
-            if (_publishEvents) ConfigureEvents(container);
+            ConfigureDataEventPublisher(container);
+            ConfigureRequestEventPublisher(container);
         }
 
-        private void ConfigureBaseImplementations(TinyIoCContainer container)
+        private static void ConfigureBaseImplementations(TinyIoCContainer container)
         {
             // readers
             container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>();
@@ -49,8 +53,11 @@ namespace ChatApplication.API.Configure
             container.Register<IRepositoryWriter<UserRecord>, RepositoryEF<UserRecord>>();
             container.Register<IRepositoryWriter<LoginRecord>, LoginRespositoryEntityFramework>();
         }
-        private void ConfigureProfiling(TinyIoCContainer container)
+
+        private static void ConfigureProfiling(TinyIoCContainer container)
         {
+            container.Register<IStopwatch>((c, p) => new StopwatchAdapter(new Stopwatch()));
+            container.Register<IProfiler>((c, p) => new Profiler(c.Resolve<IStopwatch>()));
             var impl = new RepoImplementations(container);
 
             container.Register<IRepositoryReader<RoomRecord>>(new RepositoryProfiler<RoomRecord>(
@@ -62,7 +69,7 @@ namespace ChatApplication.API.Configure
                 impl.RoomReader,
                 impl.RoomWriter,
                 container.Resolve<IProfiler>()
-            ), "roomWriterProfiler");
+            ));
 
             // message
             container.Register<IRepositoryReader<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
@@ -101,32 +108,34 @@ namespace ChatApplication.API.Configure
                 container.Resolve<IProfiler>()
             ));
         }
-        private void ConfigureEvents(TinyIoCContainer container)
+        private void ConfigureDataEventPublisher(TinyIoCContainer container)
         {
-            var entityFrameworkPublisher = container.Resolve<EntityFrameworkPublisher>();
-            
-            /* add subscribers */
-            if (_enableArchiving) entityFrameworkPublisher.AddSubscriber(new Archive());
-
-
-            /* register the decorators */
+            // data events
+            var eventPublisher = container.Resolve<IEventPublisher>();
+            if (_enableArchiving) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("archiveSubscriber"));
+            if (_enableCrmSync) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("crmSyncSubscriber"));
             var impl = new RepoImplementations(container);
-
-            /* enable events */
+            // rooms
             container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryEventPublishing<RoomRecord>(
                 impl.RoomWriter,
-                entityFrameworkPublisher
+                eventPublisher
             ));
-
+            // messages
             container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryEventPublishing<MessageRecord>(
                 impl.MessageWriter,
-                entityFrameworkPublisher
+                eventPublisher
             ));
-
+            // logins
             container.Register<IRepositoryWriter<LoginRecord>>(new RepositoryEventPublishing<LoginRecord>(
                 impl.LoginWriter,
-                entityFrameworkPublisher
+                eventPublisher
             ));
+        }
+
+        private void ConfigureRequestEventPublisher(TinyIoCContainer container)
+        {
+            var eventPublisher = container.Resolve<IEventPublisher>();
+            eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("requestSubscriber"));
         }
     }
 }

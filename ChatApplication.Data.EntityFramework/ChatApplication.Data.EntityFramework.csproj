@@ -60,9 +60,6 @@
     <Compile Include="ContextEF\ChatContext.cs" />
     <Compile Include="ContextEF\ChatDbConfiguration.cs" />
     <Compile Include="ContextEF\ChatInitializer.cs" />
-    <Compile Include="Events\EntityFrameworkModificationEvent.cs" />
-    <Compile Include="Events\EntityFrameworkEvents.cs" />
-    <Compile Include="Events\EntityFrameworkPublisher.cs" />
     <Compile Include="Logging\LogFormatter.cs" />
     <Compile Include="Logging\LoggingInterceptor.cs" />
     <Compile Include="MappingConfig\ClaimRecordMapping.cs" />

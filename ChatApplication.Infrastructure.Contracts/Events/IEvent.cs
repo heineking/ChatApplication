@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApplication.Syncronization.Contracts.Commands
+namespace ChatApplication.Infrastructure.Contracts.Events
 {
-    public interface IReversibleCommand : ICommand
+    public interface IEvent
     {
-        void Undo();
+        string Name { get; }
     }
 }

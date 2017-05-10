@@ -44,9 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\IEventPublisher.cs" />
-    <Compile Include="Events\IEventSubscriber.cs" />
+    <Compile Include="Events\DataEvent.cs" />
+    <Compile Include="Events\EventName.cs" />
     <Compile Include="Models\LoginRecord.cs" />
     <Compile Include="Models\UserClaimsRecord.cs" />
     <Compile Include="Models\UserRecord.cs" />

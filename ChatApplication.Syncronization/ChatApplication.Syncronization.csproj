@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archive\Archive.cs" />
+    <Compile Include="Archive\CrmSync.cs" />
+    <Compile Include="Archive\EventDelegator.cs" />
+    <Compile Include="Commands\CreateMessage.cs" />
+    <Compile Include="Commands\MockSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +63,10 @@
     <ProjectReference Include="..\ChatApplication.Data.EntityFramework\ChatApplication.Data.EntityFramework.csproj">
       <Project>{71459f49-3f6f-44f0-8c3d-f850a734588b}</Project>
       <Name>ChatApplication.Data.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChatApplication.Infrastructure.Contracts\ChatApplication.Infrastructure.Contracts.csproj">
+      <Project>{f75195d8-d362-4b72-b3e6-b8a56bdcc855}</Project>
+      <Name>ChatApplication.Infrastructure.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChatApplication.Logging\ChatApplication.Logging.csproj">
       <Project>{8fab92bb-8c38-4f56-8578-55b54d339855}</Project>

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonNet\JsonLogging.cs" />
     <Compile Include="Profiling\IStopwatch.cs" />
     <Compile Include="JsonNet\LoggingContractResolver.cs" />
     <Compile Include="Log4NetExtensions.cs" />

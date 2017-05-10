@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Events;
 using ChatApplication.Data.Contracts.Repositories;
-using ChatApplication.Data.EntityFramework.Events;
+using ChatApplication.Infrastructure.Contracts.Events;
 
 namespace ChatApplication.Data.EntityFramework.Repositories
 {
@@ -23,7 +20,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Add(TEntity entity)
         {
             _delegateWriter.Add(entity);
-            var entityEvent = new EntityFrameworkModificationEvent<TEntity>(entity, EntityFrameworkEvents.Add(typeof(TEntity)));
+            var entityEvent = new DataEvent<TEntity>(entity, EventName.Add(typeof(TEntity)));
             _publisher.Publish(entityEvent);
         }
 
@@ -35,7 +32,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Remove(TEntity entity)
         {
             _delegateWriter.Remove(entity);
-            var entityEvent = new EntityFrameworkModificationEvent<TEntity>(entity, EntityFrameworkEvents.Delete(typeof(TEntity)));
+            var entityEvent = new DataEvent<TEntity>(entity, EventName.Delete(typeof(TEntity)));
             _publisher.Publish(entityEvent);
         }
 

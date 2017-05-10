@@ -1,31 +1,25 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.EnterpriseServices.Internal;
-using System.Linq;
 using ChatApplication.API.Configure;
 using ChatApplication.API.Extensions;
-using ChatApplication.API.PubSub;
+using ChatApplication.API.Modules._events;
 using ChatApplication.API.User;
-using ChatApplication.Data.Contracts;
 using ChatApplication.Data.Contracts.Events;
-using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
-using ChatApplication.Data.EntityFramework.Events;
 using ChatApplication.Data.EntityFramework.Logging;
 using ChatApplication.Data.EntityFramework.Persistence;
-using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
+using ChatApplication.Infrastructure.Contracts.Events;
 using ChatApplication.Logging;
-using ChatApplication.Logging.Profiling;
 using ChatApplication.Mapper;
 using ChatApplication.Password;
 using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
 using ChatApplication.Service;
 using ChatApplication.Service.Contracts;
+using ChatApplication.Syncronization.Archive;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
@@ -113,7 +107,6 @@ namespace ChatApplication.API
             base.ConfigureRequestContainer(container, context);
             var appSettings = container.Resolve<ConfigSettings>();
             var connStr = appSettings.GetConnection("context");
-            var profile = bool.Parse(appSettings.GetValue("Logging:Profile"));
             var traceEf = bool.Parse(appSettings.GetValue("Logging:EF:Trace"));
 
 
@@ -127,14 +120,16 @@ namespace ChatApplication.API
                 var entityFrameworkLogger = container.Resolve<EntityFrameworkLogger>();
                 dbContext.Database.Log = s => entityFrameworkLogger.Log(s);
             }
-
-            /* profiler */
-            container.Register<IStopwatch>((c, p) => new StopwatchAdapter(new Stopwatch()));
-            container.Register<IProfiler>((c, p) => new Profiler(c.Resolve<IStopwatch>()));
+            
+            /* pub subs */
+            container.Register<IEventPublisher, EventPublisher>();
+            container.Register<IEventSubscriber, Archive>("archiveSubscriber");
+            container.Register<IEventSubscriber, RequestSubscriber>("requestSubscriber");
+            container.Register<IEventSubscriber, CrmSync>("crmSyncSubscriber");
 
             /* repositories */
 
-            /* decorators */
+            // decorators
             var decorators = container.Resolve<Decorators>();
             decorators.Configure(container);
 
