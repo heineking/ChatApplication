@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Archive\Archive.cs" />
     <Compile Include="Archive\CrmSync.cs" />
-    <Compile Include="Archive\EventDelegator.cs" />
     <Compile Include="Commands\CreateMessage.cs" />
     <Compile Include="Commands\MockSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

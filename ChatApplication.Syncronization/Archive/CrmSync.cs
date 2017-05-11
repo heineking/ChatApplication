@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Events;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Infrastructure.Contracts.Events;
-using ChatApplication.Syncronization.Commands;
-using ChatApplication.Syncronization.Contracts.Commands;
 
 namespace ChatApplication.Syncronization.Archive
 {
-    public class CrmSync : EventDelegator, IEventSubscriber
+    public class CrmSync : IEventSubscriber
     {
-        public override void CreatedMessage(DataEvent<MessageRecord> messageRecord)
+        private readonly List<IEventSubscriber> _subscribers;
+
+        public CrmSync()
         {
-            var create = new CreateMessage(messageRecord.Entity);
-            create.Execute();
+            _subscribers = new List<IEventSubscriber>
+            {
+                new DataEventSubscriber<RoomRecord>(),
+                new DataEventSubscriber<MessageRecord>(),
+                new DataEventSubscriber<LoginRecord>()
+            };
         }
 
         public void Subscribe<TEvent>(TEvent @event) where TEvent : IEvent
         {
-            Delegator(@event);
+            _subscribers.ForEach(s => s.Subscribe(@event));
         }
     }
 }

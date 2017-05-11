@@ -34,9 +34,9 @@ namespace ChatApplication.API.Configure
         public void Configure(TinyIoCContainer container)
         {
             ConfigureBaseImplementations(container);
-            if (_profiling) ConfigureProfiling(container);
             ConfigureDataEventPublisher(container);
             ConfigureRequestEventPublisher(container);
+            if (_profiling) ConfigureProfiling(container);
         }
 
         private static void ConfigureBaseImplementations(TinyIoCContainer container)

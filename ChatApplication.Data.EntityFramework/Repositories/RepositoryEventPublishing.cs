@@ -20,7 +20,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Add(TEntity entity)
         {
             _delegateWriter.Add(entity);
-            var entityEvent = new DataEvent<TEntity>(entity, EventName.Add(typeof(TEntity)));
+            var entityEvent = new DataEvent<TEntity>(entity, EventName<TEntity>.Created);
             _publisher.Publish(entityEvent);
         }
 
@@ -32,7 +32,7 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         public void Remove(TEntity entity)
         {
             _delegateWriter.Remove(entity);
-            var entityEvent = new DataEvent<TEntity>(entity, EventName.Delete(typeof(TEntity)));
+            var entityEvent = new DataEvent<TEntity>(entity, EventName<TEntity>.Delete);
             _publisher.Publish(entityEvent);
         }
 
