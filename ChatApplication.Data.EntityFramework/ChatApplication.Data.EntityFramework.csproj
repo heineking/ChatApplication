@@ -91,9 +91,6 @@
     <Compile Include="Repositories\LoginRepositoryProfiler.cs" />
     <Compile Include="Repositories\LoginRespositoryEntityFramework.cs" />
     <Compile Include="Repositories\RepositoryEF.cs" />
-    <Compile Include="Repositories\RepositoryEventPublishing.cs" />
-    <Compile Include="Repositories\RepositoryLogging.cs" />
-    <Compile Include="Repositories\RepositoryProfiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApplication.Data.Contracts\ChatApplication.Data.Contracts.csproj">

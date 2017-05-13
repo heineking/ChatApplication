@@ -1,9 +1,20 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using log4net;
 using log4net.Core;
 
 namespace ChatApplication.Logging
 {
+    public static class LoggingExtensions
+    {
+        public static string Caller(
+            [CallerMemberName] string memberName = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            return $"({lineNumber}):{memberName}";
+        }
+
+    }
     public static class Log4NetExtensions
     {
         private static readonly Level SqlLevel = new Level(35000, "SQL");

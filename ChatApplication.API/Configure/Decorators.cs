@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using ChatApplication.Data.Contracts.Events;
+﻿using System.Diagnostics;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Repositories;
+using ChatApplication.Data.Contracts.Repositories.Decorators;
 using ChatApplication.Data.EntityFramework.Repositories;
 using ChatApplication.Infrastructure.Contracts;
 using ChatApplication.Infrastructure.Contracts.Events;
 using ChatApplication.Logging;
 using ChatApplication.Logging.Profiling;
-using ChatApplication.Service.Contracts;
-using ChatApplication.Syncronization.Archive;
 using Nancy.TinyIoc;
 
 namespace ChatApplication.API.Configure
@@ -58,54 +51,55 @@ namespace ChatApplication.API.Configure
         {
             container.Register<IStopwatch>((c, p) => new StopwatchAdapter(new Stopwatch()));
             container.Register<IProfiler>((c, p) => new Profiler(c.Resolve<IStopwatch>()));
+            var profiler = container.Resolve<IProfiler>();
             var impl = new RepoImplementations(container);
 
             container.Register<IRepositoryReader<RoomRecord>>(new RepositoryProfiler<RoomRecord>(
                 impl.RoomReader,
                 impl.RoomWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
             container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryProfiler<RoomRecord>(
                 impl.RoomReader,
                 impl.RoomWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
 
             // message
             container.Register<IRepositoryReader<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
                 impl.MessageReader,
                 impl.MessageWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
 
             container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryProfiler<MessageRecord>(
                 impl.MessageReader,
                 impl.MessageWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
 
             // login
             container.Register<IRepositoryWriter<LoginRecord>>(new RepositoryProfiler<LoginRecord>(
                 impl.LoginReader,
                 impl.LoginWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
 
             container.Register<ILoginReader>(new LoginRepositoryProfiler(
                 impl.LoginReader,
-                container.Resolve<IProfiler>()
+                profiler
             ));
 
             // users
             container.Register<IRepositoryWriter<UserRecord>>(new RepositoryProfiler<UserRecord>(
                 impl.UserReader,
                 impl.UserWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
             container.Register<IRepositoryReader<UserRecord>>(new RepositoryProfiler<UserRecord>(
                 impl.UserReader,
                 impl.UserWriter,
-                container.Resolve<IProfiler>()
+                profiler
             ));
         }
         private void ConfigureDataEventPublisher(TinyIoCContainer container)
@@ -115,19 +109,48 @@ namespace ChatApplication.API.Configure
             if (_enableArchiving) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("archiveSubscriber"));
             if (_enableCrmSync) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("crmSyncSubscriber"));
             var impl = new RepoImplementations(container);
-            // rooms
-            container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryEventPublishing<RoomRecord>(
+
+            container.Register<IRepositoryReader<RoomRecord>>(new RepositoryEventPublisher<RoomRecord>(
+                impl.RoomReader,
                 impl.RoomWriter,
                 eventPublisher
             ));
-            // messages
-            container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryEventPublishing<MessageRecord>(
+            container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryEventPublisher<RoomRecord>(
+                impl.RoomReader,
+                impl.RoomWriter,
+                eventPublisher
+            ));
+
+            // message
+            container.Register<IRepositoryReader<MessageRecord>>(new RepositoryEventPublisher<MessageRecord>(
+                impl.MessageReader,
                 impl.MessageWriter,
                 eventPublisher
             ));
-            // logins
-            container.Register<IRepositoryWriter<LoginRecord>>(new RepositoryEventPublishing<LoginRecord>(
+
+            container.Register<IRepositoryWriter<MessageRecord>>(new RepositoryEventPublisher<MessageRecord>(
+                impl.MessageReader,
+                impl.MessageWriter,
+                eventPublisher
+            ));
+
+            // login
+            container.Register<IRepositoryWriter<LoginRecord>>(new RepositoryEventPublisher<LoginRecord>(
+                impl.LoginReader,
                 impl.LoginWriter,
+                eventPublisher
+            ));
+
+
+            // users
+            container.Register<IRepositoryWriter<UserRecord>>(new RepositoryEventPublisher<UserRecord>(
+                impl.UserReader,
+                impl.UserWriter,
+                eventPublisher
+            ));
+            container.Register<IRepositoryReader<UserRecord>>(new RepositoryEventPublisher<UserRecord>(
+                impl.UserReader,
+                impl.UserWriter,
                 eventPublisher
             ));
         }

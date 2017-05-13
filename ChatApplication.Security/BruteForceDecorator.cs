@@ -56,7 +56,7 @@ namespace ChatApplication.Security
             var token = _security.LoginTokenOrDefault(login, password);
             // reset the login attempts if had a valid password
             if (token != null) login.LoginAttempts = 0;
-            
+
             // sync the login attempts
             _uow.Logins.Update(login);
             _uow.SaveChanges();

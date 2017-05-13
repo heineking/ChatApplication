@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChatApplication.Data.Contracts.Repositories
 {
@@ -12,7 +9,7 @@ namespace ChatApplication.Data.Contracts.Repositories
         protected readonly IRepositoryReader<TEntity> ReaderDelegate;
         protected readonly IRepositoryWriter<TEntity> WriterDelegate;
 
-        protected Repository(IRepositoryReader<TEntity> reader, IRepositoryWriter<TEntity> writer)
+        public Repository(IRepositoryReader<TEntity> reader, IRepositoryWriter<TEntity> writer)
         {
             ReaderDelegate = reader;
             WriterDelegate = writer;

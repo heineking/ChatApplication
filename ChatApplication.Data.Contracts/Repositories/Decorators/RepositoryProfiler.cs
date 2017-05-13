@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Logging;
+using ChatApplication.Logging.JsonNet;
 using ChatApplication.Logging.Profiling;
 using log4net;
-using Newtonsoft.Json;
 
-namespace ChatApplication.Data.EntityFramework.Repositories
+namespace ChatApplication.Data.Contracts.Repositories.Decorators
 {
     public class RepositoryProfiler<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IProfiler _profiler;
         private readonly IRepositoryReader<TEntity> _readerDelegate;
         private readonly IRepositoryWriter<TEntity> _writerDelegate;
-        private string Type => typeof(TEntity).Name;
+        private readonly IProfiler _profiler;
 
-        public RepositoryProfiler(IRepositoryReader<TEntity> readerDelegate, IRepositoryWriter<TEntity> writeDelegate, IProfiler profiler)
+        public RepositoryProfiler(IRepositoryReader<TEntity> readerDelegate, IRepositoryWriter<TEntity> writerDelegate, IProfiler profiler)
         {
             _readerDelegate = readerDelegate;
-            _writerDelegate = writeDelegate;
+            _writerDelegate = writerDelegate;
+            _profiler = profiler;
 
             // set up profiler
             _profiler = profiler;
@@ -34,67 +29,74 @@ namespace ChatApplication.Data.EntityFramework.Repositories
         }
         public TEntity Get(long id)
         {
+            var callerInfo = LoggingExtensions.Caller();
             return _profiler.Profile(
                 () => _readerDelegate.Get(id),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; id=[{id}]; "
+                $"{callerInfo} - id=[{id}]"
             );
         }
 
         public IEnumerable<TEntity> GetAll()
         {
+            var callerInfo = LoggingExtensions.Caller();
             return _profiler.Profile(
                 () => _readerDelegate.GetAll(),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; "    
+                callerInfo    
             );
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
+            var callerInfo = LoggingExtensions.Caller();
             return _profiler.Profile(
-                () => _readerDelegate.Find(predicate),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; predicate=[{predicate}]; "    
+                () => _readerDelegate.GetAll(),
+                $"{callerInfo} - predicate=[{predicate}];"
             );
         }
 
         public void Add(TEntity entity)
         {
+            var callerInfo = LoggingExtensions.Caller();
             _profiler.Profile(
                 () => _writerDelegate.Add(entity),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; entity=[{_profiler.Serialize(entity)}]; "
+                $"{callerInfo} - entity=[{JsonLogging.Serialize(entity)}];"
             );
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
+            var callerInfo = LoggingExtensions.Caller();
             _profiler.Profile(
                 () => _writerDelegate.AddRange(entities),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; entities=[{_profiler.Serialize(entities)}]; "
-            );
-        }
-
-        public void Remove(TEntity entity)
-        {
-            _profiler.Profile(
-                () => _writerDelegate.Remove(entity),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; entity=[{_profiler.Serialize(entity)}]; "
-            );
-        }
-
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            _profiler.Profile(
-                () => _writerDelegate.RemoveRange(entities),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; entities=[{_profiler.Serialize(entities)}]; "
+                $"{callerInfo} - entities=[{JsonLogging.Serialize(entities)}];"
             );
         }
 
         public void Update(TEntity entity)
         {
+            var callerInfo = LoggingExtensions.Caller();
             _profiler.Profile(
                 () => _writerDelegate.Update(entity),
-                $"function=[{MethodBase.GetCurrentMethod().Name}]; entity=[{_profiler.Serialize(entity)}]; "
+                $"{callerInfo} - entity=[{JsonLogging.Serialize(entity)}];"
+            );
+        }
+
+        public void Remove(TEntity entity)
+        {
+            var callerInfo = LoggingExtensions.Caller();
+            _profiler.Profile(
+                () => _writerDelegate.Remove(entity),
+                $"{callerInfo} - entity=[{JsonLogging.Serialize(entity)}];"
+            );
+        }
+
+        public void RemoveRange(IEnumerable<TEntity> entities)
+        {
+            var callerInfo = LoggingExtensions.Caller();
+            _profiler.Profile(
+                () => _writerDelegate.RemoveRange(entities),
+                $"{callerInfo} - entities=[{JsonLogging.Serialize(entities)}];"
             );
         }
     }
 }
-

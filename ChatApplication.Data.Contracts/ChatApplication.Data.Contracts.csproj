@@ -51,12 +51,15 @@
     <Compile Include="Events\DataEvent.cs" />
     <Compile Include="Events\DataEventSubscriber.cs" />
     <Compile Include="Events\EventName.cs" />
+    <Compile Include="Events\IDataEventStrategy.cs" />
     <Compile Include="Events\IDataEventSubscriber.cs" />
     <Compile Include="Models\LoginRecord.cs" />
     <Compile Include="Models\UserClaimsRecord.cs" />
     <Compile Include="Models\UserRecord.cs" />
     <Compile Include="Persistence\ILoginUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
+    <Compile Include="Repositories\Decorators\RepositoryEventPublisher.cs" />
+    <Compile Include="Repositories\Decorators\RepositoryProfiler.cs" />
     <Compile Include="Repositories\ILoginReader.cs" />
     <Compile Include="Repositories\ILoginRepository.cs" />
     <Compile Include="Repositories\IMessageRepository.cs" />

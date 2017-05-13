@@ -1,4 +1,6 @@
-﻿using ChatApplication.Data.Contracts.Models;
+﻿using System;
+using System.Collections.Generic;
+using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Infrastructure.Contracts.Events;
 
 namespace ChatApplication.Data.Contracts.Events
@@ -13,6 +15,7 @@ namespace ChatApplication.Data.Contracts.Events
             Entity = entity;
             Name = eventName;
         }
+
     }
 
     public class SaveEvent : IEvent
