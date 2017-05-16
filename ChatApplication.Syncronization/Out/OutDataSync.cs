@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChatApplication.Data.Contracts.Events;
-using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Infrastructure.Contracts.Events;
+using ChatApplication.Syncronization.Out.CRM;
+using ChatApplication.Syncronization.Out.Offsite;
 
-namespace ChatApplication.Syncronization.Archive
+namespace ChatApplication.Syncronization.Out
 {
-    public class CrmSync : IEventSubscriber
+    public class OutDataSync : IEventSubscriber
     {
         private readonly List<IEventSubscriber> _subscribers;
 
-        public CrmSync()
+        public OutDataSync()
         {
             _subscribers = new List<IEventSubscriber>
             {
-                new DataEventSubscriber<RoomRecord>(),
-                new DataEventSubscriber<MessageRecord>(),
-                new DataEventSubscriber<LoginRecord>()
+                new CrmMessageSync(),
+                new OffsiteMessageSync()
             };
         }
 

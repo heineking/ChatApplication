@@ -19,7 +19,8 @@ using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
 using ChatApplication.Service;
 using ChatApplication.Service.Contracts;
-using ChatApplication.Syncronization.Archive;
+using ChatApplication.Syncronization.In;
+using ChatApplication.Syncronization.Out;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
@@ -123,9 +124,9 @@ namespace ChatApplication.API
             
             /* pub subs */
             container.Register<IEventPublisher, EventPublisher>();
-            container.Register<IEventSubscriber, Archive>("archiveSubscriber");
+            container.Register<IEventSubscriber, OutDataSync>("outDataSync");
+            container.Register<IEventSubscriber, InDataSync>("inDataSync");
             container.Register<IEventSubscriber, RequestSubscriber>("requestSubscriber");
-            container.Register<IEventSubscriber, CrmSync>("crmSyncSubscriber");
 
             /* repositories */
 

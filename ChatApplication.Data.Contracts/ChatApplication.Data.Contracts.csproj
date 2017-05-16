@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\DataEvent.cs" />
+    <Compile Include="Events\DataEventReadSubscriber.cs" />
     <Compile Include="Events\DataEventSubscriber.cs" />
+    <Compile Include="Events\DataEventWriteSubscriber.cs" />
     <Compile Include="Events\EventName.cs" />
     <Compile Include="Events\IDataEventStrategy.cs" />
     <Compile Include="Events\IDataEventSubscriber.cs" />

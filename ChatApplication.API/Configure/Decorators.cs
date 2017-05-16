@@ -14,14 +14,10 @@ namespace ChatApplication.API.Configure
     public class Decorators
     {
         private readonly bool _profiling;
-        private readonly bool _enableArchiving;
-        private readonly bool _enableCrmSync;
 
         public Decorators(IApplicationSettings appSettings)
         {
             _profiling = bool.Parse(appSettings.GetValue("Logging:Profile"));
-            _enableArchiving = bool.Parse(appSettings.GetValue("Repo:EnableArchiving"));
-            _enableCrmSync = bool.Parse(appSettings.GetValue("CRM:EnableSync"));
         }
 
         public void Configure(TinyIoCContainer container)
@@ -106,8 +102,9 @@ namespace ChatApplication.API.Configure
         {
             // data events
             var eventPublisher = container.Resolve<IEventPublisher>();
-            if (_enableArchiving) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("archiveSubscriber"));
-            if (_enableCrmSync) eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("crmSyncSubscriber"));
+            eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("outDataSync"));
+            eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("inDataSync"));
+
             var impl = new RepoImplementations(container);
 
             container.Register<IRepositoryReader<RoomRecord>>(new RepositoryEventPublisher<RoomRecord>(
@@ -155,7 +152,7 @@ namespace ChatApplication.API.Configure
             ));
         }
 
-        private void ConfigureRequestEventPublisher(TinyIoCContainer container)
+        private static void ConfigureRequestEventPublisher(TinyIoCContainer container)
         {
             var eventPublisher = container.Resolve<IEventPublisher>();
             eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("requestSubscriber"));

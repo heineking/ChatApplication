@@ -63,6 +63,7 @@ namespace ChatApplication.Service
             var messageRecord = _mapper.MessageToMessageRecord(message);
             _uow.Messages.Add(messageRecord);
             _uow.SaveChanges();
+            message.MessageId = messageRecord.MessageId;
         }
 
         public List<Message> GetRoomMessagesFromDate(long roomId, long dateTime)
