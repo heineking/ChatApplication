@@ -1,445 +1,81 @@
-# ChatApplication #
+# Chat Application #
 
-Emil Heineking
+**Author:** Emil Heineking
 
-Senior Seminar, Spring '17
+This project is a side-project that was created purely for exploratory and academic
+reasons. There are likely some issues with my implementations so beware if you
+use this project as a guide for any production code.
 
-Term Project
+The project investigates the following concepts:
 
-## Motivation ##
+## Server ##
 
-Learn better OOP design and best practices through trying to implement SOLID principles.
+#### Security ####
+* JSON Web Token (JWT)
+* Hashed & Salted Passwords
+* Brute-force detector
 
-## Build & Run ##
+#### RESTFul API ####
+* NancyFx
+* CORS enabled
+* POST, GET, & DELETE verbs
+* Stateless Authorization
 
-Go to the Js/app in the ChatApplication.UI project.
+#### Dependency Injection ####
 
-run:
+Dependency injection is handled using **tinyIoC**. There are examples of
+registering multiple layered decorators. This is what powers the decoupled
+approach of this project.
 
->> npm install
->> npm run start
+#### Data Access Layer ####
 
-Then start the visual studio project
+* EntityFramework
+  * Code-First
+  * Configurable tracing available
+* Dapper
+* MongoDb
+  * available on different branch
+* CQRS
 
-## ChatApplication.Data ##
+#### Logging ####
 
-This is the portion of the project that defines the data access layer. The approach I am taking is to model a generic repository pattern with a unit of work pattern for the persistence layer. A repository should be considered an in-memory collection of objects, and **not** a part of the application that will actually provide any logic for persisting to the database. With this in mind, the repository should be implemented similar to a IList. The repository will allow the client to load collections from the database into memory and provide the user the ability to manipulate that collection. Then the UnitOfWork implementation will handle the actual logic that persists the in-memory representation down to the database layer.
+* Log4Net
+  * Custom levels defined
+  * Namespace level loggers
 
-This part of the application is also a good opportunity to show the power of using SOLID principles, and leveraging code reuse.
+#### Patterns (General) ####
 
-Consider the following implementation of a RoomRepository:
+* Decorator
+* Observer / Subscriber
+* Command
+* Stairway Pattern
 
-```csharp
+#### Testing ####
 
-public class MessageRepository : IMessageRepository
-{
-    private readonly IRepositoryWriter<MessageRecord> _writerDelegate;
-    private readonly IRepositoryReader<MessageRecord> _readerDelegate;
+* Moq
+* NUnit
+* Nancy.Testing
 
-    public MessageRepository(IRepositoryWriter<MessageRecord> writerDelegate, IRepositoryReader<MessageRecord> readerDelegate)
-    {
-        _writerDelegate = writerDelegate;
-        _readerDelegate = readerDelegate;
-    }
-    public MessageRecord Get(int id)
-    {
-        return _readerDelegate.Get(id);
-    }
+## Client & User Interface ##
 
-    /* code removed for brevity */
+* React
+  * ReactCreateApp
+* Redux
+* React-Router
+* WebPack 2.0
+* MaterialUI
+* LocalStorage
 
-}
 
-```
+## Left to be Done (non-exhaustive) ##
 
-This pattern is decorating the ```IRepositoryWriter``` and ```IRepositoryReader``` implementations. This allows the client of the application to be able to supply different approaches to writing and reading to the database.
+* Editable rooms & messages
+* Persist login on page refresh
+* New user Registration
 
-There are often different needs for accessing and manipulating data. In a world of short attention spans, data often needs to be accessed as quick as possible.
+## Notice ##
 
-#### Motivation / Background ####
-
-Consider this [article](http://www.globaldots.com/how-website-speed-affects-conversion-rates/). The article comments on how Walmart experienced a 2% increase in the number of visitors who ended up buying a product. They also found that for every 100ms of improvement they grew incremental revenue by up to 1%.
-
-Although there are many aspects that impact page-load time like: efficient caching, code-splitting, network load and balancing, retrieving data is an important part.
-
-A common approach to developing a Data Access Layer (DAL) is to wrap an Object Relational Mapper (ORM) over the database. The recommending Microsoft solution is to use EntityFramework, which is widely adopted. This is exactly what StackOverflow, which has 5+ billion views a year, used before experiencing detrimental performance problems. The creators of Stackoverlfow decided to role their own micro-ORM, Dapper which alleviated these problems. Dapper is now widely used in the industry for its highly performant nature.
-
-Julie Lerman compares EntityFramework and Dapper in this [MSDN article](https://msdn.microsoft.com/en-us/magazine/mt703432.aspx). She finds that Dapper out performs LINQ to EF by over 50%, but finds marginal difference between EF Raw SQL and Dapper. She concludes that Dapper should be considered for applications that must be highly performant, but if the application is already implemented using EF then try writing raw SQL for EF before switching the whole application to Dapper.
-
-The power of EF, in my opinion, is it's change tracking ability. We can load a record from the database, make changes (or deletion) and simply call ```saveChanges``` and EF will figure out the appropriate SQL query to execute. The benefit is that, if there were multiple changes, EF will construct the query to update in one batch. This minimizes the number of trips to the database which could potentially help applications which are sensitive to database load and network connectivity issues.
-
-#### How does this relate to our repository pattern? ####
-
-With our application we are allowing the client to be flexible with the implementation of how to access and save to the database. The client can decide to write both the write and reads in EntityFramework, and then if they would like to change one of the approaches they could simply swap out the read implentation for something written in Dapper or EF with Raw SQL.
-
-This should, however, be done with care. Swapping out the read function for Dapper will break EFs change tracking.
-
-#### Can we further abstract this Repository pattern? ####
-
-Yes, we can further abstract this pattern. The approach we are taking here is generic, and we could create a repository class which other repositories will inherit:
-
-```csharp
-
-/*
-  Generic Repository Class
- */
-public class Repository<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
-{
-    protected readonly IRepositoryReader<TEntity> ReaderDelegate;
-    protected readonly IRepositoryWriter<TEntity> WriterDelegate;
-
-    protected Repository(IRepositoryReader<TEntity> reader, IRepositoryWriter<TEntity> writer)
-    {
-        ReaderDelegate = reader;
-        WriterDelegate = writer;
-    }
-    public TEntity Get(int id)
-    {
-        return ReaderDelegate.Get(id);
-    }
-    /* code removed for brevity */
-}
-```
-
-Now we can define MessageRepository and RoomRepository as the following:
-
-```csharp
-
-public class MessageRepository : Repository<MessageRecord>, IMessageRepository
-{
-    public MessageRepository(IRepositoryReader<MessageRecord> reader, IRepositoryWriter<MessageRecord> writer) : base(reader, writer) { }
-}
-
-public class RoomRepository : Repository<RoomRecord>, IRoomRepository
-{
-    public RoomRepository(IRepositoryReader<RoomRecord> reader, IRepositoryWriter<RoomRecord> writer) : base(reader, writer) { }
-}
-
-```
-
-## Authentication - JWT ##
-
-This application will be using JSON Web Token specification for stateless authentication through NancyFx piplelines.
-
-### What is a JSON Web Token (JWT)? ###
-
-The web is stateless which means that data cannot be saved across requests. This means that in order to protect resources the user must be validated for every request. A common approach is to store the authentication with a session on the server. This approach, however, does not scale well horizontally. Consider what might happen if the application were to be split among multiple servers? Managing a session across multiple servers is difficult. The JWT does allow for authentication to be handled **across multiple servers**.
-
-The JWT is a cryptographically signed and encrypted JSON object that is saved on the client and sent back to the server. The neat thing about JWT is the flexibility of the information that can used for authentication.
-
-A developer will need to decide where to store the JWT once the user has been authenticated. This [stormpath](https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage) article outlines both approaches: Cookies & Web Storage.
-
-#### Cookies ####
-
-Cookies could be used if the API is being served on the same domain as the application. The advantage of using cookies is that they can be set automatically from the server. The authentication cookie is then automatically sent with every subsequent request to that domain.
-
-Cookies, with the proper HttpOnly flag, can also be protected from being accessed by JavaScript. This helps to protect against cross-site scripting attacks (XSS). There is another concern to protect against cross-site request forgery attacks. The site can generate a **csrf token** to prevent these attacks.
-
-#### Web Storage ####
-
-Web storage is another storage method available for storing JWT. The user can pick between localStorage or sessionStorage. The localStorage will persist until explicitly deleted and the sessionStorage will be deleted only while the window that created it is open.
-
-The Web Storage must be used if accessing an API on a domain that is separate from the initiating resource. The drawback to using WebStorage is that no security standards are enforced (in contrast to cookies). The user must take proper measures to send JWT over HTTPS. To make things worse, since the WebStorage is accessible by JavaScript, there is valid concern for cross-scripting attacks.
-
-A very real concern with XSS attacks is that third-party JavaScript can access the WebStorage and compromise the security. This makes identifying and protecting against XSS attacks difficult.
-
-#### What do we do? ####
-
-Cookies should be used websites that need higher security. The cookies will need to address the CSRF attacks but this is easier to manage by the application.
-
-I will continue to use WebStorage for this project because it presents an interesting problem that I do not often encounter. This should, however, be thought through carefully when developing a *real* application.
-
-In a **real world** situation, I would plan on using cookies if I were planning on shipping this as a live application. Using cookies would require me to host the API on the same domain as the SPA. I would also need to issue a CSRF token in the JWT.
-
-This will be something to address at the of this project if time allows.
-
-#### JWT Sources: ####
-
-https://jwt.io/introduction/
-
-https://float-middle.com/json-web-tokens-jwt-vs-sessions/
-
-https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage
-
-https://github.com/NancyFx/Nancy/blob/master/samples/Nancy.Demo.Authentication.Stateless/StatelessAuthBootstrapper.cs
-
-***
-
-## SOLID Code: Single Responsibility Principle ##
-
-The first part of the SOLID principles is to write code that does one thing and does it well. The following code snippet shows that the ```ValidateLogin``` was doing **two** things:
-
-* Getting the ```LoginRecord``` from the database
-* Mapping the ```LoginRecord``` to a ```LoginToken``` with the appropriate token values (e.g., Iss, exp)
-
-We can refactor this code so that the function doesn't need to know how to map the ```LoginRecord``` to the ```LoginToken```.
-
-```csharp
-// Code snip it from the SecurityService
-
-public LoginToken ValidateLogin(string username, string password)
-{
-    var loginRecord = _loginReader.ValidateLogin(username, password);
-    if (loginRecord == null)
-    {
-        return null;
-    }
-    // todo: this should be moved out of the service. Violates SRP
-    return new LoginToken
-    {
-        Exp = DateTime.Now.AddHours(_exp).Ticks.ToString(),
-        Iss = "issuer",
-        LoginName = loginRecord.Login,
-        UserId = loginRecord.UserId
-    };
-}
-```
-
-**After Refactor:**
-
-```csharp
-
-public LoginToken ValidateLogin(string username, string password)
-{
-    var loginRecord = _loginReader.ValidateLogin(username, password);
-    return loginRecord == null ? null : _tokenGenerator.CreateLoginToken(loginRecord);
-}
-
-```
-***
-
-## Dependency Injection ##
-
-```csharp
-
-// Bad
-public SecurityService()
-{
-    var myHardCodedDependency = new JwtDecoder();
-}
-
-// Good
-public SecurityService(IJwtDecoder decoder)
-{
-
-}
-```
-
-Use an Inversion of Control container to handle all the resolving and set up the the decorators.
-
-```csharp
-
-protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
- {
-     /* repositories */
-
-     // readers
-     container.Register<IRepositoryReader<RoomRecord>, RepositoryEF<RoomRecord>>("roomReader");
-     // writers
-     container.Register<IRepositoryWriter<RoomRecord>, RepositoryEF<RoomRecord>>("roomWriter");
-
-     // register decorators
-     container.Register<IRepositoryReader<RoomRecord>>(new RepositoryLogging<RoomRecord>(
-         container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-         container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
-        ));
-     container.Register<IRepositoryWriter<RoomRecord>>(new RepositoryLogging<RoomRecord>(
-         container.Resolve<IRepositoryReader<RoomRecord>>("roomReader"),
-         container.Resolve<IRepositoryWriter<RoomRecord>>("roomWriter")
-         ));
- }
-
-```
-
-***
-
-## Decorator Pattern ##
-
-By using the SOLID principles with our Repository pattern we are able to compose different functionality around the existing implementation. The trick is to pass the implementation that we wish to wrap into the constructor of the decorator. Then we can use the decorator as a substitute for the original implementation. We are able to do this because of the decorated is defined as a ```IRepositoryReader``` and ```IRepositoryWriter```
-
-```csharp
-
-// Decorated Repository that adds logging to the application
-public class RepositoryLogging<TEntity> : IRepositoryReader<TEntity>, IRepositoryWriter<TEntity> where TEntity : class
-{
-
-    private readonly string _loggingFile = @"./logging.txt";
-    private readonly IRepositoryReader<TEntity> _readerDelegate;
-    private readonly IRepositoryWriter<TEntity> _writerDelegate;
-
-    public RepositoryLogging(IRepositoryReader<TEntity> readerDelegate, IRepositoryWriter<TEntity> writeDelegate)
-    {
-        _readerDelegate = readerDelegate;
-        _writerDelegate = writeDelegate;
-    }
-    public TEntity Get(int id)
-    {
-        WriteLog($"Request to get entity of type {typeof(TEntity).Name} with id: {id}");
-        return _readerDelegate.Get(id);
-    }
-    /* code removed for brevity */
-}
-
-```
-
-***
-
-## ChatApplication.Test ##
-
-Testing is an important part of any project, and should be considered an important part of the development of any application. Writing SOLID style code facilitates writing tests because each class/function should be small in responsibility and easily mocked. Mocking allows us to focus on *only* testing the section of code that we interested and ignore any of it's dependencies.
-
-There are several reason why we would want to follow unit tests for our project:
-
-* Helps to support management of the application over time by ensuring that changes do not break functionality. In other words, changes to the application can be made with greater confidence.
-* Helps to document the application
-* Helps to identify code smells
-
-***
-
-## Adaptive Example ##
-
-**User Story**: we must prevent hackers from compromising a user account through a brute force attack.
-
-**Naive Solution**: The naive solution would be to update the code of the existing ```ISecurityService``` implementation. This would, however, violate the single responsibility principle because then the ```SecurityService``` would be responsible for checking the for the brute force violations and also encoding the LoginRecord into an encrypted token for the client to consume.
-
-**SOLID Solution**: We will disable the ability to log into the account if there are too many unsuccessful attempts. We will do this by creating a ```BruteForceDecorator``` implementation of ```ISecurityService```.
-
-This is take several steps.
-
-**Step 1**: update the login table with appropriate fields to track.
-
-```csharp
-
-public class LoginRecord
-{
-    public Guid UserId { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
-    public int LoginAttempts { get; set; }  // <-- added
-
-    public virtual UserRecord User { get; set; }
-}
-
-```
-
-**Step 2**: create a ```ISecurityService``` decorator that bolts on the brute force detection and handling.
-
-```csharp
-
-public class BruteForceDecorator : ISecurityService
-{
-    private readonly ISecurityService _security;
-    private readonly ILoginUnitOfWork _uow;
-    private readonly int _maxAttempts;
-
-    public BruteForceDecorator(ISecurityService security, ILoginUnitOfWork uow, IApplicationSettings appSettings)
-    {
-        _security = security;
-        _uow = uow;
-        _maxAttempts = int.Parse(appSettings.GetValue("Login:MaxAttempts"));
-    }
-    /// <summary>
-    /// Returns the LoginRecord associated with the passed in username. It also updates
-    /// the loginAttempts on the record to keep track of how many login attempts were made for
-    /// the record.
-    /// </summary>
-    /// <param name="name">The name of a login record</param>
-    /// <returns>LoginRecord or Null</returns>
-    public LoginRecord LoginByNameOrDefault(string name)
-    {
-        var loginRecord = _security.LoginByNameOrDefault(name);
-
-        // return null if the record has reached the max attempts or we didn't
-        // find the login record
-        if (loginRecord == null) return null;
-        if (loginRecord.LoginAttempts >= _maxAttempts) return null;
-
-        // we found a login in record so let's increment the attempt and
-        // return it.
-        loginRecord.LoginAttempts += 1;
-        return loginRecord;
-    }
-
-    /// <summary>
-    /// Validates the passed in LoginRecord against the passed in password. Will update
-    /// the LoginRecord attempts if the password was incorrect.
-    /// </summary>
-    /// <param name="login">LoginRecord to get the associated LoginToken</param>
-    /// <param name="password">Password associated with the LoginRecord</param>
-    /// <returns>LoginToken or Null</returns>
-    public LoginToken LoginTokenOrDefault(LoginRecord login, string password)
-    {
-        // there was no login so immediately return
-        if (login == null) return null;
-
-        // call down to the delegate which handles verifying the password and
-        // generating the token from our API key.
-        var token = _security.LoginTokenOrDefault(login, password);
-        if (token != null) return token;
-
-        // The password wasn't valid so we need to save the login attempt
-        _uow.Logins.Update(login);
-        _uow.SaveChanges();
-        return null;
-    }
-    /* code removed for brevity */
-}
-
-```
-
-The following is what our functions might have looked like if we took the naive approach to implementing this user story. These functions are now a lot more confusing to reason about because each of them are trying to do too many things. The second function ```LoginTokenOrDefault``` is generating the encrypted token and updating the database if the login fails the brute force detection. We abstracted that out with the decorator above. We also added additional dependencies to this implementation because of the need to save changes to the login record. Overall it's more complicated.
-
-```csharp
-
-/* code removed for brevity */
-
-public LoginRecord LoginByNameOrDefault(string name)
-{
-     var loginRecord = _loginReader.LoginByNameOrDefault(name);
-    // return null if the record has reached the max attempts or we didn't
-    // find the login record
-    if (loginRecord == null) return null;
-    if (loginRecord.LoginAttempts >= _maxAttempts) return null;
-
-    // we found a login in record so let's increment the attempt and
-    // return it.
-    loginRecord.LoginAttempts += 1;
-    return loginRecord;
-}
-
-public LoginToken LoginTokenOrDefault(LoginRecord loginRecord, string password)
-{
-    if (loginRecord == null)
-    {
-        return null;
-    }
-    var token = loginRecord.Password != password ? null : _tokenGenerator.CreateLoginToken(loginRecord);
-    if (token != null) return token;
-
-    // The password wasn't valid so we need to save the login attempt
-    _uow.Logins.Update(login);
-    _uow.SaveChanges();
-    return null;
-}
-
-/* code removed for brevity */
-
-```
-
-## MongoDb ##
-
-https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
-
-## Resources ##
-
-**Repository Pattern**
-
-source: https://www.youtube.com/watch?v=rtXpYpZdOzM
-
-**EntityFramework Code-First Approach**
-
-https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/creating-an-entity-framework-data-model-for-an-asp-net-mvc-application
-
-** Testing Examples w/ Nancy **
-
-https://github.com/bytefish/NancyFileUpload/
+It is unlikely that I will be able to put that much work into this project. I
+started this project while I was still in school when I had more free time. I would
+like to keep working on this project when I have time. I might shift my focus
+to smaller more manageable projects.
