@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Infrastructure.Contracts.Events;
 using ChatApplication.Logging;
 using ChatApplication.Logging.JsonNet;
@@ -13,92 +14,44 @@ namespace ChatApplication.Data.Contracts.Events
 {
     public class DataEventWriteSubscriber<TEntity> : IEventSubscriber where TEntity : class
     {
+        private readonly IDataEventWriterHandler<TEntity> _handler;
         protected readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected Dictionary<string, Action<DataEvent<TEntity>>> StrategiesForSingleActions { get; set; }
-        protected Dictionary<string, Action<DataEvent<IEnumerable<TEntity>>>> StrategiesForBatchedActions { get; set; }
 
-        // cache of events
-        protected List<TEntity> CreatedEntities { get; }
-        protected List<TEntity> DeletedEntities { get; }
-        protected List<TEntity> UpdatedEntities { get; }
-        
-        public DataEventWriteSubscriber()
+        protected Dictionary<string, Action<TEntity>> StrategiesForSingleActions { get; set; }
+        protected Dictionary<string, Action<IEnumerable<TEntity>>> StrategiesForBatchedActions { get; set; }
+
+        public DataEventWriteSubscriber(IDataEventWriterHandler<TEntity> handler)
         {
-            StrategiesForSingleActions = new Dictionary<string, Action<DataEvent<TEntity>>>
+            _handler = handler;
+            StrategiesForSingleActions = new Dictionary<string, Action<TEntity>>
             {
-                { EventName<TEntity>.Created, Created },
-                { EventName<TEntity>.Deleted, Deleted },
-                { EventName<TEntity>.Updated, Updated },
-                { EventName<TEntity>.Saved, Saved }
+                { EventName<TEntity>.Created, _handler.Add },
+                { EventName<TEntity>.Deleted, _handler.Remove },
+                { EventName<TEntity>.Updated, _handler.Update }
             };
-            StrategiesForBatchedActions = new Dictionary<string, Action<DataEvent<IEnumerable<TEntity>>>>
+            StrategiesForBatchedActions = new Dictionary<string, Action<IEnumerable<TEntity>>>
             {
-                { EventName<TEntity>.CreatedMany, CreatedMany },
-                { EventName<TEntity>.DeletedMany, DeletedMany },
-
+                { EventName<TEntity>.CreatedMany, _handler.AddRange },
+                { EventName<TEntity>.DeletedMany, _handler.RemoveRange },
             };
-            CreatedEntities = new List<TEntity>();
-            DeletedEntities = new List<TEntity>();
-            UpdatedEntities = new List<TEntity>();
         }
 
         public virtual void Subscribe<TEvent>(TEvent @event) where TEvent : IEvent
         {
             if (StrategiesForSingleActions.ContainsKey(@event.Name))
-                StrategiesForSingleActions[@event.Name](@event as DataEvent<TEntity>);
-
+            {
+                var dataEvent = @event as DataEvent<TEntity>;
+                if (dataEvent == null) return;
+                StrategiesForSingleActions[dataEvent.Name](dataEvent.Entity);
+            }
             if (StrategiesForBatchedActions.ContainsKey(@event.Name))
-                StrategiesForBatchedActions[@event.Name](@event as DataEvent<IEnumerable<TEntity>>);
-        }
-
-        public virtual void Created(DataEvent<TEntity> dataEvent)
-        {
-            var callerInfo = LoggingExtensions.Caller();
-            Log.Info($"{callerInfo} - {DataEventInformation(dataEvent)}");
-            CreatedEntities.Add(dataEvent.Entity);
-        }
-
-        public virtual void CreatedMany(DataEvent<IEnumerable<TEntity>> dataEvent)
-        {
-            var callerInfo = LoggingExtensions.Caller();
-            Log.Info($"{callerInfo} - {DataEventInformation(dataEvent)}");
-            CreatedEntities.AddRange(dataEvent.Entity);
-        }
-
-        public virtual void Deleted(DataEvent<TEntity> dataEvent)
-        {
-            var callerInfo = LoggingExtensions.Caller();
-            Log.Info($"{callerInfo} - {DataEventInformation(dataEvent)}");
-        }
-
-        public virtual void DeletedMany(DataEvent<IEnumerable<TEntity>> dataEvent)
-        {
-            var callerInfo = LoggingExtensions.Caller();
-            Log.Info($"{callerInfo}");
-            DeletedEntities.AddRange(dataEvent.Entity);
-        }
-
-        public virtual void Updated(DataEvent<TEntity> dataEvent)
-        {
-            var callerInfo = LoggingExtensions.Caller();
-            Log.Info($"{callerInfo} - {DataEventInformation(dataEvent)}");
-            UpdatedEntities.Add(dataEvent.Entity);
-        }
-
-        public virtual void Saved(DataEvent<TEntity> dataEvent)
-        {
-
-        }
-
-        private string DataEventInformation(DataEvent<TEntity> dataEvent)
-        {
-            return $"entity=[{typeof(TEntity).Name}]; entity=[{JsonLogging.Serialize(dataEvent.Entity)}];";
-        }
-
-        private string DataEventInformation(DataEvent<IEnumerable<TEntity>> dataEvent)
-        {
-            return $"entity=[{typeof(TEntity).Name}]; entity=[{JsonLogging.Serialize(dataEvent.Entity)}];";
+            {
+                var dataEvent = @event as DataEvent<IEnumerable<TEntity>>;
+                if (dataEvent == null) return;
+                StrategiesForBatchedActions[dataEvent.Name](dataEvent.Entity);
+            }
+            if (@event.Name == EventName<TEntity>.Saved) _handler.Save();
         }
     }
 }

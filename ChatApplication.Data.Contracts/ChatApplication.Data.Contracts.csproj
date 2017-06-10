@@ -55,6 +55,7 @@
     <Compile Include="Events\EventName.cs" />
     <Compile Include="Events\IDataEventStrategy.cs" />
     <Compile Include="Events\IDataEventSubscriber.cs" />
+    <Compile Include="Events\IDataEventWriterHandler.cs" />
     <Compile Include="Models\LoginRecord.cs" />
     <Compile Include="Models\UserClaimsRecord.cs" />
     <Compile Include="Models\UserRecord.cs" />

@@ -48,16 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="In\CRM\CrmRoomSync.cs" />
-    <Compile Include="In\CRM\Room\MergeRoom.cs" />
-    <Compile Include="In\InDataSync.cs" />
     <Compile Include="Mock\MockSync.cs" />
-    <Compile Include="Out\CRM\Messages\CreateMessage.cs" />
-    <Compile Include="Out\CRM\CrmMessageSync.cs" />
-    <Compile Include="Out\CRM\Messages\DeleteMessage.cs" />
-    <Compile Include="Out\Offsite\Messages\CreateMessage.cs" />
-    <Compile Include="Out\Offsite\Messages\DeleteMessage.cs" />
-    <Compile Include="Out\Offsite\OffsiteMessageSync.cs" />
+    <Compile Include="Out\Offsite\Comands\Create.cs" />
+    <Compile Include="Out\Offsite\Comands\Delete.cs" />
+    <Compile Include="Out\Offsite\OffsiteSync.cs" />
     <Compile Include="Out\OutDataSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

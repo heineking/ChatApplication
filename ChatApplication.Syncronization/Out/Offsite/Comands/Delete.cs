@@ -1,35 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Syncronization.Contracts.Commands;
 
-namespace ChatApplication.Syncronization.In.CRM.Room
+namespace ChatApplication.Syncronization.Out.Offsite.Comands
 {
-    public class MergeRoom : ICommand
-    {
-        private readonly RoomRecord _room;
 
-        public MergeRoom(RoomRecord room)
+    public class Delete<TEntity> : ICommand where TEntity : class
+    {
+        protected readonly TEntity Entity;
+
+        public Delete(TEntity entity)
         {
-            _room = room;
+            Entity = entity;
         }
+
         public void Execute()
-        {
-            if (_room == null) return;
-            _room.Name = _room.Name.ToUpper();
+        {  
         }
 
         public void Retry()
         {
-            throw new NotImplementedException();
+
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

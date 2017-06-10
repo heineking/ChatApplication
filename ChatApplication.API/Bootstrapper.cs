@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using ChatApplication.API.Configure;
 using ChatApplication.API.Extensions;
 using ChatApplication.API.Modules._events;
 using ChatApplication.API.User;
 using ChatApplication.Data.Contracts.Events;
+using ChatApplication.Data.Contracts.Models;
 using ChatApplication.Data.Contracts.Persistence;
 using ChatApplication.Data.Contracts.Repositories;
 using ChatApplication.Data.EntityFramework.ContextEF;
@@ -19,8 +21,8 @@ using ChatApplication.Security;
 using ChatApplication.Security.Contracts;
 using ChatApplication.Service;
 using ChatApplication.Service.Contracts;
-using ChatApplication.Syncronization.In;
 using ChatApplication.Syncronization.Out;
+using ChatApplication.Syncronization.Out.Offsite;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
@@ -124,8 +126,26 @@ namespace ChatApplication.API
             
             /* pub subs */
             container.Register<IEventPublisher, EventPublisher>();
-            container.Register<IEventSubscriber, OutDataSync>("outDataSync");
-            container.Register<IEventSubscriber, InDataSync>("inDataSync");
+
+            // register the event handlers
+
+            /* register the strategies */
+            container.Register<IDataEventWriterHandler<MessageRecord>, OffsiteSync<MessageRecord>>("offsiteOutSync");
+
+            /* register the strategies to the delegation class */
+            container.Register(new DataEventWriteSubscriber<MessageRecord>(
+                container.Resolve<IDataEventWriterHandler<MessageRecord>>("offsiteOutSync")
+            ), "offsiteOutEventHandler");
+
+            /* configure the subscribers into a list of subscribers */
+            container.Register(new List<IEventSubscriber>
+            {
+                container.Resolve<DataEventWriteSubscriber<MessageRecord>>("offsiteOutEventHandler")
+            }, "messageOutSubscriber");
+
+            /* register the high level OutDataSync class */
+            container.Register<IEventSubscriber>(new OutDataSync(container.Resolve<List<IEventSubscriber>>("messageOutSubscriber")), "outDataSync");
+            
             container.Register<IEventSubscriber, RequestSubscriber>("requestSubscriber");
 
             /* repositories */

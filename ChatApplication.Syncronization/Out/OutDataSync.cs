@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChatApplication.Infrastructure.Contracts.Events;
-using ChatApplication.Syncronization.Out.CRM;
-using ChatApplication.Syncronization.Out.Offsite;
 
 namespace ChatApplication.Syncronization.Out
 {
@@ -10,13 +8,9 @@ namespace ChatApplication.Syncronization.Out
     {
         private readonly List<IEventSubscriber> _subscribers;
 
-        public OutDataSync()
+        public OutDataSync(List<IEventSubscriber> subscribers)
         {
-            _subscribers = new List<IEventSubscriber>
-            {
-                new CrmMessageSync(),
-                new OffsiteMessageSync()
-            };
+            _subscribers = subscribers;
         }
 
         public void Subscribe<TEvent>(TEvent @event) where TEvent : IEvent

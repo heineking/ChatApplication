@@ -103,7 +103,6 @@ namespace ChatApplication.API.Configure
             // data events
             var eventPublisher = container.Resolve<IEventPublisher>();
             eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("outDataSync"));
-            eventPublisher.AddSubscriber(container.Resolve<IEventSubscriber>("inDataSync"));
 
             var impl = new RepoImplementations(container);
 

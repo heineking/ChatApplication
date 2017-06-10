@@ -25,8 +25,9 @@ namespace ChatApplication.Data.EntityFramework.Persistence
 
         public override int SaveChanges()
         {
+            var result = _context.SaveChanges();
             _publisher.Publish(new SaveEvent());
-            return _context.SaveChanges();
+            return result;
         }
     }
 }
