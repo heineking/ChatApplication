@@ -2,6 +2,14 @@
 
 **Author:** Emil Heineking
 
+This project was written for my spring 2017 senior seminar course at the University of Akron. The following were generated for the project:
+
+[Google Drive Powerpoint Presentation](https://docs.google.com/presentation/d/1l-saXNZMCllH0yKhfRe8lgY208aBpzSSRAhSDKFznjU/edit?usp=sharing)
+
+[Written Report](https://docs.google.com/document/d/104o2H2GrvMzRZKqNaJq91tdlJsxpefcnvskF4EhIDEk/edit?usp=sharing)
+
+
+
 This project is a side-project that was created purely for exploratory and academic
 reasons. There are likely some issues with my implementations so beware if you
 use this project as a guide for any production code.
