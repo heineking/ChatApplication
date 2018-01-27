@@ -8,7 +8,9 @@ This project was written for my spring 2017 senior seminar course at the Univers
 
 [Written Report](https://docs.google.com/document/d/104o2H2GrvMzRZKqNaJq91tdlJsxpefcnvskF4EhIDEk/edit?usp=sharing)
 
+** GIF of Application **
 
+![Alt Text](./ChatApplication.gif)]
 
 This project is a side-project that was created purely for exploratory and academic
 reasons. There are likely some issues with my implementations so beware if you
